@@ -16,18 +16,18 @@ export interface Player {
   isSuspended?: boolean; // currently serving "Una Posesión" suspension
   predefinedAttack?: boolean; // Predefined attack lineup player
   predefinedDefense?: boolean; // Predefined defense lineup player
-  
+
   // Scoring statistics
   goals1p: number;
   goals2p: number;
   missedShots: number;
   missedFlies: number; // specifically tracking failed alley-oops / flies
-  
+
   // Turnovers breakdown
   turnoverBadPass: number;
   turnoverSteps: number;
   turnoverFumbling: number;
-  
+
   // Defensive statistics
   recoveries: number;
   saves?: number;
@@ -63,6 +63,14 @@ export interface ShootoutRound {
   type?: 'Portero' | 'Especialista' | 'Fly' | 'Giro' | 'Penalti' | 'Regular';
   usPoints?: number;
   themPoints?: number;
+}
+
+export interface GoogleUser {
+  id: string;
+  email: string;
+  name: string;
+  picture?: string;
+  isGuest?: boolean;
 }
 
 export interface MatchState {
