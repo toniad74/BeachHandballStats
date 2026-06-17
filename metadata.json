@@ -1,0 +1,6 @@
+{
+  "name": "BeachHandball Stats 2026",
+  "description": "Estadísticas en tiempo real para balonmano playa optimizadas para tabletas y adaptadas al reglamento IHF 2026.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,342 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Color Principal (Azul Royal) */
+  --c-primary: 37 99 235;        /* #2563eb */
+  --c-primary-hover: 29 78 216;  /* #1d4ed8 */
+  --c-primary-focus: 59 130 246;  /* #3b82f6 */
+  --c-primary-light: 219 234 254;/* #dbeafe (Fondo sutil azul) */
+  --c-primary-text: 30 58 138;   /* #1e3a8a */
+
+  /* Color Secundario (Gris Neutro) */
+  --c-secondary: 241 245 249;
+  --c-secondary-hover: 226 232 240;
+  --c-secondary-text: 71 85 105;
+  --c-secondary-border: 203 213 225;
+
+  /* Éxito / Acción Positiva (Verde) */
+  --c-success: 22 163 74;        /* #16a34a */
+  --c-success-hover: 21 128 61;
+  --c-success-light: 220 252 231;
+  --c-success-text: 20 83 45;
+
+  /* Peligro / Acción Crítica (Rojo) */
+  --c-danger: 220 38 38;         /* #dc2626 */
+  --c-danger-hover: 185 28 28;
+  --c-danger-light: 254 226 226;
+  --c-danger-text: 153 27 27;
+
+  /* Advertencia / Alertas (Amarillo/Naranja) */
+  --c-warning: 245 158 11;       /* #f59e0b */
+  --c-warning-hover: 217 119 6;
+  --c-warning-light: 254 243 199;
+  --c-warning-text: 146 64 14;
+
+  /* Fondos Generales */
+  --c-background: 248 250 252;   /* Warm high-contrast beach court sand */
+  --c-background-card: 255 255 255; /* Blanco puro */
+
+  /* Charcoal shades for custom text contrast */
+  --charcoal-950: #0f172a;
+  --charcoal-900: #1e293b;
+  --charcoal-855: #334155;
+  --charcoal-800: #0f172a;
+  --charcoal-750: #334155;
+  --charcoal-700: #475569;
+  --charcoal-650: #475569;
+  --charcoal-600: #64748b;
+  --charcoal-500: #334155;
+  --charcoal-405: #475569;
+  --charcoal-400: #1e293b;
+}
+
+/* Selector dark mode - standard class in container or document */
+.dark, [class*="dark"] {
+  /* Color Principal (Azul Celeste Brillante) */
+  --c-primary: 56 189 248;       /* #38bdf8 */
+  --c-primary-hover: 14 165 233;  /* #0ea5e9 */
+  --c-primary-focus: 3 105 161;   /* #0369a1 */
+  --c-primary-light: 8 47 73;     /* Azul muy oscuro */
+  --c-primary-text: 240 250 255;
+
+  /* Color Secundario */
+  --c-secondary: 51 65 85;
+  --c-secondary-hover: 71 85 105;
+  --c-secondary-text: 148 163 184;
+  --c-secondary-border: 51 65 85;
+
+  /* Éxito (Verde Claro) */
+  --c-success: 74 222 128;       /* #4ade80 */
+  --c-success-hover: 34 197 94;
+  --c-success-light: 22 101 52;
+  --c-success-text: 220 252 231;
+
+  /* Peligro (Rojo Suave) */
+  --c-danger: 248 113 113;       /* #f87171 */
+  --c-danger-hover: 239 68 68;
+  --c-danger-light: 127 29 29;
+  --c-danger-text: 254 226 226;
+
+  /* Advertencia (Amarillo Brillante) */
+  --c-warning: 250 204 21;       /* #facc15 */
+  --c-warning-hover: 245 158 11;
+  --c-warning-light: 120 53 15;
+  --c-warning-text: 254 243 199;
+
+  /* Fondos Generales */
+  --c-background: 2 6 23;        /* Slate-950 muy oscuro */
+  --c-background-card: 15 23 42; /* Slate-900 oscuro */
+
+  /* Charcoal override for bright white/light texts in dark mode */
+  --charcoal-950: #020617;
+  --charcoal-900: #151c2c;
+  --charcoal-855: #1e293b;
+  --charcoal-800: #0b0f19;
+  --charcoal-750: #1e293b;
+  --charcoal-700: #ffffff;
+  --charcoal-650: #f8fafc;
+  --charcoal-600: #f1f5f9;
+  --charcoal-500: #cbd5e1;
+  --charcoal-405: #ffffff;
+  --charcoal-400: #ffffff;
+}
+
+@theme {
+  --color-primary: rgb(var(--c-primary));
+  --color-primary-hover: rgb(var(--c-primary-hover));
+  --color-primary-focus: rgb(var(--c-primary-focus));
+  --color-primary-light: rgb(var(--c-primary-light));
+  --color-primary-text: rgb(var(--c-primary-text));
+
+  --color-secondary: rgb(var(--c-secondary));
+  --color-secondary-hover: rgb(var(--c-secondary-hover));
+  --color-secondary-text: rgb(var(--c-secondary-text));
+  --color-secondary-border: rgb(var(--c-secondary-border));
+
+  --color-success: rgb(var(--c-success));
+  --color-success-hover: rgb(var(--c-success-hover));
+  --color-success-light: rgb(var(--c-success-light));
+  --color-success-text: rgb(var(--c-success-text));
+
+  --color-danger: rgb(var(--c-danger));
+  --color-danger-hover: rgb(var(--c-danger-hover));
+  --color-danger-light: rgb(var(--c-danger-light));
+  --color-danger-text: rgb(var(--c-danger-text));
+
+  --color-warning: rgb(var(--c-warning));
+  --color-warning-hover: rgb(var(--c-warning-hover));
+  --color-warning-light: rgb(var(--c-warning-light));
+  --color-warning-text: rgb(var(--c-warning-text));
+
+  --color-background-color: rgb(var(--c-background));
+  --color-background-card-color: rgb(var(--c-background-card));
+  --color-background: rgb(var(--c-background));
+  --color-background-card: rgb(var(--c-background-card));
+
+  --font-sans: "Inter", "Helvetica Neue", Arial, system-ui, -apple-system, sans-serif;
+
+  /* Custom colors for high contrast Sun Mode and Charcoal themes */
+  --color-charcoal-950: var(--charcoal-950);
+  --color-charcoal-900: var(--charcoal-900);
+  --color-charcoal-855: var(--charcoal-855);
+  --color-charcoal-800: var(--charcoal-800);
+  --color-charcoal-750: var(--charcoal-750);
+  --color-charcoal-700: var(--charcoal-700);
+  --color-charcoal-650: var(--charcoal-650);
+  --color-charcoal-600: var(--charcoal-600);
+  --color-charcoal-500: var(--charcoal-500);
+  --color-charcoal-405: var(--charcoal-405);
+  --color-charcoal-400: var(--charcoal-400);
+
+  --color-sand-50: rgba(255, 255, 255, 0.45);   /* Warm, slightly golden ivory */
+  --color-sand-100: rgba(255, 255, 255, 0.6);  /* High visibility light golden sand */
+  --color-sand-105: rgba(255, 255, 255, 0.7);  /* Warm ivory */
+  --color-sand-150: rgba(255, 255, 255, 0.85);  /* Visible sand background */
+  --color-sand-155: rgba(148, 163, 184, 0.1);  /* High contrast sand border */
+  --color-sand-200: rgba(148, 163, 184, 0.14);  /* Very distinct sand border */
+  --color-sand-250: rgba(148, 163, 184, 0.18);  /* Deep sand line */
+  --color-sand-300: rgba(148, 163, 184, 0.24);  /* Strongly visible sandy/amber outline */
+  --color-sand-400: #475569;  /* Dark gold/brown for high readability */
+
+  --color-amber-gold: #f59e0b;
+  --color-amber-gold-bg: rgba(254, 243, 199, 0.75);
+  --color-specialist-bg: rgba(243, 232, 255, 0.75);
+
+  /* Elevation Shadows */
+  --shadow-card: 0 12px 36px rgba(100, 116, 139, 0.12);
+  --shadow-card-hover: 0 20px 48px rgba(100, 116, 139, 0.2);
+  --shadow-2xl: 0 25px 60px -10px rgba(100, 116, 139, 0.25);
+  --shadow-sm: 0 6px 20px rgba(100, 116, 139, 0.08);
+
+  /* Animation Overrides */
+  --animate-fade-in: fade-in 0.3s ease-out forwards;
+  --animate-fade-in-up: fade-in-up 0.4s ease-out forwards;
+  --animate-fade-out-down: fade-out-down 0.4s ease-in forwards;
+  --animate-pulse-warning: pulse-warning 1.5s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fade-out-down {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(20px) scale(0.95); }
+}
+
+@keyframes pulse-warning {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: .9; }
+}
+
+/* Background Glow in Dark Mode */
+.dark {
+  position: relative;
+}
+.dark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 400px;
+  background: radial-gradient(circle at 50% 0, rgba(var(--c-primary), 0.15), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body {
+  background-color: rgb(var(--c-background));
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(219, 234, 254, 0.4) 0px, transparent 100%),
+    radial-gradient(at 50% 0%, rgba(243, 232, 255, 0.45) 0px, transparent 100%),
+    radial-gradient(at 100% 0%, rgba(254, 243, 199, 0.35) 0px, transparent 100%);
+  background-attachment: fixed;
+  color: rgb(var(--c-secondary-text));
+}
+
+.dark body {
+  background-color: #020617;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(30, 41, 59, 0.5) 0px, transparent 50%),
+    radial-gradient(at 50% 0%, rgba(15, 23, 42, 0.8) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(8, 47, 73, 0.4) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Glassmorphism overrides for Light Mode */
+.bg-white,
+.bg-\[\#FCFAF6\] {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-color: rgba(148, 163, 184, 0.14) !important;
+  box-shadow: 0 12px 36px rgba(100, 116, 139, 0.12) !important;
+}
+
+/* Glassmorphism overrides for Dark Mode */
+.dark .bg-charcoal-900,
+.dark .bg-zinc-900,
+.dark .bg-charcoal-950,
+.dark .bg-\[\#FCFAF6\] {
+  background-color: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Special styling for modals and actions card */
+.fixed .bg-\[\#FCFAF6\],
+.fixed .bg-white {
+  background-color: rgba(255, 255, 255, 0.82) !important;
+  border-color: rgba(148, 163, 184, 0.2) !important;
+  box-shadow: 0 25px 60px -10px rgba(100, 116, 139, 0.25) !important;
+}
+
+.dark .fixed .bg-zinc-900,
+.dark .fixed .bg-charcoal-900 {
+  background-color: rgba(15, 23, 42, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Header & Sticky Nav Glassmorphism fixes */
+#app_header.bg-white,
+.sticky.bg-white {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom-color: rgba(148, 163, 184, 0.12) !important;
+}
+
+.dark #app_header.bg-charcoal-900,
+.dark .sticky.bg-charcoal-900 {
+  background-color: rgba(15, 23, 42, 0.65) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Premium form element design */
+select,
+input[type="text"],
+input[type="number"] {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  color: #1e293b !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  outline: none !important;
+  transition: all 0.2s ease !important;
+}
+
+select:focus,
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: rgba(37, 99, 235, 0.8) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+}
+
+.dark select,
+.dark input[type="text"],
+.dark input[type="number"] {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #f8fafc !important;
+}
+
+/* Soft shadows for all button elements */
+button {
+  box-shadow: 0 6px 16px rgba(100, 116, 139, 0.22) !important;
+  transition: box-shadow 0.2s ease, transform 0.1s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+button:hover {
+  box-shadow: 0 8px 24px rgba(100, 116, 139, 0.32) !important;
+}
+
+button:active {
+  box-shadow: 0 3px 8px rgba(100, 116, 139, 0.12) !important;
+}
+
+/* Dark mode button shadows */
+.dark button {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45) !important;
+}
+
+.dark button:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+}
+
+.dark button:active {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3) !important;
+}
