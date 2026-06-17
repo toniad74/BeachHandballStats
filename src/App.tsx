@@ -12,22 +12,30 @@ import AnalyticsHub from './components/AnalyticsHub';
 import SetupTeam from './components/SetupTeam';
 import GoogleLoginScreen from './components/GoogleLoginScreen';
 import { Sun, Moon, Calendar, Trophy, Zap, DownloadCloud, RotateCcw, AlertCircle, HelpCircle, LogOut } from 'lucide-react';
+import { auth } from './firebase';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 export default function App() {
-  // Load user session from localStorage
-  const [user, setUser] = useState<GoogleUser | null>(() => {
-    const saved = localStorage.getItem('beach_handball_user_2026');
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [user, setUser] = useState<GoogleUser | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
-  // Save/Remove user session
+  // Listen to Firebase Auth state changes for session persistence
   useEffect(() => {
-    if (user) {
-      localStorage.setItem('beach_handball_user_2026', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('beach_handball_user_2026');
-    }
-  }, [user]);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser({
+          id: firebaseUser.uid,
+          email: firebaseUser.email || '',
+          name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Usuario',
+          picture: firebaseUser.photoURL || undefined,
+        });
+      } else {
+        setUser(null);
+      }
+      setAuthLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Load state from localStorage on first boot
   const [matchState, setMatchState] = useState<MatchState>(() => {
@@ -202,6 +210,18 @@ export default function App() {
   const set1Winner = set1.isFinished ? set1.winner : null;
   const set2Winner = set2.isFinished ? set2.winner : null;
 
+  // Show loading while Firebase checks auth state
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-900/10">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-sm font-bold text-slate-500">Cargando...</p>
+        </div>
+      </div>
+    );
+  }
+
   // Render Google Login if not logged in
   if (!user) {
     return <GoogleLoginScreen onLoginSuccess={setUser} />;
@@ -349,7 +369,7 @@ export default function App() {
                 </span>
               </div>
               <button
-                onClick={() => setUser(null)}
+                onClick={() => { signOut(auth); setUser(null); }}
                 className={`p-2 rounded-lg border flex items-center justify-center transition-all duration-300 active:scale-[0.98] shadow-xs cursor-pointer ${sunMode
                   ? 'border-sand-200 bg-white text-slate-700 hover:bg-sand-50/50 hover:text-red-500'
                   : 'border-zinc-700 bg-charcoal-900 text-slate-300 hover:bg-charcoal-800 hover:text-red-400'
