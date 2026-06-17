@@ -143,7 +143,7 @@ export default function ShootoutBoard({
 
           <div className="text-left">
             <span className="block text-xs uppercase text-gray-500 dark:text-zinc-400 font-bold">{opponentName}</span>
-            <span className="text-5xl sm:text-7xl font-mono font-black text-amber-500">{themPointsTotal}</span>
+            <span className="text-5xl sm:text-7xl font-mono font-black text-red-600">{themPointsTotal}</span>
           </div>
         </div>
 
