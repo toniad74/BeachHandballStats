@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { GoogleUser } from '../types';
-import { Sun, Trophy, Zap, AlertCircle, HelpCircle, ShieldAlert, Settings, Save, Trash2, Key } from 'lucide-react';
+import { Sun, Trophy, AlertCircle, HelpCircle, ShieldAlert, Settings, Save, Trash2, Key, Mail } from 'lucide-react';
 
 declare global {
     interface Window {
@@ -24,7 +24,6 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
     const [showConfigForm, setShowConfigForm] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [showSetupHelp, setShowSetupHelp] = useState(false);
-    const [showDeveloperBypass, setShowDeveloperBypass] = useState(false);
 
     // Decode Google JWT native implementation
     const decodeGoogleJwt = (token: string): any => {
@@ -84,7 +83,7 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
         return () => clearInterval(interval);
     }, []);
 
-    // Initialize Google Login Button (Autenticación Real)
+    // Initialize Google Login Button (Autenticación Real de Google)
     useEffect(() => {
         const hasValidClientId = clientId && clientId.trim() !== '' && !clientId.includes('tu_cliente_id');
         if (googleScriptLoaded && hasValidClientId) {
@@ -98,8 +97,7 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
 
                 const btnContainer = document.getElementById("google-signin-btn-container");
                 if (btnContainer) {
-                    // Limpiar contenedor previo para evitar duplicados
-                    btnContainer.innerHTML = '';
+                    btnContainer.innerHTML = ''; // Evitar duplicación
                     window.google.accounts.id.renderButton(btnContainer, {
                         theme: "filled_blue",
                         size: "large",
@@ -124,7 +122,6 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
             setClientId(trimmed);
             setErrorMessage(null);
             setShowConfigForm(false);
-            // Forzar recarga sutil para reinicializar el SDK de Google con el nuevo ID de cliente
             setTimeout(() => {
                 window.location.reload();
             }, 100);
@@ -133,7 +130,7 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
         }
     };
 
-    // Eliminar Client ID de localStorage para restaurar la variable de entorno
+    // Eliminar Client ID de localStorage para restaurar el de entorno
     const handleClearClientId = () => {
         localStorage.removeItem('beach_handball_google_client_id_2026');
         const defaultEnvId = (import.meta as any).env?.VITE_GOOGLE_CLIENT_ID || '';
@@ -145,41 +142,19 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
         }, 100);
     };
 
-    // Acceso de pruebas local (Bypass de desarrollo)
-    const handleDeveloperBypassLogin = () => {
-        const developerUser: GoogleUser = {
-            id: "dev-bypass-9999",
-            email: "entrenador.oficial@beachhandball.com",
-            name: "Entrenador Beach Handball (Real Local)",
-            picture: undefined // Let dynamic initial handle picture styling
-        };
-        onLoginSuccess(developerUser);
-    };
-
-    // Acceso local libre de cuenta (Invitado)
-    const handleGuestLogin = () => {
-        const guestUser: GoogleUser = {
-            id: "guest-local",
-            email: "invitado@local",
-            name: "Invitado",
-            isGuest: true
-        };
-        onLoginSuccess(guestUser);
-    };
-
     const isClientIdMissing = !clientId || clientId.trim() === '' || clientId.includes('tu_cliente_id');
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-sky-100 flex flex-col justify-between p-6">
 
-            {/* Top Decoration */}
+            {/* Top Decoration Bar */}
             <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-500 via-amber-400 to-sky-400"></div>
 
-            {/* Main Content Area */}
+            {/* Main Center Login Form */}
             <div className="flex-1 flex flex-col items-center justify-center max-w-md mx-auto w-full py-10">
 
-                {/* Brand Header */}
-                <div className="text-center mb-6 relative">
+                {/* Logo Section */}
+                <div className="text-center mb-8 relative">
                     <div className="mx-auto w-20 h-20 bg-gradient-to-br from-orange-400 to-amber-500 rounded-full flex items-center justify-center shadow-md transform hover:scale-105 transition-all duration-300">
                         <Sun className="w-11 h-11 text-white animate-pulse" />
                     </div>
@@ -194,66 +169,55 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
                     </p>
                 </div>
 
-                {/* Login Card */}
-                <div className="bg-white/90 backdrop-blur-md rounded-3xl p-7 shadow-xl border border-white/50 w-full mb-6">
-                    <h2 className="text-md font-extrabold text-slate-800 text-center mb-1">
-                        Acceso de Entrenadores
-                    </h2>
-                    <p className="text-xs text-slate-500 text-center mb-5">
-                        Registra estadísticas profesionales de Balonmano Playa a pie de pista en tiempo real.
+                {/* Login Container Card */}
+                <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/50 w-full mb-6">
+                    <div className="flex items-center gap-2 justify-center text-orange-500 mb-3">
+                        <Mail className="w-5 h-5" />
+                        <h2 className="text-sm font-black uppercase tracking-wider text-slate-800">
+                            Iniciar Sesión Obligatorio
+                        </h2>
+                    </div>
+                    <p className="text-xs text-slate-500 text-center mb-6 leading-relaxed">
+                        Para acceder y utilizar esta herramienta de estadísticas tácticas, es requisito obligatorio iniciar sesión con tu cuenta de correo de Google.
                     </p>
 
                     {errorMessage && (
-                        <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-start gap-2 text-xs">
+                        <div className="mb-5 p-3.5 bg-red-50 border border-red-200 text-red-700 rounded-2xl flex items-start gap-2 text-xs">
                             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 animate-bounce" />
                             <span className="font-semibold">{errorMessage}</span>
                         </div>
                     )}
 
-                    {/* Authentication Container */}
-                    <div className="flex flex-col items-center gap-4 justify-center py-2">
+                    {/* Google OAuth Section */}
+                    <div className="flex flex-col items-center gap-4 justify-center py-4 bg-slate-50/50 rounded-2xl border border-slate-100 p-4">
 
-                        {/* Botón de Google Real (Siempre que haya un Client ID disponible) */}
+                        {/* Google Button Container (Only displays if Google API is configured) */}
                         {!isClientIdMissing && googleScriptLoaded ? (
-                            <div className="w-full flex flex-col items-center gap-2">
-                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Acceder mediante Google</span>
+                            <div className="w-full flex flex-col items-center gap-3">
+                                <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">
+                                    Identificarse con Google
+                                </span>
                                 <div id="google-signin-btn-container" className="min-h-[50px] flex items-center justify-center"></div>
                             </div>
                         ) : (
-                            /* Si falta el Client ID, avisar claramente en lugar de mostrar una demo falsa */
-                            <div className="w-full text-center p-4 bg-orange-50/70 rounded-2xl border border-orange-100 mb-2">
+                            /* Informative alert when Client ID is not configured */
+                            <div className="w-full text-center py-2">
                                 <Key className="w-6 h-6 text-orange-400 mx-auto mb-2" />
-                                <p className="text-xs font-bold text-slate-700">Acceso Oficial con Google Desactivado</p>
-                                <p className="text-[10px] text-slate-500 mt-1 max-w-xs mx-auto leading-normal">
-                                    Para activar el acceso real con Google, configura tu Google Client ID usando el botón de configuración de abajo o la variable de entorno.
+                                <p className="text-xs font-bold text-slate-750">Servicio de Google pendiente de activación</p>
+                                <p className="text-[10px] text-slate-500 mt-1.5 max-w-xs mx-auto leading-normal">
+                                    Para activar la autenticación de Google obligatoria, configura el Google Client ID mediante el engranaje inferior o la variable de entorno.
                                 </p>
                             </div>
                         )}
 
-                        {/* Divider */}
-                        <div className="w-full flex items-center justify-center gap-2 text-slate-300 my-1">
-                            <div className="h-px bg-slate-200 flex-1"></div>
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">O</span>
-                            <div className="h-px bg-slate-200 flex-1"></div>
-                        </div>
-
-                        {/* Invitado (Modo local 100% funcional offline) */}
-                        <button
-                            onClick={handleGuestLogin}
-                            className="w-full py-3 px-5 bg-gradient-to-r from-slate-100 to-slate-200 hover:from-slate-200 hover:to-slate-300 text-slate-700 font-bold rounded-full border border-slate-300 shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer text-xs uppercase tracking-wider hover:scale-[1.01] active:scale-95"
-                        >
-                            <Zap className="w-4 h-4 text-amber-500" />
-                            Acceso Local (Modo Invitado)
-                        </button>
-
                     </div>
 
-                    {/* Dynamic Client ID Config Form Toggle */}
-                    <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
+                    {/* Client ID Setup Forms */}
+                    <div className="mt-6 pt-4 border-t border-slate-150/70 flex flex-col gap-2">
                         <div className="flex justify-between items-center">
                             <button
                                 onClick={() => setShowConfigForm(!showConfigForm)}
-                                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-orange-600 transition-colors"
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-orange-600 transition-colors cursor-pointer"
                             >
                                 <Settings className="w-4 h-4" />
                                 {isClientIdMissing ? "Configurar Google Client ID" : "Editar Google Client ID"}
@@ -262,7 +226,7 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
                             {!isClientIdMissing && (
                                 <button
                                     onClick={handleClearClientId}
-                                    className="inline-flex items-center gap-1 text-[10px] font-bold text-red-500 hover:text-red-700 transition-colors"
+                                    className="inline-flex items-center gap-1 text-[10px] font-bold text-red-500 hover:text-red-700 transition-colors cursor-pointer"
                                     title="Restaurar configuración de entorno"
                                 >
                                     <Trash2 className="w-3.5 h-3.5" />
@@ -293,17 +257,17 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
                                     </button>
                                 </div>
                                 <span className="text-[9px] text-slate-400 leading-normal">
-                                    * El ID se almacenará de manera persistente en este navegador (`localStorage`) de forma privada y segura.
+                                    * El ID de cliente se almacenará localmente en este navegador (`localStorage`) de manera privada para activar el botón real de Google.
                                 </span>
                             </form>
                         )}
 
-                        {/* Dynamic Client ID Active Tag */}
+                        {/* Dynamic Active ID Banner */}
                         {!isClientIdMissing && (
-                            <div className="text-center mt-2.5">
+                            <div className="text-center mt-3">
                                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-[10px] font-bold text-emerald-700 border border-emerald-100">
                                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                                    Google Sign-In Real Activado
+                                    Acceso con Google Activo
                                 </span>
                                 <p className="text-[9px] text-slate-400 mt-1 font-mono break-all truncate" title={clientId}>
                                     ID: {clientId}
@@ -312,49 +276,31 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
                         )}
                     </div>
 
-                    {/* Developer Bypass Toggle (Discreetly at the bottom for developers/local testing) */}
+                    {/* Setup Guides Section */}
                     <div className="mt-4 pt-3 border-t border-slate-100 text-center">
                         <button
-                            type="button"
-                            onClick={() => setShowDeveloperBypass(!showDeveloperBypass)}
-                            className="text-[9px] font-bold text-slate-400 hover:text-slate-600 transition-colors uppercase tracking-wider"
+                            onClick={() => setShowSetupHelp(!showSetupHelp)}
+                            className="inline-flex items-center justify-center gap-1.5 text-[10px] font-bold text-slate-400 hover:text-slate-600 transition-colors mx-auto cursor-pointer uppercase tracking-wider"
                         >
-                            {showDeveloperBypass ? "Ocultar Herramientas" : "Herramientas de Desarrollo"}
+                            <HelpCircle className="w-3.5 h-3.5" />
+                            ¿Cómo registrar un Client ID en Google Cloud?
                         </button>
 
-                        {showDeveloperBypass && (
-                            <div className="mt-2.5 flex flex-col gap-2">
-                                <button
-                                    onClick={handleDeveloperBypassLogin}
-                                    className="w-full py-2 px-4 bg-blue-50 hover:bg-blue-100 text-blue-700 font-extrabold rounded-xl border border-blue-200 transition text-[10px] uppercase tracking-wider cursor-pointer"
-                                >
-                                    Simular Acceso Real (Entrenador)
-                                </button>
-                                <button
-                                    onClick={() => setShowSetupHelp(!showSetupHelp)}
-                                    className="inline-flex items-center justify-center gap-1 text-[10px] font-bold text-slate-500 hover:text-slate-700 transition-colors mx-auto"
-                                >
-                                    <HelpCircle className="w-3.5 h-3.5" />
-                                    ¿Cómo registrar un Client ID de Google?
-                                </button>
-                            </div>
-                        )}
-
                         {showSetupHelp && (
-                            <div className="mt-2.5 p-3.5 bg-amber-50 rounded-2xl border border-amber-200 text-left text-[11px] leading-relaxed text-slate-700">
+                            <div className="mt-3 p-4 bg-amber-50 rounded-2xl border border-amber-200 text-left text-[11px] leading-relaxed text-slate-700">
                                 <div className="flex items-center gap-1.5 font-bold text-amber-800 mb-1.5">
                                     <ShieldAlert className="w-4 h-4 shrink-0" />
-                                    Registro en Google Cloud:
+                                    Instrucciones Obligatorias:
                                 </div>
-                                <ol className="list-decimal pl-4.5 space-y-1 text-slate-600 text-[10px]">
-                                    <li>Visita la <a href="https://console.cloud.google.com/" target="_blank" rel="noreferrer" className="text-orange-600 underline font-bold">Consola de Google Cloud</a>.</li>
+                                <ol className="list-decimal pl-4.5 space-y-1.5 text-slate-600 text-[10px]">
+                                    <li>Ve a la <a href="https://console.cloud.google.com/" target="_blank" rel="noreferrer" className="text-orange-600 underline font-bold">Consola de Google Cloud</a>.</li>
                                     <li>Crea un proyecto y configura la <strong>Pantalla de consentimiento de OAuth</strong>.</li>
-                                    <li>En "Credenciales", crea un <strong>ID de cliente de OAuth 2.0</strong> (Aplicación Web).</li>
-                                    <li>Como <strong>Orígenes JavaScript autorizados</strong>, añade:
+                                    <li>Crea una credencial de tipo <strong>ID de cliente de OAuth 2.0</strong> (Selecciona "Aplicación Web").</li>
+                                    <li>Añade los siguientes <strong>Orígenes JavaScript autorizados</strong>:
                                         <div className="bg-slate-200/60 font-mono text-[9px] px-1.5 py-0.5 rounded mt-1 max-w-max">http://localhost:3000</div>
                                         <div className="bg-slate-200/60 font-mono text-[9px] px-1.5 py-0.5 rounded mt-1 max-w-max">https://toniad74.github.io</div>
                                     </li>
-                                    <li>Copia el Client ID resultante y pégalo arriba. ¡Listo!</li>
+                                    <li>Copia el Client ID y pégalo arriba mediante la sección "Configurar Google Client ID".</li>
                                 </ol>
                             </div>
                         )}
@@ -362,14 +308,14 @@ export default function GoogleLoginScreen({ onLoginSuccess }: GoogleLoginScreenP
 
                 </div>
 
-                {/* Technical Info Footnote */}
+                {/* Footnote */}
                 <p className="text-[10px] text-center text-slate-400 max-w-xs leading-normal">
-                    La aplicación utiliza persistencia de datos local continua, garantizando la fiabilidad de las estadísticas aun perdiendo la cobertura de internet.
+                    Las estadísticas del partido se guardan automáticamente en tu navegador local, evitando cualquier pérdida de información a pie de pista.
                 </p>
 
             </div>
 
-            {/* Application Footer */}
+            {/* Footer */}
             <footer className="text-center py-3 text-[10px] font-bold text-slate-400 select-none uppercase tracking-widest">
                 BeachHandball Stats © 2026 • Diseñado para la Arena
             </footer>

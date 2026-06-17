@@ -344,8 +344,8 @@ export default function App() {
                 <span className={`block text-[10px] font-black leading-none ${sunMode ? 'text-slate-800' : 'text-slate-200'}`}>
                   {user.name}
                 </span>
-                <span className={`block text-[8px] font-black uppercase leading-none mt-0.5 ${sunMode ? 'text-slate-500' : 'text-slate-400'}`}>
-                  {user.isGuest ? 'Invitado' : 'Google Auth'}
+                <span className={`block text-[8px] font-bold leading-none mt-0.5 text-slate-500 dark:text-slate-400`}>
+                  {user.email}
                 </span>
               </div>
               <button
