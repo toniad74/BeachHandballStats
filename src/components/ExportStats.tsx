@@ -1,9 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { MatchState } from '../types';
-import { Share2, Loader2 } from 'lucide-react';
-import html2canvas from 'html2canvas';
+import { FileText, FileSpreadsheet, Loader2 } from 'lucide-react';
 import { useI18n } from '../i18n';
 import { translatePosition } from '../utils/i18n';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
 interface ExportStatsProps {
   matchState: MatchState;
@@ -12,9 +14,7 @@ interface ExportStatsProps {
 
 export default function ExportStats({ matchState, sunMode }: ExportStatsProps) {
   const { t, language } = useI18n();
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [exporting, setExporting] = useState(false);
-  const [error, setError] = useState('');
+  const [exporting, setExporting] = useState<'pdf' | 'excel' | null>(null);
 
   const { set1, set2, players, opponentName, shootoutRounds } = matchState;
   const ourTeamName = matchState.ourTeamName || 'Mi Equipo';
@@ -31,161 +31,155 @@ export default function ExportStats({ matchState, sunMode }: ExportStatsProps) {
   const totalShots = totalGoals1p + totalGoals2p + totalMissed;
   const effectiveness = totalShots > 0 ? ((totalGoals1p + totalGoals2p) / totalShots * 100) : 0;
 
-  const topScorers = [...players]
-    .map(p => ({ ...p, pts: p.goals1p + (p.goals2p * 2) }))
-    .filter(p => p.pts > 0)
-    .sort((a, b) => b.pts - a.pts)
-    .slice(0, 3);
-
   const locale = language === 'ca' ? 'ca-ES' : language === 'en' ? 'en-GB' : 'es-ES';
+  const dateStr = new Date().toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' });
 
-  const exportAsImage = async () => {
-    if (!cardRef.current) return;
-    setExporting(true);
-    setError('');
-
+  const exportPDF = () => {
+    setExporting('pdf');
     try {
-      const canvas = await html2canvas(cardRef.current, {
-        backgroundColor: '#1e293b',
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
+      const doc = new jsPDF();
+      const title = `${ourTeamName} vs ${opponentName}`;
 
-      // Convert to blob
-      const blob = await new Promise<Blob | null>((resolve) => {
-        canvas.toBlob(resolve, 'image/png');
-      });
+      // Header
+      doc.setFontSize(18);
+      doc.setFont('helvetica', 'bold');
+      doc.text('BeachHandball Stats', 105, 15, { align: 'center' });
+      doc.setFontSize(14);
+      doc.text(title, 105, 24, { align: 'center' });
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(dateStr, 105, 31, { align: 'center' });
 
-      if (!blob) {
-        throw new Error('Failed to create image');
+      // Score
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      const scoreY = 42;
+      doc.text(`Set 1: ${set1.usScore} - ${set1.themScore}`, 50, scoreY);
+      doc.text(`Set 2: ${set2.usScore} - ${set2.themScore}`, 120, scoreY);
+      if (shootoutRounds.some(r => r.usGoal !== null)) {
+        const usShootout = shootoutRounds.filter(r => r.usGoal).length;
+        const themShootout = shootoutRounds.filter(r => r.themGoal).length;
+        doc.text(`Shootout: ${usShootout} - ${themShootout}`, 85, scoreY + 8);
       }
 
-      const fileName = `${ourTeamName}_vs_${opponentName}.png`;
+      // Summary stats
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      const sumY = 58;
+      doc.text(`${t.points}: ${totalPoints}  |  ${t.effectiveness}: ${effectiveness.toFixed(0)}%  |  ${t.turnovers}: ${totalTurnovers}`, 105, sumY, { align: 'center' });
 
-      // Try Web Share API (works on mobile)
-      if (navigator.share) {
-        try {
-          const file = new File([blob], fileName, { type: 'image/png' });
-          await navigator.share({ files: [file] });
-          setExporting(false);
-          return;
-        } catch (shareErr: any) {
-          // User cancelled or share not supported for files — fallback to download
-          if (shareErr.name === 'AbortError') {
-            setExporting(false);
-            return;
-          }
-        }
-      }
+      // Player table
+      const headers = [
+        ['#', t.player, t.position, t.goals1pt, t.goals2pt, t.points, t.missesLabel, t.losses, t.saves || 'Saves', t.recoveries]
+      ];
 
-      // Fallback: download file
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = fileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } catch (e: any) {
-      console.error('Export failed:', e);
-      setError(language === 'en' ? 'Export failed. Try again.' : language === 'ca' ? "Error en l'exportació." : 'Error al exportar.');
+      const rows = players.map(p => {
+        const pts = p.goals1p + (p.goals2p * 2);
+        const turnovers = p.turnoverBadPass + p.turnoverSteps + p.turnoverFumbling;
+        return [
+          p.number.toString(),
+          p.name,
+          translatePosition(p.position, t),
+          p.goals1p.toString(),
+          p.goals2p.toString(),
+          pts.toString(),
+          p.missedShots.toString(),
+          turnovers.toString(),
+          (p.saves || 0).toString(),
+          (p.recoveries || 0).toString(),
+        ];
+      });
+
+      autoTable(doc, {
+        head: headers,
+        body: rows,
+        startY: 65,
+        styles: { fontSize: 8, cellPadding: 2 },
+        headStyles: { fillColor: [30, 41, 59], textColor: 255, fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [248, 250, 252] },
+      });
+
+      doc.save(`${ourTeamName}_vs_${opponentName}.pdf`);
+    } catch (e) {
+      console.error('PDF export failed:', e);
     }
-    setExporting(false);
+    setExporting(null);
   };
 
-  const exportLabel = language === 'en' ? 'Export / Share' : language === 'ca' ? 'Exportar / Compartir' : 'Exportar / Compartir';
-  const topLabel = language === 'en' ? 'Top Scorers' : language === 'ca' ? 'Màxims Golejadors' : 'Máximos Goleadores';
+  const exportExcel = () => {
+    setExporting('excel');
+    try {
+      // Match summary sheet
+      const summaryData = [
+        ['BeachHandball Stats'],
+        [`${ourTeamName} vs ${opponentName}`],
+        [dateStr],
+        [],
+        ['', ourTeamName, opponentName],
+        ['Set 1', set1.usScore, set1.themScore],
+        ['Set 2', set2.usScore, set2.themScore],
+      ];
+      if (shootoutRounds.some(r => r.usGoal !== null)) {
+        summaryData.push(['Shootout', shootoutRounds.filter(r => r.usGoal).length, shootoutRounds.filter(r => r.themGoal).length]);
+      }
+      summaryData.push([], [`${t.points}: ${totalPoints}`, `${t.effectiveness}: ${effectiveness.toFixed(0)}%`, `${t.turnovers}: ${totalTurnovers}`]);
+
+      // Players sheet
+      const playerHeaders = ['#', t.player, t.position, t.goals1pt, t.goals2pt, t.points, t.missesLabel, t.losses, t.saves || 'Saves', t.recoveries, 'Assists'];
+      const playerRows = players.map(p => [
+        p.number,
+        p.name,
+        translatePosition(p.position, t),
+        p.goals1p,
+        p.goals2p,
+        p.goals1p + (p.goals2p * 2),
+        p.missedShots,
+        p.turnoverBadPass + p.turnoverSteps + p.turnoverFumbling,
+        p.saves || 0,
+        p.recoveries || 0,
+        p.assists || 0,
+      ]);
+
+      const wb = XLSX.utils.book_new();
+      const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
+      const wsPlayers = XLSX.utils.aoa_to_sheet([playerHeaders, ...playerRows]);
+
+      XLSX.utils.book_append_sheet(wb, wsSummary, 'Match');
+      XLSX.utils.book_append_sheet(wb, wsPlayers, 'Players');
+      XLSX.writeFile(wb, `${ourTeamName}_vs_${opponentName}.xlsx`);
+    } catch (e) {
+      console.error('Excel export failed:', e);
+    }
+    setExporting(null);
+  };
+
+  const pdfLabel = language === 'en' ? 'Export PDF' : language === 'ca' ? 'Exportar PDF' : 'Exportar PDF';
+  const excelLabel = language === 'en' ? 'Export Excel' : language === 'ca' ? 'Exportar Excel' : 'Exportar Excel';
 
   return (
-    <div className="space-y-4">
-      {/* Export button */}
+    <div className="flex gap-3">
       <button
-        onClick={exportAsImage}
-        disabled={exporting}
-        className={`w-full flex items-center justify-center gap-2 py-3 md:py-4 px-5 rounded-xl font-black text-sm md:text-base uppercase tracking-wider transition active:scale-95 ${sunMode
-          ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-          : 'bg-indigo-500 hover:bg-indigo-600 text-white'
-        } disabled:opacity-50`}
+        onClick={exportPDF}
+        disabled={exporting !== null}
+        className={`flex-1 flex items-center justify-center gap-2 py-3 md:py-4 px-4 rounded-xl font-black text-sm md:text-base uppercase tracking-wider transition active:scale-95 disabled:opacity-50 ${sunMode
+          ? 'bg-red-600 hover:bg-red-700 text-white'
+          : 'bg-red-500 hover:bg-red-600 text-white'
+        }`}
       >
-        {exporting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Share2 className="w-5 h-5" />}
-        {exporting ? '...' : exportLabel}
+        {exporting === 'pdf' ? <Loader2 className="w-5 h-5 animate-spin" /> : <FileText className="w-5 h-5" />}
+        {pdfLabel}
       </button>
-
-      {error && (
-        <p className="text-red-500 text-sm font-bold text-center">{error}</p>
-      )}
-
-      {/* Preview card (exported as image) */}
-      <div ref={cardRef} style={{ backgroundColor: '#1e293b', color: '#fff', padding: '24px', borderRadius: '16px' }}>
-        {/* Header */}
-        <div style={{ textAlign: 'center', borderBottom: '1px solid #334155', paddingBottom: '16px', marginBottom: '16px' }}>
-          <p style={{ fontSize: '11px', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '2px', fontWeight: 700 }}>BeachHandball Stats</p>
-          <h2 style={{ fontSize: '22px', fontWeight: 900, textTransform: 'uppercase', marginTop: '4px' }}>
-            {ourTeamName} vs {opponentName}
-          </h2>
-          <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>
-            {new Date().toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' })}
-          </p>
-        </div>
-
-        {/* Score */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginBottom: '16px' }}>
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 700 }}>SET 1</p>
-            <p style={{ fontSize: '20px', fontWeight: 900, fontFamily: 'monospace' }}>{set1.usScore} - {set1.themScore}</p>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 700 }}>SET 2</p>
-            <p style={{ fontSize: '20px', fontWeight: 900, fontFamily: 'monospace' }}>{set2.usScore} - {set2.themScore}</p>
-          </div>
-          {shootoutRounds.some(r => r.usGoal !== null) && (
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: '10px', color: '#f87171', fontWeight: 700 }}>SHOOTOUT</p>
-              <p style={{ fontSize: '20px', fontWeight: 900, fontFamily: 'monospace' }}>
-                {shootoutRounds.filter(r => r.usGoal).length} - {shootoutRounds.filter(r => r.themGoal).length}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', marginBottom: '16px' }}>
-          <div style={{ backgroundColor: '#334155', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
-            <p style={{ fontSize: '22px', fontWeight: 900, fontFamily: 'monospace', color: '#34d399' }}>{totalPoints}</p>
-            <p style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>{t.points}</p>
-          </div>
-          <div style={{ backgroundColor: '#334155', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
-            <p style={{ fontSize: '22px', fontWeight: 900, fontFamily: 'monospace', color: '#fbbf24' }}>{effectiveness.toFixed(0)}%</p>
-            <p style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>{t.effectiveness}</p>
-          </div>
-          <div style={{ backgroundColor: '#334155', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
-            <p style={{ fontSize: '22px', fontWeight: 900, fontFamily: 'monospace', color: '#f87171' }}>{totalTurnovers}</p>
-            <p style={{ fontSize: '9px', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase' }}>{t.turnovers}</p>
-          </div>
-        </div>
-
-        {/* Top Scorers */}
-        {topScorers.length > 0 && (
-          <div>
-            <p style={{ fontSize: '10px', color: '#94a3b8', fontWeight: 700, textTransform: 'uppercase', marginBottom: '8px' }}>⭐ {topLabel}</p>
-            {topScorers.map((p, i) => (
-              <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(51,65,85,0.5)', borderRadius: '8px', padding: '8px 12px', marginBottom: '6px' }}>
-                <span style={{ fontSize: '13px', fontWeight: 700 }}>
-                  {i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'} #{p.number} {p.name}
-                </span>
-                <span style={{ fontSize: '13px', fontWeight: 900, fontFamily: 'monospace', color: '#34d399' }}>{p.pts} pts</span>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Footer */}
-        <p style={{ textAlign: 'center', fontSize: '9px', color: '#64748b', marginTop: '12px', borderTop: '1px solid #1e293b', paddingTop: '8px' }}>
-          {t.copyright} • BeachHandball Stats 2026
-        </p>
-      </div>
+      <button
+        onClick={exportExcel}
+        disabled={exporting !== null}
+        className={`flex-1 flex items-center justify-center gap-2 py-3 md:py-4 px-4 rounded-xl font-black text-sm md:text-base uppercase tracking-wider transition active:scale-95 disabled:opacity-50 ${sunMode
+          ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
+          : 'bg-emerald-500 hover:bg-emerald-600 text-white'
+        }`}
+      >
+        {exporting === 'excel' ? <Loader2 className="w-5 h-5 animate-spin" /> : <FileSpreadsheet className="w-5 h-5" />}
+        {excelLabel}
+      </button>
     </div>
   );
 }
