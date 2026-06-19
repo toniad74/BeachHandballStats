@@ -336,7 +336,7 @@ export default function ShootoutBoard({
               Elige qué jugador va a lanzar a continuación para guardar su tiro doble en las estadísticas:
             </p>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-3">
               {sortedPlayers.map((p) => {
                 const hasShot = shootoutRounds.some(r => r.usPlayerId === p.id);
                 return (
@@ -344,7 +344,7 @@ export default function ShootoutBoard({
                     key={`so-p-${p.id}`}
                     onClick={() => setSelectedPlayerId(p.id)}
                     disabled={p.isDisqualified}
-                    className={`border-2 p-2.5 rounded-xl text-xs font-black text-left transition flex justify-between items-center ${
+                    className={`border-2 p-3 md:p-4 rounded-xl text-sm md:text-base font-black text-left transition flex justify-between items-center ${
                       p.isDisqualified
                         ? 'border-gray-205 bg-gray-100 opacity-40 cursor-not-allowed text-zinc-400'
                         : selectedPlayerId === p.id
@@ -355,8 +355,8 @@ export default function ShootoutBoard({
                     }`}
                   >
                     <span className="truncate pr-1">
-                      #{p.number} {p.name.split(' ')[1] || p.name}
-                      {hasShot && <span className="text-[9px] font-bold text-gray-400 dark:text-zinc-500 ml-1">(Lanzó)</span>}
+                      #{p.number} {p.name}
+                      {hasShot && <span className="text-[10px] md:text-xs font-bold text-gray-400 dark:text-zinc-500 ml-1.5">(Lanzó)</span>}
                     </span>
                   </button>
                 );
