@@ -308,7 +308,7 @@ export default function App() {
                 title="Idioma / Language"
               >
                 {LANGUAGE_OPTIONS.map(opt => (
-                  <option key={opt.value} value={opt.value}>{opt.flag} {opt.label}</option>
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
                 ))}
               </select>
 
