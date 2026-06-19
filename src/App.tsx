@@ -12,7 +12,7 @@ import AnalyticsHub from './components/AnalyticsHub';
 import SetupTeam from './components/SetupTeam';
 import MatchHistory from './components/MatchHistory';
 import GoogleLoginScreen from './components/GoogleLoginScreen';
-import { Sun, Moon, Calendar, Trophy, Zap, DownloadCloud, RotateCcw, AlertCircle, HelpCircle, LogOut } from 'lucide-react';
+import { Sun, Moon, Calendar, Trophy, Zap, DownloadCloud, RotateCcw, AlertCircle, HelpCircle, LogOut, Save, FolderOpen, ChevronDown } from 'lucide-react';
 import { auth } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 
@@ -87,10 +87,12 @@ export default function App() {
     return INITIAL_MATCH_STATE;
   });
 
-  const [activeTab, setActiveTab] = useState<'pista' | 'shootout' | 'analisis' | 'plantilla' | 'historial'>('pista');
+  const [activeTab, setActiveTab] = useState<'pista' | 'shootout' | 'analisis' | 'plantilla'>('pista');
   const [sunMode, setSunMode] = useState(true); // default to high-contrast Sun/Beach mode for outdoors!
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [hasAutoTransitionedToShootout, setHasAutoTransitionedToShootout] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showMatchHistory, setShowMatchHistory] = useState(false);
 
   // PWA Install Prompt
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);

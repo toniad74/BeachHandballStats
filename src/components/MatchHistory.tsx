@@ -9,7 +9,6 @@ import {
   doc,
   query,
   where,
-  orderBy,
 } from 'firebase/firestore';
 import { Save, FolderOpen, Trash2, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
 
@@ -38,14 +37,15 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
     try {
       const q = query(
         collection(db, 'matches'),
-        where('userId', '==', user.id),
-        orderBy('savedAt', 'desc')
+        where('userId', '==', user.id)
       );
       const snapshot = await getDocs(q);
       const matches: SavedMatch[] = snapshot.docs.map(d => ({
         id: d.id,
         ...d.data(),
       } as SavedMatch));
+      // Sort by date on the client (avoids needing a composite index)
+      matches.sort((a, b) => new Date(b.savedAt).getTime() - new Date(a.savedAt).getTime());
       setSavedMatches(matches);
     } catch (error: any) {
       console.error('Error loading matches:', error);
