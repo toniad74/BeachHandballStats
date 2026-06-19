@@ -20,6 +20,7 @@ export interface Player {
   // Scoring statistics
   goals1p: number;
   goals2p: number;
+  assists: number;
   missedShots: number;
   missedFlies: number; // specifically tracking failed alley-oops / flies
 

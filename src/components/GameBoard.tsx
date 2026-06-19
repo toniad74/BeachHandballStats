@@ -80,6 +80,8 @@ export default function GameBoard({
   };
 
   const [teamConfigModalType, setTeamConfigModalType] = useState<'us' | 'them' | null>(null);
+  const [showAssistModal, setShowAssistModal] = useState(false);
+  const [pendingGoalScorer, setPendingGoalScorer] = useState<Player | null>(null);
   const [tempTeamName, setTempTeamName] = useState('');
   const [tempShirtColor, setTempShirtColor] = useState('');
 
@@ -328,6 +330,10 @@ export default function GameBoard({
       },
     });
     triggerFeedback(player.id, 'success');
+    // Show assist modal
+    setPendingGoalScorer(player);
+    setShowAssistModal(true);
+    setSelectedPlayerForActions(null);
   };
 
   // Creative 2-Point play
@@ -374,6 +380,9 @@ export default function GameBoard({
       },
     });
     triggerFeedback(player.id, 'success');
+    // Show assist modal
+    setPendingGoalScorer(player);
+    setShowAssistModal(true);
     setSelectedPlayerForActions(null);
   };
 
@@ -854,6 +863,22 @@ export default function GameBoard({
     setTimeRemaining(totalSeconds);
     setShowTimeEditModal(false);
     addLog(`Tiempo ajustado manualmente a ${formatTime(totalSeconds)}.`, 'system');
+  };
+
+  // Register assist
+  const registerAssist = (assister: Player | null) => {
+    if (assister && pendingGoalScorer) {
+      const updatedPlayers = players.map(p => {
+        if (p.id === assister.id) {
+          return { ...p, assists: (p.assists || 0) + 1 };
+        }
+        return p;
+      });
+      onUpdateMatchState({ ...matchState, players: updatedPlayers });
+      addLog(`Asistencia de ${assister.name} para gol de ${pendingGoalScorer.name}`, 'system');
+    }
+    setShowAssistModal(false);
+    setPendingGoalScorer(null);
   };
 
   return (
@@ -1940,10 +1965,43 @@ export default function GameBoard({
           </div>
         </div>
       )}
+
+      {/* ASSIST MODAL */}
+      {showAssistModal && pendingGoalScorer && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-[9999] flex items-center justify-center p-4">
+          <div className={`p-5 md:p-6 rounded-2xl max-w-md w-full shadow-2xl border-2 ${
+            sunMode ? 'bg-white border-emerald-200' : 'bg-zinc-900 border-emerald-700'
+          }`}>
+            <h3 className={`text-lg font-black uppercase mb-3 ${sunMode ? 'text-gray-900' : 'text-white'}`}>
+              🤝 ¿Quién asistió?
+            </h3>
+            <p className={`text-xs mb-4 ${sunMode ? 'text-gray-500' : 'text-zinc-400'}`}>
+              Gol de {pendingGoalScorer.name}
+            </p>
+            <div className="grid grid-cols-2 gap-2 max-h-[50vh] overflow-y-auto mb-3">
+              {players.filter(p => p.id !== pendingGoalScorer.id && !p.isDisqualified).map(p => (
+                <button
+                  key={`assist-${p.id}`}
+                  onClick={() => registerAssist(p)}
+                  className={`p-3 rounded-xl text-sm font-bold text-left transition active:scale-95 border ${
+                    sunMode ? 'border-gray-200 hover:bg-emerald-50 text-gray-900' : 'border-zinc-700 hover:bg-zinc-800 text-white'
+                  }`}
+                >
+                  #{p.number} {p.name}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => registerAssist(null)}
+              className={`w-full py-3 rounded-xl font-bold text-sm transition active:scale-95 border ${
+                sunMode ? 'border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200' : 'border-zinc-600 bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
+              }`}
+            >
+              Sin asistencia
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
-
-
-

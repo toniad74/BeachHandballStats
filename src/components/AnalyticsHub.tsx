@@ -433,8 +433,14 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                       </div>
                       {(p.recoveries || 0) > 0 && (
                         <div className="text-center bg-indigo-50 dark:bg-indigo-950/30 rounded-xl p-3 border border-indigo-200 dark:border-indigo-800/50">
-                          <span className="block text-xs font-black uppercase text-indigo-700 dark:text-indigo-400">Recup.</span>
+                          <span className="block text-xs font-black uppercase text-indigo-700 dark:text-indigo-400">{t.recoveries}</span>
                           <span className="block text-2xl md:text-3xl font-mono font-black text-indigo-600 dark:text-indigo-300 mt-1">{p.recoveries}</span>
+                        </div>
+                      )}
+                      {(p.assists || 0) > 0 && (
+                        <div className="text-center bg-cyan-50 dark:bg-cyan-950/30 rounded-xl p-3 border border-cyan-200 dark:border-cyan-800/50">
+                          <span className="block text-xs font-black uppercase text-cyan-700 dark:text-cyan-400">🤝 Asist.</span>
+                          <span className="block text-2xl md:text-3xl font-mono font-black text-cyan-600 dark:text-cyan-300 mt-1">{p.assists}</span>
                         </div>
                       )}
                     </div>
