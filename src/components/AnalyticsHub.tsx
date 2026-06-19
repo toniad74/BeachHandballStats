@@ -309,8 +309,8 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
               const simpleAttempts = totalGoals1p + Math.max(0, totalMissedSimple);
               const simpleEff = simpleAttempts > 0 ? (totalGoals1p / simpleAttempts * 100) : 0;
               return (
-                <div className="bg-blue-50 dark:bg-blue-950/20 p-2 md:p-3 rounded-xl text-center border border-blue-200 dark:border-blue-800/50">
-                  <span className="text-xs uppercase text-blue-600 dark:text-blue-400 font-bold block mb-1">+1</span>
+                <div className="bg-blue-50 dark:bg-blue-950/20 p-2 md:p-3 rounded-xl text-center overflow-hidden border border-blue-200 dark:border-blue-800/50">
+                  <span className="text-[10px] md:text-xs uppercase text-blue-600 dark:text-blue-400 font-bold block mb-1 truncate">+1</span>
                   <span className="text-xl md:text-2xl font-mono font-black text-blue-700 dark:text-blue-300">{simpleEff.toFixed(0)}%</span>
                   <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{totalGoals1p}/{simpleAttempts}</span>
                 </div>
@@ -321,8 +321,8 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
               const flyAttempts2 = totalGoals2p + totalMissedFlies;
               const flyEff2 = flyAttempts2 > 0 ? (totalGoals2p / flyAttempts2 * 100) : 0;
               return (
-                <div className="bg-orange-50 dark:bg-orange-950/20 p-2 md:p-3 rounded-xl text-center border border-orange-200 dark:border-orange-800/50">
-                  <span className="text-xs uppercase text-orange-600 dark:text-orange-400 font-bold block mb-1">Fly</span>
+                <div className="bg-orange-50 dark:bg-orange-950/20 p-2 md:p-3 rounded-xl text-center overflow-hidden border border-orange-200 dark:border-orange-800/50">
+                  <span className="text-[10px] md:text-xs uppercase text-orange-600 dark:text-orange-400 font-bold block mb-1 truncate">Fly</span>
                   <span className="text-xl md:text-2xl font-mono font-black text-orange-700 dark:text-orange-300">{flyEff2.toFixed(0)}%</span>
                   <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{totalGoals2p}/{flyAttempts2}</span>
                 </div>
@@ -335,8 +335,8 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
               const giroAttempts = totalMissedSpins; // we only know missed giros for now
               const giroTotal = giroAttempts; // display missed count
               return (
-                <div className="bg-purple-50 dark:bg-purple-950/20 p-2 md:p-3 rounded-xl text-center border border-purple-200 dark:border-purple-800/50">
-                  <span className="text-xs uppercase text-purple-600 dark:text-purple-400 font-bold block mb-1">{language === 'en' ? 'Spin' : 'Giro'}</span>
+                <div className="bg-purple-50 dark:bg-purple-950/20 p-2 md:p-3 rounded-xl text-center overflow-hidden border border-purple-200 dark:border-purple-800/50">
+                  <span className="text-[10px] md:text-xs uppercase text-purple-600 dark:text-purple-400 font-bold block mb-1 truncate">{language === 'en' ? 'Spin' : 'Giro'}</span>
                   <span className="text-xl md:text-2xl font-mono font-black text-purple-700 dark:text-purple-300">{totalMissedSpins}</span>
                   <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{language === 'en' ? 'missed' : language === 'ca' ? 'fallats' : 'fallados'}</span>
                 </div>
@@ -346,8 +346,8 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
             {(() => {
               const totalMissedPens = players.reduce((s, p) => s + (p.missedPenalties || 0), 0);
               return (
-                <div className="bg-red-50 dark:bg-red-950/20 p-2 md:p-3 rounded-xl text-center border border-red-200 dark:border-red-800/50">
-                  <span className="text-xs uppercase text-red-600 dark:text-red-400 font-bold block mb-1">{language === 'en' ? 'Penalty' : 'Penalti'}</span>
+                <div className="bg-red-50 dark:bg-red-950/20 p-2 md:p-3 rounded-xl text-center overflow-hidden border border-red-200 dark:border-red-800/50">
+                  <span className="text-[10px] md:text-xs uppercase text-red-600 dark:text-red-400 font-bold block mb-1 truncate">{language === 'en' ? 'Penalty' : 'Penalti'}</span>
                   <span className="text-xl md:text-2xl font-mono font-black text-red-700 dark:text-red-300">{totalMissedPens}</span>
                   <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{language === 'en' ? 'missed' : language === 'ca' ? 'fallats' : 'fallados'}</span>
                 </div>
@@ -388,31 +388,31 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                 : 'border-gray-200 dark:border-zinc-700 bg-white/40 dark:bg-zinc-900/40'
               }`}>
                 {/* CLICKABLE HEADER */}
-                <div onClick={() => setExpandedPlayerId(isExpanded ? null : p.id)} className="flex items-center p-4 md:p-5 cursor-pointer active:bg-black/5 dark:active:bg-white/5">
+                <div onClick={() => setExpandedPlayerId(isExpanded ? null : p.id)} className="flex items-center p-3 md:p-4 cursor-pointer active:bg-black/5 dark:active:bg-white/5 gap-3">
                   {/* Dorsal */}
-                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center font-black text-xl md:text-2xl text-white flex-shrink-0 ${
+                  <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center font-black text-lg md:text-xl text-white flex-shrink-0 ${
                     p.position === 'Portero' ? 'bg-amber-500' : p.position === 'Especialista' ? 'bg-purple-500' : p.position === 'Polivalente' ? 'bg-teal-500' : 'bg-blue-600'
                   }`}>
                     {p.number}
                   </div>
                   {/* Name + Position */}
-                  <div className="ml-4 flex-1 min-w-0">
-                    <h5 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white uppercase truncate leading-tight">{p.name}</h5>
-                    <span className={`text-sm md:text-base font-bold uppercase block mt-0.5 ${
+                  <div className="flex-1 min-w-0 overflow-hidden">
+                    <h5 className="text-base md:text-lg font-black text-gray-900 dark:text-white uppercase truncate leading-tight">{p.name}</h5>
+                    <span className={`text-xs md:text-sm font-bold uppercase block truncate ${
                       p.position === 'Portero' ? 'text-amber-600 dark:text-amber-400' : p.position === 'Especialista' ? 'text-purple-600 dark:text-purple-400' : p.position === 'Polivalente' ? 'text-teal-600 dark:text-teal-400' : 'text-blue-600 dark:text-blue-400'
                     }`}>{translatePosition(p.position, t)}</span>
                   </div>
                   {/* Quick stat */}
-                  <div className="text-center flex-shrink-0 ml-3">
-                    <span className="block text-3xl md:text-4xl font-mono font-black text-gray-900 dark:text-white leading-none">{p.position === 'Portero' ? pSaves : pTotalPoints}</span>
-                    <span className="block text-[10px] md:text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase mt-0.5">{p.position === 'Portero' ? t.savesLabel : t.pointsLabel}</span>
+                  <div className="text-center flex-shrink-0">
+                    <span className="block text-2xl md:text-3xl font-mono font-black text-gray-900 dark:text-white leading-none">{p.position === 'Portero' ? pSaves : pTotalPoints}</span>
+                    <span className="block text-[9px] md:text-[10px] font-bold text-gray-500 dark:text-zinc-400 uppercase mt-0.5">{p.position === 'Portero' ? t.savesLabel : t.pointsLabel}</span>
                   </div>
                   {p.exclusions > 0 && (
-                    <span className={`ml-2 px-2 py-1 rounded-lg text-xs font-black flex-shrink-0 ${p.exclusions >= 2 ? 'bg-red-600 text-white' : 'bg-orange-500 text-white'}`}>
+                    <span className={`px-1.5 py-0.5 rounded text-[10px] font-black flex-shrink-0 ${p.exclusions >= 2 ? 'bg-red-600 text-white' : 'bg-orange-500 text-white'}`}>
                       {p.exclusions >= 2 ? '🟥' : `${p.exclusions}E`}
                     </span>
                   )}
-                  <ChevronDown className={`w-6 h-6 ml-2 text-gray-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`} />
                 </div>
 
                 {/* EXPANDED DETAIL */}
@@ -532,6 +532,8 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
     </div>
   );
 }
+
+
 
 
 
