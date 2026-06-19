@@ -11,7 +11,7 @@ interface AnalyticsHubProps {
 }
 
 export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const { players, opponentName, historyEvents = [], set1, set2 } = matchState;
 
   // Global calculation of goals, misses, turnovers
