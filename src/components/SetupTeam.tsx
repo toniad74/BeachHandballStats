@@ -8,15 +8,13 @@ interface SetupTeamProps {
   onUpdatePlayers: (players: Player[]) => void;
 }
 
-const POSITIONS: { value: PlayerPosition; color: string; icon: string }[] = [
-  { value: 'Portero', color: 'bg-amber-500', icon: '🧤' },
-  { value: 'Especialista', color: 'bg-purple-500', icon: '⭐' },
-  { value: 'Polivalente', color: 'bg-teal-500', icon: '🔄' },
-  { value: 'Ala Izq.', color: 'bg-blue-500', icon: '🏹' },
-  { value: 'Ala Der.', color: 'bg-blue-500', icon: '🏹' },
-  { value: 'Pivote', color: 'bg-orange-500', icon: '🔄' },
-  { value: 'Defensor', color: 'bg-slate-600', icon: '🛡️' },
-  { value: 'Ala', color: 'bg-gray-500', icon: '🏃' },
+const POSITIONS: { value: PlayerPosition; color: string }[] = [
+  { value: 'Portero', color: 'bg-amber-500' },
+  { value: 'Especialista', color: 'bg-purple-500' },
+  { value: 'Ala Izq.', color: 'bg-blue-500' },
+  { value: 'Ala Der.', color: 'bg-blue-500' },
+  { value: 'Pivote', color: 'bg-orange-500' },
+  { value: 'Defensor', color: 'bg-slate-600' },
 ];
 
 export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) {
@@ -208,7 +206,6 @@ export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) 
                         : 'border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-750'
                     }`}
                   >
-                    <span className="text-lg mr-1.5">{pos.icon}</span>
                     {pos.value}
                   </button>
                 ))}
