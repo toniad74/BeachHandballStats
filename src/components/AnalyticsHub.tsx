@@ -296,22 +296,22 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
         </div>
 
         {/* SHOT EFFECTIVENESS BY TYPE */}
-        <div className="bg-background border border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-5">
-          <h4 className="text-base font-black text-gray-900 dark:text-zinc-100 uppercase mb-4 flex items-center gap-2">
-            <Flame className="w-5 h-5 text-amber-500" />
-            {language === 'en' ? 'Effectiveness by Shot Type' : language === 'ca' ? 'Efectivitat per Tipus de Tir' : 'Efectividad por Tipo de Lanzamiento'}
+        <div className="bg-background border border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-3 md:p-5 overflow-hidden">
+          <h4 className="text-sm md:text-base font-black text-gray-900 dark:text-zinc-100 uppercase mb-4 flex items-center gap-2">
+            <Flame className="w-5 h-5 text-amber-500 flex-shrink-0" />
+            <span className="truncate">{language === 'en' ? 'Effectiveness by Shot Type' : language === 'ca' ? 'Efectivitat per Tipus' : 'Efectividad por Tipo'}</span>
           </h4>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-4 gap-2 md:gap-3">
             {/* Simple +1 */}
             {(() => {
               const totalMissedSimple = players.reduce((s, p) => s + p.missedShots - p.missedFlies - (p.missedSpins || 0) - (p.missedPenalties || 0), 0);
               const simpleAttempts = totalGoals1p + Math.max(0, totalMissedSimple);
               const simpleEff = simpleAttempts > 0 ? (totalGoals1p / simpleAttempts * 100) : 0;
               return (
-                <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-xl text-center border border-blue-200 dark:border-blue-800/50">
+                <div className="bg-blue-50 dark:bg-blue-950/20 p-2 md:p-3 rounded-xl text-center border border-blue-200 dark:border-blue-800/50">
                   <span className="text-xs uppercase text-blue-600 dark:text-blue-400 font-bold block mb-1">+1</span>
-                  <span className="text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300">{simpleEff.toFixed(0)}%</span>
+                  <span className="text-xl md:text-2xl font-mono font-black text-blue-700 dark:text-blue-300">{simpleEff.toFixed(0)}%</span>
                   <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{totalGoals1p}/{simpleAttempts}</span>
                 </div>
               );
@@ -321,9 +321,9 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
               const flyAttempts2 = totalGoals2p + totalMissedFlies;
               const flyEff2 = flyAttempts2 > 0 ? (totalGoals2p / flyAttempts2 * 100) : 0;
               return (
-                <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-xl text-center border border-orange-200 dark:border-orange-800/50">
+                <div className="bg-orange-50 dark:bg-orange-950/20 p-2 md:p-3 rounded-xl text-center border border-orange-200 dark:border-orange-800/50">
                   <span className="text-xs uppercase text-orange-600 dark:text-orange-400 font-bold block mb-1">Fly</span>
-                  <span className="text-2xl md:text-3xl font-mono font-black text-orange-700 dark:text-orange-300">{flyEff2.toFixed(0)}%</span>
+                  <span className="text-xl md:text-2xl font-mono font-black text-orange-700 dark:text-orange-300">{flyEff2.toFixed(0)}%</span>
                   <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{totalGoals2p}/{flyAttempts2}</span>
                 </div>
               );
@@ -335,9 +335,9 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
               const giroAttempts = totalMissedSpins; // we only know missed giros for now
               const giroTotal = giroAttempts; // display missed count
               return (
-                <div className="bg-purple-50 dark:bg-purple-950/20 p-4 rounded-xl text-center border border-purple-200 dark:border-purple-800/50">
+                <div className="bg-purple-50 dark:bg-purple-950/20 p-2 md:p-3 rounded-xl text-center border border-purple-200 dark:border-purple-800/50">
                   <span className="text-xs uppercase text-purple-600 dark:text-purple-400 font-bold block mb-1">{language === 'en' ? 'Spin' : 'Giro'}</span>
-                  <span className="text-2xl md:text-3xl font-mono font-black text-purple-700 dark:text-purple-300">{totalMissedSpins}</span>
+                  <span className="text-xl md:text-2xl font-mono font-black text-purple-700 dark:text-purple-300">{totalMissedSpins}</span>
                   <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{language === 'en' ? 'missed' : language === 'ca' ? 'fallats' : 'fallados'}</span>
                 </div>
               );
@@ -346,9 +346,9 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
             {(() => {
               const totalMissedPens = players.reduce((s, p) => s + (p.missedPenalties || 0), 0);
               return (
-                <div className="bg-red-50 dark:bg-red-950/20 p-4 rounded-xl text-center border border-red-200 dark:border-red-800/50">
+                <div className="bg-red-50 dark:bg-red-950/20 p-2 md:p-3 rounded-xl text-center border border-red-200 dark:border-red-800/50">
                   <span className="text-xs uppercase text-red-600 dark:text-red-400 font-bold block mb-1">{language === 'en' ? 'Penalty' : 'Penalti'}</span>
-                  <span className="text-2xl md:text-3xl font-mono font-black text-red-700 dark:text-red-300">{totalMissedPens}</span>
+                  <span className="text-xl md:text-2xl font-mono font-black text-red-700 dark:text-red-300">{totalMissedPens}</span>
                   <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{language === 'en' ? 'missed' : language === 'ca' ? 'fallats' : 'fallados'}</span>
                 </div>
               );
@@ -366,7 +366,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
           Rendimiento Individual
         </h4>
 
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
           {sortedPlayers.map((p) => {
             const pTurnovers = p.turnoverBadPass + p.turnoverSteps + p.turnoverFumbling;
             const pSaves = Math.max(p.saves || 0, historyEvents.filter((ev) => ev.type === 'save' && ev.description.includes('PARADA') && ev.description.includes(p.name)).length);
@@ -381,7 +381,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
             const isExpanded = expandedPlayerId === p.id;
 
             return (
-              <div key={p.id} className={`border-2 rounded-2xl overflow-hidden ${
+              <div key={p.id} className={`border-2 rounded-2xl overflow-hidden ${isExpanded ? 'md:col-span-2' : ''} ${
                 p.position === 'Portero' ? 'border-amber-300 dark:border-amber-700 bg-amber-50/40 dark:bg-amber-950/20'
                 : p.position === 'Especialista' ? 'border-purple-300 dark:border-purple-700 bg-purple-50/40 dark:bg-purple-950/20'
                 : p.position === 'Polivalente' ? 'border-teal-300 dark:border-teal-700 bg-teal-50/40 dark:bg-teal-950/20'
@@ -435,7 +435,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                         return attempts1p > 0 ? (
                           <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
                             <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">+1</span>
-                            <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{eff1p.toFixed(0)}%</span>
+                            <span className="block text-xl md:text-2xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{eff1p.toFixed(0)}%</span>
                             <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{p.goals1p}/{attempts1p}</span>
                           </div>
                         ) : null;
@@ -447,7 +447,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                         return flyAttempts > 0 ? (
                           <div className="text-center bg-orange-50 dark:bg-orange-950/30 rounded-xl p-3 border border-orange-200 dark:border-orange-800/50">
                             <span className="block text-xs font-black uppercase text-orange-700 dark:text-orange-400">Fly</span>
-                            <span className="block text-2xl md:text-3xl font-mono font-black text-orange-700 dark:text-orange-300 mt-1">{flyEff.toFixed(0)}%</span>
+                            <span className="block text-xl md:text-2xl font-mono font-black text-orange-700 dark:text-orange-300 mt-1">{flyEff.toFixed(0)}%</span>
                             <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{flyGoals}/{flyAttempts}</span>
                           </div>
                         ) : null;
@@ -459,7 +459,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                         return giroAttempts > 0 ? (
                           <div className="text-center bg-purple-50 dark:bg-purple-950/30 rounded-xl p-3 border border-purple-200 dark:border-purple-800/50">
                             <span className="block text-xs font-black uppercase text-purple-700 dark:text-purple-400">{language === 'en' ? 'Spin' : 'Giro'}</span>
-                            <span className="block text-2xl md:text-3xl font-mono font-black text-purple-700 dark:text-purple-300 mt-1">{giroEff.toFixed(0)}%</span>
+                            <span className="block text-xl md:text-2xl font-mono font-black text-purple-700 dark:text-purple-300 mt-1">{giroEff.toFixed(0)}%</span>
                             <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{giroGoals}/{giroAttempts}</span>
                           </div>
                         ) : null;
@@ -471,7 +471,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                         return penAttempts > 0 ? (
                           <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-3 border border-red-200 dark:border-red-800/50">
                             <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">{language === 'en' ? 'Penalty' : 'Penalti'}</span>
-                            <span className="block text-2xl md:text-3xl font-mono font-black text-red-700 dark:text-red-300 mt-1">{penEff.toFixed(0)}%</span>
+                            <span className="block text-xl md:text-2xl font-mono font-black text-red-700 dark:text-red-300 mt-1">{penEff.toFixed(0)}%</span>
                             <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{penGoals}/{penAttempts}</span>
                           </div>
                         ) : null;
@@ -480,7 +480,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                       {p.position === 'Portero' && (
                         <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
                           <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">{t.saves}</span>
-                          <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSaves}</span>
+                          <span className="block text-xl md:text-2xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSaves}</span>
                         </div>
                       )}
                       {/* GK: Conceded */}
@@ -494,7 +494,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                       {p.position === 'Portero' && pGKTotal > 0 && (
                         <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
                           <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">{t.savePercent}</span>
-                          <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSavePercentage.toFixed(0)}%</span>
+                          <span className="block text-xl md:text-2xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSavePercentage.toFixed(0)}%</span>
                           <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{pSaves}/{pGKTotal}</span>
                         </div>
                       )}
@@ -532,4 +532,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
     </div>
   );
 }
+
+
+
 
