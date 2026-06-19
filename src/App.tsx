@@ -132,11 +132,11 @@ export default function App() {
     if (sunMode) {
       document.documentElement.classList.remove('dark');
       document.body.classList.remove('dark');
-      document.body.style.backgroundColor = '#faf6eb'; // warm sand light background
+      document.body.style.backgroundColor = '#ffffff';
     } else {
       document.documentElement.classList.add('dark');
       document.body.classList.add('dark');
-      document.body.style.backgroundColor = '#0f172a'; // charcoal-950/slate-950 dark background
+      document.body.style.backgroundColor = '#020617';
     }
   }, [sunMode]);
 
@@ -503,7 +503,7 @@ export default function App() {
       </nav>
 
       {/* CORE VIEWPORT */}
-      <main className="max-w-7xl mx-auto py-4 md:py-6 mb-16 px-3 md:px-6 overflow-hidden">
+      <main className="max-w-7xl mx-auto py-4 md:py-6 px-3 md:px-6 overflow-hidden">
         {activeTab === 'pista' && (
           <GameBoard
             matchState={matchState}
@@ -589,7 +589,7 @@ export default function App() {
 
       {/* PWA INSTALL BANNER - shown when not in standalone mode */}
       {!window.matchMedia('(display-mode: standalone)').matches && !showInstallButton && (
-        <div className={`fixed bottom-10 left-3 right-3 md:left-auto md:right-4 md:max-w-sm z-50 p-4 md:p-5 rounded-2xl border-2 shadow-2xl transition-all ${sunMode
+        <div className={`fixed bottom-4 left-3 right-3 md:left-auto md:right-4 md:max-w-sm z-50 p-4 md:p-5 rounded-2xl border-2 shadow-2xl transition-all ${sunMode
           ? 'bg-white border-emerald-200 text-slate-800'
           : 'bg-charcoal-900 border-emerald-700 text-slate-100'
           }`}
@@ -621,7 +621,7 @@ export default function App() {
       )}
 
       {/* FOOTER ACCREDITATION AND LEGALITY */}
-      <footer className={`fixed bottom-0 left-0 right-0 py-2.5 px-4 text-center select-none transition-colors ${sunMode ? 'bg-background text-charcoal-500' : 'bg-background text-charcoal-500'
+      <footer className={`py-4 px-4 text-center select-none transition-colors ${sunMode ? 'text-charcoal-500' : 'text-charcoal-500'
         }`}>
         <p className="text-[10px] font-bold uppercase tracking-widest">
           © 2026 IAtpro74
