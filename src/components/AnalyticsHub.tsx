@@ -320,171 +320,125 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
 
       </div>
 
+
       {/* RENDIMIENTO INDIVIDUAL - FICHAS EXPANDIBLES */}
-      <div className="bg-background border-2 border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-4 md:p-6">
-        <h4 className="text-lg md:text-xl font-black text-gray-900 dark:text-zinc-100 uppercase mb-5 md:mb-6 flex items-center gap-2">
+      <div className="bg-background border-2 border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-4 md:p-6 overflow-hidden">
+        <h4 className="text-lg md:text-xl font-black text-gray-900 dark:text-zinc-100 uppercase mb-5 flex items-center gap-2">
           <Users className="w-6 h-6 md:w-7 md:h-7 text-amber-500" />
           Rendimiento Individual
         </h4>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="space-y-3">
           {sortedPlayers.map((p) => {
-                const pTurnovers = p.turnoverBadPass + p.turnoverSteps + p.turnoverFumbling;
-                const pSaves = Math.max(p.saves || 0, historyEvents.filter((ev) => 
-                  ev.type === 'save' && 
-                  ev.description.includes('PARADA') && 
-                  ev.description.includes(p.name)
-                ).length);
-                const pTotalGoals = p.goals1p + p.goals2p;
-                const pTotalPoints = p.goals1p + (p.goals2p * 2);
-                const pTotalShots = pTotalGoals + p.missedShots;
-                const pEffectiveness = pTotalShots > 0 ? (pTotalGoals / pTotalShots) * 100 : 0;
-                const isGKType = p.position === 'Portero' || p.position === 'Especialista' || p.position === 'Polivalente';
-                const pGoalsConceded = p.goalsConceded || 0;
-                const pGKTotal = pSaves + pGoalsConceded;
-                const pSavePercentage = pGKTotal > 0 ? (pSaves / pGKTotal) * 100 : 0;
-                const isExpanded = expandedPlayerId === p.id;
-                
-                return (
-                  <div
-                    key={p.id}
-                    onClick={() => setExpandedPlayerId(isExpanded ? null : p.id)}
-                    className={`border-2 rounded-2xl p-3 md:p-4 cursor-pointer transition-all active:scale-[0.97] ${
-                      isExpanded ? 'col-span-2 md:col-span-3 lg:col-span-4' : ''
-                    } ${
-                      p.position === 'Portero'
-                        ? 'border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/20'
-                        : p.position === 'Especialista'
-                        ? 'border-purple-300 dark:border-purple-700 bg-purple-50/50 dark:bg-purple-950/20'
-                        : p.position === 'Polivalente'
-                        ? 'border-teal-300 dark:border-teal-700 bg-teal-50/50 dark:bg-teal-950/20'
-                        : 'border-gray-200 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50'
-                    }`}
-                  >
-                    {/* FICHA COMPACTA */}
-                    <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center font-black text-lg md:text-xl text-white shadow-sm flex-shrink-0 ${
-                        p.position === 'Portero' ? 'bg-amber-500' 
-                        : p.position === 'Especialista' ? 'bg-purple-500' 
-                        : p.position === 'Polivalente' ? 'bg-teal-500' 
-                        : 'bg-blue-600'
-                      }`}>
-                        {p.number}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h5 className="text-base md:text-lg font-black text-gray-900 dark:text-white uppercase truncate">
-                          {p.name}
-                        </h5>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className={`text-xs md:text-sm font-bold uppercase ${
-                            p.position === 'Portero' ? 'text-amber-600 dark:text-amber-400' 
-                            : p.position === 'Especialista' ? 'text-purple-600 dark:text-purple-400'
-                            : p.position === 'Polivalente' ? 'text-teal-600 dark:text-teal-400'
-                            : 'text-blue-600 dark:text-blue-400'
-                          }`}>
-                            {p.position}
-                          </span>
-                          {p.exclusions > 0 && (
-                            <span className={`text-[10px] px-1.5 py-0.5 rounded font-black ${
-                              p.exclusions >= 2 ? 'bg-red-600 text-white' : 'bg-orange-500 text-white'
-                            }`}>
-                              {p.exclusions >= 2 ? '🟥' : `${p.exclusions}E`}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      {/* Quick stat - big number */}
-                      <div className="text-right flex-shrink-0">
-                        <span className="block text-2xl md:text-3xl font-mono font-black text-gray-900 dark:text-white">
-                          {isGKType ? pSaves : pTotalPoints}
-                        </span>
-                        <span className="block text-[10px] md:text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase">
-                          {isGKType ? 'Par.' : 'Pts'}
-                        </span>
-                      </div>
-                      <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`} />
-                    </div>
+            const pTurnovers = p.turnoverBadPass + p.turnoverSteps + p.turnoverFumbling;
+            const pSaves = Math.max(p.saves || 0, historyEvents.filter((ev) => ev.type === 'save' && ev.description.includes('PARADA') && ev.description.includes(p.name)).length);
+            const pTotalGoals = p.goals1p + p.goals2p;
+            const pTotalPoints = p.goals1p + (p.goals2p * 2);
+            const pTotalShots = pTotalGoals + p.missedShots;
+            const pEffectiveness = pTotalShots > 0 ? (pTotalGoals / pTotalShots) * 100 : 0;
+            const isGKType = p.position === 'Portero' || p.position === 'Especialista' || p.position === 'Polivalente';
+            const pGoalsConceded = p.goalsConceded || 0;
+            const pGKTotal = pSaves + pGoalsConceded;
+            const pSavePercentage = pGKTotal > 0 ? (pSaves / pGKTotal) * 100 : 0;
+            const isExpanded = expandedPlayerId === p.id;
 
-                    {/* DETALLE EXPANDIDO */}
-                    {isExpanded && (
-                      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-zinc-700" onClick={(e) => e.stopPropagation()}>
-                        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 md:gap-3">
-                          {/* Goals 1pt */}
-                          <div className="text-center bg-green-50 dark:bg-green-950/30 rounded-xl p-2.5 border border-green-200 dark:border-green-800/50">
-                            <span className="block text-[10px] md:text-xs font-black uppercase text-green-700 dark:text-green-400">Gol 1pt</span>
-                            <span className="block text-xl md:text-2xl font-mono font-black text-green-700 dark:text-green-300">{p.goals1p}</span>
-                          </div>
-                          {/* Goals 2pt */}
-                          <div className="text-center bg-emerald-50 dark:bg-emerald-950/30 rounded-xl p-2.5 border border-emerald-200 dark:border-emerald-800/50">
-                            <span className="block text-[10px] md:text-xs font-black uppercase text-emerald-700 dark:text-emerald-400">Gol 2pt</span>
-                            <span className="block text-xl md:text-2xl font-mono font-black text-emerald-700 dark:text-emerald-300">{p.goals2p}</span>
-                          </div>
-                          {/* Effectiveness */}
-                          {pTotalShots > 0 && (
-                            <div className={`text-center rounded-xl p-2.5 border ${
-                              pEffectiveness >= 60 ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800/50' 
-                              : pEffectiveness >= 40 ? 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800/50' 
-                              : 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800/50'
-                            }`}>
-                              <span className="block text-[10px] md:text-xs font-black uppercase text-gray-700 dark:text-zinc-400">Efect.</span>
-                              <span className={`block text-xl md:text-2xl font-mono font-black ${
-                                pEffectiveness >= 60 ? 'text-green-700 dark:text-green-300' 
-                                : pEffectiveness >= 40 ? 'text-amber-700 dark:text-amber-300' 
-                                : 'text-red-600 dark:text-red-300'
-                              }`}>{pEffectiveness.toFixed(0)}%</span>
-                            </div>
-                          )}
-                          {/* Saves (GK) */}
-                          {isGKType && (
-                            <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-2.5 border border-blue-200 dark:border-blue-800/50">
-                              <span className="block text-[10px] md:text-xs font-black uppercase text-blue-700 dark:text-blue-400">Paradas</span>
-                              <span className="block text-xl md:text-2xl font-mono font-black text-blue-700 dark:text-blue-300">{pSaves}</span>
-                            </div>
-                          )}
-                          {/* Goals Conceded (GK) */}
-                          {isGKType && (
-                            <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-2.5 border border-red-200 dark:border-red-800/50">
-                              <span className="block text-[10px] md:text-xs font-black uppercase text-red-700 dark:text-red-400">Encajados</span>
-                              <span className="block text-xl md:text-2xl font-mono font-black text-red-600 dark:text-red-300">{pGoalsConceded}</span>
-                            </div>
-                          )}
-                          {/* Save % (GK) */}
-                          {isGKType && pGKTotal > 0 && (
-                            <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-2.5 border border-blue-200 dark:border-blue-800/50">
-                              <span className="block text-[10px] md:text-xs font-black uppercase text-blue-700 dark:text-blue-400">% Par.</span>
-                              <span className="block text-xl md:text-2xl font-mono font-black text-blue-700 dark:text-blue-300">{pSavePercentage.toFixed(0)}%</span>
-                            </div>
-                          )}
-                          {/* Misses */}
-                          <div className="text-center bg-orange-50 dark:bg-orange-950/30 rounded-xl p-2.5 border border-orange-200 dark:border-orange-800/50">
-                            <span className="block text-[10px] md:text-xs font-black uppercase text-orange-700 dark:text-orange-400">Fallos</span>
-                            <span className="block text-xl md:text-2xl font-mono font-black text-orange-600 dark:text-orange-300">{p.missedShots}</span>
-                          </div>
-                          {/* Missed Flies */}
-                          {!isGKType && (
-                            <div className="text-center bg-amber-50 dark:bg-amber-950/30 rounded-xl p-2.5 border border-amber-200 dark:border-amber-800/50">
-                              <span className="block text-[10px] md:text-xs font-black uppercase text-amber-700 dark:text-amber-400">Err Fly</span>
-                              <span className="block text-xl md:text-2xl font-mono font-black text-amber-600 dark:text-amber-300">{p.missedFlies}</span>
-                            </div>
-                          )}
-                          {/* Turnovers */}
-                          <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-2.5 border border-red-200 dark:border-red-800/50">
-                            <span className="block text-[10px] md:text-xs font-black uppercase text-red-700 dark:text-red-400">Pérdidas</span>
-                            <span className="block text-xl md:text-2xl font-mono font-black text-red-600 dark:text-red-300">{pTurnovers}</span>
-                          </div>
-                          {/* Recoveries */}
-                          {(p.recoveries || 0) > 0 && (
-                            <div className="text-center bg-indigo-50 dark:bg-indigo-950/30 rounded-xl p-2.5 border border-indigo-200 dark:border-indigo-800/50">
-                              <span className="block text-[10px] md:text-xs font-black uppercase text-indigo-700 dark:text-indigo-400">Recup.</span>
-                              <span className="block text-xl md:text-2xl font-mono font-black text-indigo-600 dark:text-indigo-300">{p.recoveries}</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
+            return (
+              <div key={p.id} className={`border-2 rounded-2xl overflow-hidden ${
+                p.position === 'Portero' ? 'border-amber-300 dark:border-amber-700 bg-amber-50/40 dark:bg-amber-950/20'
+                : p.position === 'Especialista' ? 'border-purple-300 dark:border-purple-700 bg-purple-50/40 dark:bg-purple-950/20'
+                : p.position === 'Polivalente' ? 'border-teal-300 dark:border-teal-700 bg-teal-50/40 dark:bg-teal-950/20'
+                : 'border-gray-200 dark:border-zinc-700 bg-white/40 dark:bg-zinc-900/40'
+              }`}>
+                {/* CLICKABLE HEADER */}
+                <div onClick={() => setExpandedPlayerId(isExpanded ? null : p.id)} className="flex items-center p-4 md:p-5 cursor-pointer active:bg-black/5 dark:active:bg-white/5">
+                  {/* Dorsal */}
+                  <div className={`w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center font-black text-xl md:text-2xl text-white flex-shrink-0 ${
+                    p.position === 'Portero' ? 'bg-amber-500' : p.position === 'Especialista' ? 'bg-purple-500' : p.position === 'Polivalente' ? 'bg-teal-500' : 'bg-blue-600'
+                  }`}>
+                    {p.number}
                   </div>
-                );
-              })}
+                  {/* Name + Position */}
+                  <div className="ml-4 flex-1 min-w-0">
+                    <h5 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white uppercase truncate leading-tight">{p.name}</h5>
+                    <span className={`text-sm md:text-base font-bold uppercase block mt-0.5 ${
+                      p.position === 'Portero' ? 'text-amber-600 dark:text-amber-400' : p.position === 'Especialista' ? 'text-purple-600 dark:text-purple-400' : p.position === 'Polivalente' ? 'text-teal-600 dark:text-teal-400' : 'text-blue-600 dark:text-blue-400'
+                    }`}>{p.position}</span>
+                  </div>
+                  {/* Quick stat */}
+                  <div className="text-center flex-shrink-0 ml-3">
+                    <span className="block text-3xl md:text-4xl font-mono font-black text-gray-900 dark:text-white leading-none">{isGKType ? pSaves : pTotalPoints}</span>
+                    <span className="block text-[10px] md:text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase mt-0.5">{isGKType ? 'Paradas' : 'Puntos'}</span>
+                  </div>
+                  {p.exclusions > 0 && (
+                    <span className={`ml-2 px-2 py-1 rounded-lg text-xs font-black flex-shrink-0 ${p.exclusions >= 2 ? 'bg-red-600 text-white' : 'bg-orange-500 text-white'}`}>
+                      {p.exclusions >= 2 ? '🟥' : `${p.exclusions}E`}
+                    </span>
+                  )}
+                  <ChevronDown className={`w-6 h-6 ml-2 text-gray-400 transition-transform flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`} />
+                </div>
+
+                {/* EXPANDED DETAIL */}
+                {isExpanded && (
+                  <div className="px-4 pb-5 md:px-5 md:pb-6 border-t border-gray-200 dark:border-zinc-700 pt-4">
+                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 md:gap-3">
+                      <div className="text-center bg-green-50 dark:bg-green-950/30 rounded-xl p-3 border border-green-200 dark:border-green-800/50">
+                        <span className="block text-xs font-black uppercase text-green-700 dark:text-green-400">Gol 1pt</span>
+                        <span className="block text-2xl md:text-3xl font-mono font-black text-green-700 dark:text-green-300 mt-1">{p.goals1p}</span>
+                      </div>
+                      <div className="text-center bg-emerald-50 dark:bg-emerald-950/30 rounded-xl p-3 border border-emerald-200 dark:border-emerald-800/50">
+                        <span className="block text-xs font-black uppercase text-emerald-700 dark:text-emerald-400">Gol 2pt</span>
+                        <span className="block text-2xl md:text-3xl font-mono font-black text-emerald-700 dark:text-emerald-300 mt-1">{p.goals2p}</span>
+                      </div>
+                      {pTotalShots > 0 && (
+                        <div className={`text-center rounded-xl p-3 border ${pEffectiveness >= 60 ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800/50' : pEffectiveness >= 40 ? 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800/50' : 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800/50'}`}>
+                          <span className="block text-xs font-black uppercase text-gray-700 dark:text-zinc-400">Efect.</span>
+                          <span className={`block text-2xl md:text-3xl font-mono font-black mt-1 ${pEffectiveness >= 60 ? 'text-green-700 dark:text-green-300' : pEffectiveness >= 40 ? 'text-amber-700 dark:text-amber-300' : 'text-red-600 dark:text-red-300'}`}>{pEffectiveness.toFixed(0)}%</span>
+                        </div>
+                      )}
+                      {isGKType && (
+                        <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
+                          <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">Paradas</span>
+                          <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSaves}</span>
+                        </div>
+                      )}
+                      {isGKType && (
+                        <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-3 border border-red-200 dark:border-red-800/50">
+                          <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">Encajados</span>
+                          <span className="block text-2xl md:text-3xl font-mono font-black text-red-600 dark:text-red-300 mt-1">{pGoalsConceded}</span>
+                        </div>
+                      )}
+                      {isGKType && pGKTotal > 0 && (
+                        <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
+                          <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">% Par.</span>
+                          <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSavePercentage.toFixed(0)}%</span>
+                        </div>
+                      )}
+                      <div className="text-center bg-orange-50 dark:bg-orange-950/30 rounded-xl p-3 border border-orange-200 dark:border-orange-800/50">
+                        <span className="block text-xs font-black uppercase text-orange-700 dark:text-orange-400">Fallos</span>
+                        <span className="block text-2xl md:text-3xl font-mono font-black text-orange-600 dark:text-orange-300 mt-1">{p.missedShots}</span>
+                      </div>
+                      {!isGKType && (
+                        <div className="text-center bg-amber-50 dark:bg-amber-950/30 rounded-xl p-3 border border-amber-200 dark:border-amber-800/50">
+                          <span className="block text-xs font-black uppercase text-amber-700 dark:text-amber-400">Err Fly</span>
+                          <span className="block text-2xl md:text-3xl font-mono font-black text-amber-600 dark:text-amber-300 mt-1">{p.missedFlies}</span>
+                        </div>
+                      )}
+                      <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-3 border border-red-200 dark:border-red-800/50">
+                        <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">Pérdidas</span>
+                        <span className="block text-2xl md:text-3xl font-mono font-black text-red-600 dark:text-red-300 mt-1">{pTurnovers}</span>
+                      </div>
+                      {(p.recoveries || 0) > 0 && (
+                        <div className="text-center bg-indigo-50 dark:bg-indigo-950/30 rounded-xl p-3 border border-indigo-200 dark:border-indigo-800/50">
+                          <span className="block text-xs font-black uppercase text-indigo-700 dark:text-indigo-400">Recup.</span>
+                          <span className="block text-2xl md:text-3xl font-mono font-black text-indigo-600 dark:text-indigo-300 mt-1">{p.recoveries}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
