@@ -359,7 +359,7 @@ export default function ShootoutBoard({
                     key={`so-p-${p.id}`}
                     onClick={() => setSelectedPlayerId(p.id)}
                     disabled={p.isDisqualified}
-                    className={`border-2 p-3 md:p-4 rounded-xl text-sm md:text-base font-black text-left transition flex justify-between items-center ${
+                    className={`border-2 p-3 md:p-4 rounded-xl text-xs md:text-sm font-black text-left transition overflow-hidden ${
                       p.isDisqualified
                         ? 'border-gray-205 bg-gray-100 opacity-40 cursor-not-allowed text-zinc-400'
                         : selectedPlayerId === p.id
@@ -369,9 +369,9 @@ export default function ShootoutBoard({
                         : 'border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-950 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-700'
                     }`}
                   >
-                    <span className="truncate pr-1">
+                    <span className="truncate block">
                       #{p.number} {p.name}
-                      {hasShot && <span className="text-[10px] md:text-xs font-bold text-gray-400 dark:text-zinc-500 ml-1.5">{t.alreadyShot}</span>}
+                      {hasShot && <span className="text-[10px] font-bold text-gray-400 dark:text-zinc-500 ml-1">{t.alreadyShot}</span>}
                     </span>
                   </button>
                 );
@@ -392,13 +392,13 @@ export default function ShootoutBoard({
                 <button
                   key={`so-gk-${p.id}`}
                   onClick={() => setSelectedGkId(p.id)}
-                  className={`border-2 p-3 md:p-4 rounded-xl text-sm md:text-base font-black text-left transition ${
+                  className={`border-2 p-3 md:p-4 rounded-xl text-xs md:text-sm font-black text-left transition overflow-hidden ${
                     selectedGkId === p.id
                       ? 'border-blue-500 bg-blue-50/30 dark:bg-zinc-800 text-blue-950 dark:text-blue-400 font-extrabold shadow-sm'
                       : 'border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-950 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-700'
                   }`}
                 >
-                  <span className="truncate">#{p.number} {p.name}</span>
+                  <span className="truncate block">#{p.number} {p.name}</span>
                 </button>
               ))}
             </div>
