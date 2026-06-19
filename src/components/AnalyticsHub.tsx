@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Player, MatchState, EventLog } from '../types';
 import { Target, Shield, AlertTriangle, Play, Flame, BarChart3, Users, Award, ChevronDown } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface AnalyticsHubProps {
   matchState: MatchState;
 }
 
 export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
+  const { t } = useI18n();
   const { players, opponentName, historyEvents = [], set1, set2 } = matchState;
 
   // Global calculation of goals, misses, turnovers
@@ -84,21 +86,21 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
         <div className="flex items-center gap-3">
           <Award className="w-8 h-8 md:w-12 md:h-12 text-amber-500 flex-shrink-0" />
           <div className="min-w-0">
-            <h2 className="text-lg md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-gray-100 truncate">Estadísticas del Entrenador</h2>
-            <p className="text-[10px] md:text-sm font-bold text-gray-500 dark:text-zinc-400 uppercase truncate">Métricas en tiempo real</p>
+            <h2 className="text-lg md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-gray-100 truncate">{t.coachStats}</h2>
+            <p className="text-[10px] md:text-sm font-bold text-gray-500 dark:text-zinc-400 uppercase truncate">{t.realTimeMetrics}</p>
           </div>
         </div>
         <div className="grid grid-cols-3 gap-2 md:gap-4 bg-gray-100 dark:bg-zinc-800/50 py-3 px-3 md:px-6 rounded-xl border border-gray-200 dark:border-zinc-700">
           <div className="text-center min-w-0">
-            <span className="block text-[9px] md:text-xs uppercase font-black text-gray-500 dark:text-zinc-400 truncate">Puntos</span>
+            <span className="block text-[9px] md:text-xs uppercase font-black text-gray-500 dark:text-zinc-400 truncate">{t.points}</span>
             <span className="text-2xl md:text-4xl font-mono font-black text-gray-900 dark:text-gray-100">{totalPointsScored}</span>
           </div>
           <div className="text-center border-l border-gray-200 dark:border-zinc-700 pl-2 md:pl-4 min-w-0">
-            <span className="block text-[9px] md:text-xs uppercase font-black text-gray-500 dark:text-zinc-400 truncate">Efect.</span>
+            <span className="block text-[9px] md:text-xs uppercase font-black text-gray-500 dark:text-zinc-400 truncate">{t.effectiveness}</span>
             <span className="text-2xl md:text-4xl font-mono font-black text-gray-900 dark:text-gray-100">{shootingSuccessAcc.toFixed(0)}%</span>
           </div>
           <div className="text-center border-l border-gray-200 dark:border-zinc-700 pl-2 md:pl-4 min-w-0">
-            <span className="block text-[9px] md:text-xs uppercase font-black text-gray-500 dark:text-zinc-400 truncate">Pérdidas</span>
+            <span className="block text-[9px] md:text-xs uppercase font-black text-gray-500 dark:text-zinc-400 truncate">{t.turnovers}</span>
             <span className="text-2xl md:text-4xl font-mono font-black text-gray-900 dark:text-gray-100">{totalTurnovers}</span>
           </div>
         </div>

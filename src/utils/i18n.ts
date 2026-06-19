@@ -1,466 +1,7 @@
 export type Language = 'es' | 'ca' | 'en';
 
 export interface Translations {
-  // App header
-  appName: string;
-  // Nav tabs
-  tabMatch: string;
-  tabShootout: string;
-  tabAnalysis: string;
-  tabTeam: string;
-  tabArchive: string;
-  // Header controls
-  nightMode: string;
-  sunMode: string;
-  reset: string;
-  install: string;
-  logout: string;
-  // Match summary
-  set1: string;
-  set2: string;
-  inProgress: string;
-  finished: string;
-  pending: string;
-  shootout: string;
-  // GameBoard
-  convocados: string;
-  selectPlayer: string;
-  undo: string;
-  excluded: string;
-  sanctions: string;
-  noneFullStrength: string;
-  rivalExclusion: string;
-  sanctioned: string;
-  redCard: string;
-  exclusion: string;
-  // Player actions modal
-  scoreGoal: string;
-  goalkeepingActions: string;
-  save: string;
-  rivalMiss: string;
-  goalsConceded: string;
-  goalConceded: string;
-  defense: string;
-  recover: string;
-  misses: string;
-  error: string;
-  errFly: string;
-  turnover: string;
-  badPass: string;
-  steps: string;
-  fumble: string;
-  discipline: string;
-  exclusionBtn: string;
-  directRedCard: string;
-  // Shootout
-  shootoutTitle: string;
-  suddenDeath: string;
-  clearRound: string;
-  confirm: string;
-  cancel: string;
-  selectShooter: string;
-  chooseShooter: string;
-  alreadyShot: string;
-  // Analytics
-  coachStats: string;
-  realTimeMetrics: string;
-  points: string;
-  effectiveness: string;
-  turnovers: string;
-  shotEffectiveness: string;
-  flyEffectiveness: string;
-  goalkeeperEffectiveness: string;
-  accurate: string;
-  turnoversBreakdown: string;
-  badPasses: string;
-  walking: string;
-  fumblingBall: string;
-  tacticalRisk: string;
-  flyAccuracy: string;
-  pointsRatio: string;
-  pointsViaDoubles: string;
-  individualPerformance: string;
-  goals1pt: string;
-  goals2pt: string;
-  saves: string;
-  conceded: string;
-  savePercent: string;
-  missesLabel: string;
-  recoveries: string;
-  losses: string;
-  // Team setup
-  playerRoster: string;
-  maxPlayers: string;
-  addPlayer: string;
-  player: string;
-  position: string;
-  actions: string;
-  // Archive
-  saveCurrentMatch: string;
-  saveToCloud: string;
-  matchNameOptional: string;
-  saving: string;
-  savedMatches: string;
-  matchesInCloud: string;
-  load: string;
-  delete: string;
-  noSavedMatches: string;
-  saveFirstMatch: string;
-  // Reset modal
-  resetMatch: string;
-  resetConfirmText: string;
-  preserved: string;
-  yesReset: string;
-  // Positions
-  posGoalkeeper: string;
-  posSpecialist: string;
-  posVersatile: string;
-  posLeftWing: string;
-  posRightWing: string;
-  posWing: string;
-  posPivot: string;
-  posDefender: string;
-  // Footer
-  copyright: string;
-}
-
-const es: Translations = {
-  appName: 'BeachHandball Stats',
-  tabMatch: 'Partido',
-  tabShootout: 'Shootout',
-  tabAnalysis: 'Análisis',
-  tabTeam: 'Equipo',
-  tabArchive: 'Archivo',
-  nightMode: 'Noche',
-  sunMode: 'Sol',
-  reset: 'Reset',
-  install: 'Instalar',
-  logout: 'Salir',
-  set1: 'SET 1',
-  set2: 'SET 2',
-  inProgress: 'En Curso',
-  finished: 'Finalizado',
-  pending: 'Pendiente',
-  shootout: 'SHOOTOUT',
-  convocados: 'CONVOCADOS',
-  selectPlayer: 'Selecciona un jugador para registrar acciones',
-  undo: 'Deshacer',
-  excluded: 'Jugadores Excluidos / Sanciones',
-  sanctions: 'Sanciones',
-  noneFullStrength: 'Ninguno (Fuerza completa en pista)',
-  rivalExclusion: '+ Exclusión Rival',
-  sanctioned: 'Sancionando',
-  redCard: 'Tarjeta Roja',
-  exclusion: 'Exclusión',
-  scoreGoal: 'Anotar Gol',
-  goalkeepingActions: 'Acciones de Portería',
-  save: 'Parada',
-  rivalMiss: 'Fallo Rival',
-  goalsConceded: 'Goles Recibidos (Rival)',
-  goalConceded: 'Gol Recibido',
-  defense: 'Defensa',
-  recover: 'Recuperar',
-  misses: 'Fallos',
-  error: 'Error',
-  errFly: 'Err Fly',
-  turnover: 'Pérdida de Balón',
-  badPass: 'Mal Pase',
-  steps: 'Pasos',
-  fumble: 'Fumble',
-  discipline: 'Disciplina y Sanciones',
-  exclusionBtn: 'Exclusión',
-  directRedCard: 'Tarjeta Roja',
-  shootoutTitle: 'Desempate Shootout (Uno contra el Portero)',
-  suddenDeath: '+ Muerte Súbita',
-  clearRound: 'Limpiar Tanda',
-  confirm: 'Confirmar',
-  cancel: 'Cancelar',
-  selectShooter: 'Seleccionar Lanzador',
-  chooseShooter: 'Elige qué jugador va a lanzar a continuación:',
-  alreadyShot: 'Lanzó',
-  coachStats: 'Estadísticas del Entrenador',
-  realTimeMetrics: 'Métricas en tiempo real',
-  points: 'Puntos',
-  effectiveness: 'Efect.',
-  turnovers: 'Pérdidas',
-  shotEffectiveness: 'Efectividad de Tiro',
-  flyEffectiveness: 'Efectividad de Fly',
-  goalkeeperEffectiveness: 'Efectividad Portería',
-  accurate: 'Acertados',
-  turnoversBreakdown: 'Desglose de Pérdidas de Balón',
-  badPasses: 'Pases Fallados',
-  walking: 'Pasos (Walking)',
-  fumblingBall: 'Fumbling / Pérdida del bote',
-  tacticalRisk: 'Efectividad Táctica de Riesgo',
-  flyAccuracy: 'Acierto del Fly',
-  pointsRatio: 'Ratio de Puntos',
-  pointsViaDoubles: 'Puntos vía Dobles',
-  individualPerformance: 'Rendimiento Individual',
-  goals1pt: 'Gol 1pt',
-  goals2pt: 'Gol 2pt',
-  saves: 'Paradas',
-  conceded: 'Encajados',
-  savePercent: '% Par.',
-  missesLabel: 'Fallos',
-  recoveries: 'Recup.',
-  losses: 'Pérdidas',
-  playerRoster: 'Acta de Jugadores',
-  maxPlayers: 'Plantilla ampliada: Máx. 16 jugadores en acta.',
-  addPlayer: 'Sumar Jugador',
-  player: 'Jugador',
-  position: 'Posición Táctica',
-  actions: 'Acciones',
-  saveCurrentMatch: 'Guardar Partido Actual',
-  saveToCloud: 'Guarda el estado actual del partido en la nube',
-  matchNameOptional: 'Nombre del partido (opcional)',
-  saving: 'Guardando...',
-  savedMatches: 'Partidos Guardados',
-  matchesInCloud: 'partidos en la nube',
-  load: 'Cargar',
-  delete: 'Eliminar',
-  noSavedMatches: 'No hay partidos guardados',
-  saveFirstMatch: 'Guarda tu primer partido usando el botón de arriba',
-  resetMatch: '¿Restablecer Partido?',
-  resetConfirmText: '¿Estás seguro de que quieres limpiar todos los goles, exclusiones, pérdidas de balón y puntuaciones del partido actual?',
-  preserved: 'Se conservará: El nombre de tu oponente y las configuraciones de tu plantilla.',
-  yesReset: 'Sí, restablecer',
-  posGoalkeeper: 'Portero',
-  posSpecialist: 'Especialista',
-  posVersatile: 'Polivalente',
-  posLeftWing: 'Ala Izq.',
-  posRightWing: 'Ala Der.',
-  posWing: 'Ala',
-  posPivot: 'Pivote',
-  posDefender: 'Defensor',
-  copyright: '© 2026 IAtpro74',
-};
-
-const ca: Translations = {
-  appName: 'BeachHandball Stats',
-  tabMatch: 'Partit',
-  tabShootout: 'Shootout',
-  tabAnalysis: 'Anàlisi',
-  tabTeam: 'Equip',
-  tabArchive: 'Arxiu',
-  nightMode: 'Nit',
-  sunMode: 'Sol',
-  reset: 'Reset',
-  install: 'Instal·lar',
-  logout: 'Sortir',
-  set1: 'SET 1',
-  set2: 'SET 2',
-  inProgress: 'En Curs',
-  finished: 'Finalitzat',
-  pending: 'Pendent',
-  shootout: 'SHOOTOUT',
-  convocados: 'CONVOCATS',
-  selectPlayer: 'Selecciona un jugador per registrar accions',
-  undo: 'Desfer',
-  excluded: 'Jugadors Exclosos / Sancions',
-  sanctions: 'Sancions',
-  noneFullStrength: 'Cap (Força completa a pista)',
-  rivalExclusion: '+ Exclusió Rival',
-  sanctioned: 'Sancionant',
-  redCard: 'Targeta Vermella',
-  exclusion: 'Exclusió',
-  scoreGoal: 'Anotar Gol',
-  goalkeepingActions: 'Accions de Porteria',
-  save: 'Aturada',
-  rivalMiss: 'Error Rival',
-  goalsConceded: 'Gols Rebuts (Rival)',
-  goalConceded: 'Gol Rebut',
-  defense: 'Defensa',
-  recover: 'Recuperar',
-  misses: 'Errors',
-  error: 'Error',
-  errFly: 'Err Fly',
-  turnover: 'Pèrdua de Pilota',
-  badPass: 'Mala Passada',
-  steps: 'Passos',
-  fumble: 'Fumble',
-  discipline: 'Disciplina i Sancions',
-  exclusionBtn: 'Exclusió',
-  directRedCard: 'Targeta Vermella',
-  shootoutTitle: 'Desempat Shootout (Un contra el Porter)',
-  suddenDeath: '+ Mort Sobtada',
-  clearRound: 'Netejar Tanda',
-  confirm: 'Confirmar',
-  cancel: 'Cancel·lar',
-  selectShooter: 'Seleccionar Llançador',
-  chooseShooter: 'Tria quin jugador llançarà a continuació:',
-  alreadyShot: 'Llançat',
-  coachStats: "Estadístiques de l'Entrenador",
-  realTimeMetrics: 'Mètriques en temps real',
-  points: 'Punts',
-  effectiveness: 'Efect.',
-  turnovers: 'Pèrdues',
-  shotEffectiveness: 'Efectivitat de Tir',
-  flyEffectiveness: 'Efectivitat de Fly',
-  goalkeeperEffectiveness: 'Efectivitat Porteria',
-  accurate: 'Encertats',
-  turnoversBreakdown: 'Desglossament de Pèrdues de Pilota',
-  badPasses: 'Passades Fallades',
-  walking: 'Passos (Walking)',
-  fumblingBall: 'Fumbling / Pèrdua del bot',
-  tacticalRisk: 'Efectivitat Tàctica de Risc',
-  flyAccuracy: 'Encert del Fly',
-  pointsRatio: 'Ràtio de Punts',
-  pointsViaDoubles: 'Punts via Dobles',
-  individualPerformance: 'Rendiment Individual',
-  goals1pt: 'Gol 1pt',
-  goals2pt: 'Gol 2pt',
-  saves: 'Aturades',
-  conceded: 'Encaixats',
-  savePercent: '% At.',
-  missesLabel: 'Errors',
-  recoveries: 'Recup.',
-  losses: 'Pèrdues',
-  playerRoster: 'Acta de Jugadors',
-  maxPlayers: 'Plantilla ampliada: Màx. 16 jugadors en acta.',
-  addPlayer: 'Afegir Jugador',
-  player: 'Jugador',
-  position: 'Posició Tàctica',
-  actions: 'Accions',
-  saveCurrentMatch: 'Guardar Partit Actual',
-  saveToCloud: "Guarda l'estat actual del partit al núvol",
-  matchNameOptional: 'Nom del partit (opcional)',
-  saving: 'Guardant...',
-  savedMatches: 'Partits Guardats',
-  matchesInCloud: 'partits al núvol',
-  load: 'Carregar',
-  delete: 'Eliminar',
-  noSavedMatches: 'No hi ha partits guardats',
-  saveFirstMatch: "Guarda el teu primer partit amb el botó de dalt",
-  resetMatch: 'Restablir Partit?',
-  resetConfirmText: "Estàs segur que vols netejar tots els gols, exclusions, pèrdues de pilota i puntuacions del partit actual?",
-  preserved: "Es conservarà: El nom de l'oponent i les configuracions de la plantilla.",
-  yesReset: 'Sí, restablir',
-  posGoalkeeper: 'Porter',
-  posSpecialist: 'Especialista',
-  posVersatile: 'Polivalent',
-  posLeftWing: 'Ala Esq.',
-  posRightWing: 'Ala Dreta',
-  posWing: 'Ala',
-  posPivot: 'Pivot',
-  posDefender: 'Defensor',
-  copyright: '© 2026 IAtpro74',
-};
-
-const en: Translations = {
-  appName: 'BeachHandball Stats',
-  tabMatch: 'Match',
-  tabShootout: 'Shootout',
-  tabAnalysis: 'Stats',
-  tabTeam: 'Team',
-  tabArchive: 'Archive',
-  nightMode: 'Night',
-  sunMode: 'Sun',
-  reset: 'Reset',
-  install: 'Install',
-  logout: 'Logout',
-  set1: 'SET 1',
-  set2: 'SET 2',
-  inProgress: 'Live',
-  finished: 'Finished',
-  pending: 'Pending',
-  shootout: 'SHOOTOUT',
-  convocados: 'SQUAD',
-  selectPlayer: 'Select a player to register actions',
-  undo: 'Undo',
-  excluded: 'Excluded Players / Sanctions',
-  sanctions: 'Sanctions',
-  noneFullStrength: 'None (Full strength on court)',
-  rivalExclusion: '+ Rival Exclusion',
-  sanctioned: 'Suspended',
-  redCard: 'Red Card',
-  exclusion: 'Exclusion',
-  scoreGoal: 'Score Goal',
-  goalkeepingActions: 'Goalkeeper Actions',
-  save: 'Save',
-  rivalMiss: 'Rival Miss',
-  goalsConceded: 'Goals Conceded (Rival)',
-  goalConceded: 'Goal Conceded',
-  defense: 'Defense',
-  recover: 'Recover',
-  misses: 'Misses',
-  error: 'Miss',
-  errFly: 'Fly Miss',
-  turnover: 'Turnover',
-  badPass: 'Bad Pass',
-  steps: 'Steps',
-  fumble: 'Fumble',
-  discipline: 'Discipline & Sanctions',
-  exclusionBtn: 'Exclusion',
-  directRedCard: 'Red Card',
-  shootoutTitle: 'Shootout Tiebreak (1v1 vs Goalkeeper)',
-  suddenDeath: '+ Sudden Death',
-  clearRound: 'Clear Round',
-  confirm: 'Confirm',
-  cancel: 'Cancel',
-  selectShooter: 'Select Shooter',
-  chooseShooter: 'Choose which player will shoot next:',
-  alreadyShot: 'Shot',
-  coachStats: 'Coach Statistics',
-  realTimeMetrics: 'Real-time metrics',
-  points: 'Points',
-  effectiveness: 'Eff.',
-  turnovers: 'Turnovers',
-  shotEffectiveness: 'Shot Effectiveness',
-  flyEffectiveness: 'Fly Effectiveness',
-  goalkeeperEffectiveness: 'Goalkeeper Effectiveness',
-  accurate: 'Accurate',
-  turnoversBreakdown: 'Turnovers Breakdown',
-  badPasses: 'Bad Passes',
-  walking: 'Steps (Walking)',
-  fumblingBall: 'Fumbling / Lost Dribble',
-  tacticalRisk: 'Tactical Risk Effectiveness',
-  flyAccuracy: 'Fly Accuracy',
-  pointsRatio: 'Points Ratio',
-  pointsViaDoubles: 'Points via Doubles',
-  individualPerformance: 'Individual Performance',
-  goals1pt: '1pt Goal',
-  goals2pt: '2pt Goal',
-  saves: 'Saves',
-  conceded: 'Conceded',
-  savePercent: 'Save %',
-  missesLabel: 'Misses',
-  recoveries: 'Recov.',
-  losses: 'Losses',
-  playerRoster: 'Player Roster',
-  maxPlayers: 'Extended squad: Max. 16 players on the roster.',
-  addPlayer: 'Add Player',
-  player: 'Player',
-  position: 'Tactical Position',
-  actions: 'Actions',
-  saveCurrentMatch: 'Save Current Match',
-  saveToCloud: 'Save the current match state to the cloud',
-  matchNameOptional: 'Match name (optional)',
-  saving: 'Saving...',
-  savedMatches: 'Saved Matches',
-  matchesInCloud: 'matches in the cloud',
-  load: 'Load',
-  delete: 'Delete',
-  noSavedMatches: 'No saved matches',
-  saveFirstMatch: 'Save your first match using the button above',
-  resetMatch: 'Reset Match?',
-  resetConfirmText: 'Are you sure you want to clear all goals, exclusions, turnovers and scores from the current match?',
-  preserved: 'Preserved: Opponent name and your squad configuration.',
-  yesReset: 'Yes, reset',
-  posGoalkeeper: 'Goalkeeper',
-  posSpecialist: 'Specialist',
-  posVersatile: 'Versatile',
-  posLeftWing: 'Left Wing',
-  posRightWing: 'Right Wing',
-  posWing: 'Wing',
-  posPivot: 'Pivot',
-  posDefender: 'Defender',
-  copyright: '© 2026 IAtpro74',
-};
-
-export const translations: Record<Language, Translations> = { es, ca, en };
-
-export function getTranslations(lang: Language): Translations {
-  return translations[lang];
+  [key: string]: string;
 }
 
 export const LANGUAGE_OPTIONS: { value: Language; label: string; flag: string }[] = [
@@ -468,3 +9,274 @@ export const LANGUAGE_OPTIONS: { value: Language; label: string; flag: string }[
   { value: 'ca', label: 'Català', flag: '🏳️' },
   { value: 'en', label: 'English', flag: '🇬🇧' },
 ];
+
+const es: Translations = {
+  // Nav
+  tabMatch: 'Partido', tabShootout: 'Shootout', tabAnalysis: 'Análisis', tabTeam: 'Equipo', tabArchive: 'Archivo',
+  // Header
+  nightMode: 'Noche', sunMode: 'Sol', reset: 'Reset', install: 'Instalar',
+  set1: 'SET 1', set2: 'SET 2', inProgress: 'En Curso', finished: 'Finalizado', pending: 'Pendiente',
+  // Reset modal
+  resetMatch: '¿Restablecer Partido?',
+  resetConfirmText: '¿Estás seguro de que quieres limpiar todos los goles, exclusiones, pérdidas de balón y puntuaciones?',
+  preserved: 'Se conservará: El nombre del oponente y la configuración de la plantilla.',
+  yesReset: 'Sí, restablecer', cancel: 'Cancelar',
+  // GameBoard
+  last15sec: 'ÚLTIMOS 15 SEGUNDOS: CUALQUIER FALTA GRAVE = DESCALIFICACIÓN + PENALTI 6M',
+  goldenGoal: 'Gol de Oro', vs: 'VS',
+  excluded: 'Jugadores Excluidos / Sanciones',
+  noneFullStrength: 'Ninguno (Fuerza completa)',
+  sanctioned: 'Sancionando', redCard: 'Tarjeta Roja', exclusionLabel: 'Exclusión',
+  rivalExclusion: '+ Exclusión Rival',
+  convocados: 'CONVOCADOS',
+  selectPlayerDesc: 'Selecciona un jugador para registrar acciones.',
+  undo: 'Deshacer', noActions: 'Sin acciones',
+  disqualified: 'DQ (Roja)',
+  // Player actions
+  scoreGoal: '⚽ Anotar Gol', goalkeeping: '🧤 Acciones de Portería',
+  saveAction: 'Parada', rivalMiss: 'Fallo Rival',
+  goalsConceded: '🥅 Goles Recibidos (Rival)',
+  goalConceded1: 'Gol Recibido +1', goalConceded2: 'Gol Recibido +2',
+  defense: '🟢 Defensa', recover: 'Recuperar',
+  missesSection: '❌ Fallos', errorShot: 'Error', errFly: 'Err Fly',
+  turnoverSection: '⚠️ Pérdida de Balón',
+  badPass: 'Mal Pase', steps: 'Pasos', fumble: 'Fumble',
+  disciplineSection: '🟥 Disciplina y Sanciones',
+  exclusionBtn: 'Exclusión', directRedCard: 'Tarjeta Roja',
+  // Opponent goal type modal
+  opponentGoalType: 'Tipo de Gol Rival (+2)',
+  spin: 'Giro (+2)', fly2: 'Fly (+2)', specialist: 'Peto (Especialista) (+2)', penalty: 'Penalti (+2)',
+  // Time
+  editTime: '⏱️ Editar Tiempo', min: 'Min', sec: 'Seg', save: 'Guardar',
+  resetClock: '¿Reiniciar Reloj?', resetClockDesc: 'El tiempo se restablecerá a 10:00.',
+  yesResetClock: 'Sí, reiniciar',
+  // Rival exclusion modal
+  rivalExclusionTitle: 'Exclusión Rival',
+  rivalExclusionDesc: 'Dorsal del jugador excluido:',
+  exclude: 'Excluir', dorsalPlaceholder: 'Ej. 14',
+  // Team config
+  configOurTeam: 'Configurar Nuestro Equipo', configRivalTeam: 'Configurar Equipo Rival',
+  teamName: 'Nombre del Equipo', shirtColor: 'Color de Camiseta',
+  // Shootout
+  shootoutTitle: 'Desempate Shootout (Uno contra el Portero)',
+  tiedMessage: '¡Empate! Añade "Ronda Extra" para Muerte Súbita',
+  provisionalWinner: 'Ganador provisional:',
+  rounds: 'Lanzamientos Alternados', suddenDeath: '+ Muerte Súbita',
+  clearRound: 'Limpiar Tanda', confirmClear: '⚠️ ¿Confirmar?',
+  round: 'Ronda', suddenDeathBadge: 'Muerte Súbita',
+  activeShot: 'Lanzamiento Activo', toShoot: 'Por lanzar',
+  shotBy: 'Lanzó:', failSave: 'FALLO / PARADA', saveOut: 'PARADA / FUERA',
+  againstGoal: 'Contra portería',
+  selectShooter: 'Selección de Tirador',
+  chooseShooter: 'Elige qué jugador va a lanzar:',
+  alreadyShot: '(Lanzó)',
+  // Analytics
+  coachStats: 'Estadísticas del Entrenador', realTimeMetrics: 'Métricas en tiempo real',
+  points: 'Puntos', effectiveness: 'Efect.', turnovers: 'Pérdidas',
+  shotEffectiveness: 'Efectividad de Tiro', flyEffectiveness: 'Efectividad de Fly',
+  gkEffectiveness: 'Efectividad Portería',
+  accurate: 'Acertados', consensus: 'Consensuado', stopped: 'Parados',
+  shotsWereGoal: 'tiros intentados fueron gol.',
+  goalsVsMisses: 'Goles 2pt (Flys) vs Flys Fallados.',
+  savesOfShots: 'paradas de', rivalShots: 'tiros rivales.',
+  turnoversBreakdown: 'Desglose de Pérdidas de Balón',
+  badPasses: 'Pases Fallados', walking: 'Pasos (Walking)', fumblingBall: 'Fumbling / Pérdida del bote',
+  tacticalRisk: 'Efectividad Táctica de Riesgo',
+  flyAccuracy: 'Acierto del Fly', inFlight: 'Éxito en In-Flight',
+  pointsRatio: 'Ratio de Puntos', pointsViaDoubles: 'Puntos vía Dobles',
+  individualPerformance: 'Rendimiento Individual',
+  goals1pt: 'Gol 1pt', goals2pt: 'Gol 2pt', saves: 'Paradas',
+  conceded: 'Encajados', savePercent: '% Par.', missesLabel: 'Fallos',
+  recoveries: 'Recup.', losses: 'Pérdidas',
+  pointsLabel: 'Puntos', savesLabel: 'Paradas',
+  // Team setup
+  playerRoster: 'Acta de Jugadores', maxPlayers: 'Máx. 16 jugadores en acta.',
+  addPlayer: 'Sumar Jugador', dorsal: 'Dorsal', player: 'Jugador',
+  position: 'Posición Táctica', actions: 'Acciones',
+  disqualifiedBadge: 'Descalificado', positionFor: 'Posición para',
+  current: 'ACTUAL', close: 'Cerrar', newPlayer: 'Jugador Nuevo',
+  // Positions
+  posGoalkeeper: 'Portero', posSpecialist: 'Especialista', posVersatile: 'Polivalente',
+  posLeftWing: 'Ala Izq.', posRightWing: 'Ala Der.', posWing: 'Ala',
+  posPivot: 'Pivote', posDefender: 'Defensor',
+  posGkDesc: '🧤 Portería y goles dobles', posSpecDesc: '⭐ Goles dobles (ataque)',
+  posVersDesc: '🔄 Ataque y Defensa', posLWDesc: '🏹 Extremo izquierdo',
+  posRWDesc: '🏹 Extremo derecho', posWingDesc: '🏃 Posición alternativa',
+  posPivotDesc: '🔄 Jugador central (ataque)', posDefDesc: '🛡️ Especialista defensivo',
+  // Archive
+  saveCurrentMatch: 'Guardar Partido Actual', saveToCloud: 'Guarda el partido en la nube',
+  matchNameOptional: 'Nombre del partido (opcional)', saving: 'Guardando...',
+  savedMatches: 'Partidos Guardados', matchesInCloud: 'partidos en la nube',
+  loadingMatches: 'Cargando partidos...', load: 'Cargar',
+  noSavedMatches: 'No hay partidos guardados',
+  saveFirstMatch: 'Guarda tu primer partido usando el botón de arriba',
+  confirm: 'Confirmar',
+  errorLoadingMatches: 'Error al cargar partidos.',
+  matchSaved: 'Partido guardado',
+  errorSaving: 'Error al guardar.',
+  matchDeleted: 'Partido eliminado.',
+  errorDeleting: 'Error al eliminar.',
+  matchLoaded: 'Partido cargado',
+  loginTitle: 'BeachHandball Stats', loginSubtitle: 'Registro táctico de alta velocidad',
+  connecting: 'Conectando...', loginWithGoogle: 'Iniciar sesión con Google',
+  loginNote: 'Necesitas una cuenta de Google para acceder.',
+  copyright: '© 2026 IAtpro74', of: 'de',
+};
+
+const ca: Translations = {
+  tabMatch:'Partit',tabShootout:'Shootout',tabAnalysis:'Anàlisi',tabTeam:'Equip',tabArchive:'Arxiu',
+  nightMode:'Nit',sunMode:'Sol',reset:'Reset',install:"Instal·lar",
+  set1:'SET 1',set2:'SET 2',inProgress:'En Curs',finished:'Finalitzat',pending:'Pendent',
+  resetMatch:'Restablir Partit?',
+  resetConfirmText:"Vols netejar tots els gols, exclusions, pèrdues i puntuacions?",
+  preserved:"Es conservarà: nom de l'oponent i configuració de plantilla.",
+  yesReset:'Sí, restablir',cancel:"Cancel·lar",
+  last15sec:'ÚLTIMS 15 SEGONS: FALTA GREU = DESQUALIFICACIÓ + PENAL 6M',
+  goldenGoal:"Gol d'Or",vs:'VS',
+  excluded:'Jugadors Exclosos / Sancions',noneFullStrength:'Cap (Força completa)',
+  sanctioned:'Sancionant',redCard:'Targeta Vermella',exclusionLabel:'Exclusió',
+  rivalExclusion:'+ Exclusió Rival',convocados:'CONVOCATS',
+  selectPlayerDesc:'Selecciona un jugador per registrar accions.',
+  undo:'Desfer',noActions:'Sense accions',disqualified:'DQ (Vermella)',
+  scoreGoal:'⚽ Anotar Gol',goalkeeping:'🧤 Accions de Porteria',
+  saveAction:'Aturada',rivalMiss:'Error Rival',
+  goalsConceded:'🥅 Gols Rebuts (Rival)',goalConceded1:'Gol Rebut +1',goalConceded2:'Gol Rebut +2',
+  defense:'🟢 Defensa',recover:'Recuperar',
+  missesSection:'❌ Errors',errorShot:'Error',errFly:'Err Fly',
+  turnoverSection:'⚠️ Pèrdua de Pilota',badPass:'Mala Passada',steps:'Passos',fumble:'Fumble',
+  disciplineSection:'🟥 Disciplina i Sancions',exclusionBtn:'Exclusió',directRedCard:'Targeta Vermella',
+  opponentGoalType:'Tipus de Gol Rival (+2)',
+  spin:'Gir (+2)',fly2:'Fly (+2)',specialist:'Peto (+2)',penalty:'Penal (+2)',
+  editTime:'⏱️ Editar Temps',min:'Min',sec:'Seg',save:'Guardar',
+  resetClock:'Reiniciar Rellotge?',resetClockDesc:"Es restablirà a 10:00.",yesResetClock:'Sí, reiniciar',
+  rivalExclusionTitle:'Exclusió Rival',rivalExclusionDesc:'Dorsal del jugador exclòs:',
+  exclude:'Excloure',dorsalPlaceholder:'Ex. 14',
+  configOurTeam:'Configurar Nostre Equip',configRivalTeam:'Configurar Equip Rival',
+  teamName:"Nom de l'Equip",shirtColor:'Color de Samarreta',
+  shootoutTitle:'Desempat Shootout (Un contra Porter)',
+  tiedMessage:"Empat! Afegeix Ronda Extra per Mort Sobtada",provisionalWinner:'Guanyador provisional:',
+  rounds:'Llançaments Alternats',suddenDeath:'+ Mort Sobtada',
+  clearRound:'Netejar Tanda',confirmClear:'⚠️ Confirmar?',
+  round:'Ronda',suddenDeathBadge:'Mort Sobtada',activeShot:'Llançament Actiu',toShoot:'Per llançar',
+  shotBy:'Llançat:',failSave:'FALLADA / ATURADA',saveOut:'ATURADA / FORA',againstGoal:'Contra porteria',
+  selectShooter:'Selecció de Tirador',chooseShooter:'Tria quin jugador llançarà:',alreadyShot:'(Llançat)',
+  coachStats:"Estadístiques de l'Entrenador",realTimeMetrics:'Mètriques en temps real',
+  points:'Punts',effectiveness:'Efect.',turnovers:'Pèrdues',
+  shotEffectiveness:'Efectivitat de Tir',flyEffectiveness:'Efectivitat de Fly',
+  gkEffectiveness:'Efectivitat Porteria',accurate:'Encertats',consensus:'Consensuat',stopped:'Aturats',
+  shotsWereGoal:'tirs van ser gol.',goalsVsMisses:'Gols 2pt (Flys) vs Flys Fallats.',
+  savesOfShots:'aturades de',rivalShots:'tirs rivals.',
+  turnoversBreakdown:'Desglossament de Pèrdues',badPasses:'Passades Fallades',
+  walking:'Passos (Walking)',fumblingBall:'Fumbling / Pèrdua del bot',
+  tacticalRisk:'Efectivitat Tàctica de Risc',flyAccuracy:'Encert del Fly',inFlight:'Èxit In-Flight',
+  pointsRatio:'Ràtio de Punts',pointsViaDoubles:'Punts via Dobles',
+  individualPerformance:'Rendiment Individual',
+  goals1pt:'Gol 1pt',goals2pt:'Gol 2pt',saves:'Aturades',conceded:'Encaixats',
+  savePercent:'% At.',missesLabel:'Errors',recoveries:'Recup.',losses:'Pèrdues',
+  pointsLabel:'Punts',savesLabel:'Aturades',
+  playerRoster:'Acta de Jugadors',maxPlayers:'Màx. 16 jugadors en acta.',
+  addPlayer:'Afegir Jugador',dorsal:'Dorsal',player:'Jugador',
+  position:'Posició Tàctica',actions:'Accions',
+  disqualifiedBadge:'Desqualificat',positionFor:'Posició per',current:'ACTUAL',close:'Tancar',
+  newPlayer:'Jugador Nou',
+  posGoalkeeper:'Porter',posSpecialist:'Especialista',posVersatile:'Polivalent',
+  posLeftWing:'Ala Esq.',posRightWing:'Ala Dreta',posWing:'Ala',posPivot:'Pivot',posDefender:'Defensor',
+  posGkDesc:'🧤 Porteria i gols dobles',posSpecDesc:'⭐ Gols dobles (atac)',
+  posVersDesc:'🔄 Atac i Defensa',posLWDesc:'🏹 Extrem esquerre',
+  posRWDesc:'🏹 Extrem dret',posWingDesc:'🏃 Posició alternativa',
+  posPivotDesc:'🔄 Jugador central (atac)',posDefDesc:'🛡️ Especialista defensiu',
+  saveCurrentMatch:'Guardar Partit Actual',saveToCloud:'Guarda el partit al núvol',
+  matchNameOptional:'Nom del partit (opcional)',saving:'Guardant...',
+  savedMatches:'Partits Guardats',matchesInCloud:'partits al núvol',
+  loadingMatches:'Carregant partits...',load:'Carregar',
+  noSavedMatches:'No hi ha partits guardats',saveFirstMatch:"Guarda el primer partit amb el botó de dalt",
+  confirm:'Confirmar',errorLoadingMatches:'Error al carregar partits.',
+  matchSaved:'Partit guardat',errorSaving:'Error al guardar.',
+  matchDeleted:'Partit eliminat.',errorDeleting:'Error al eliminar.',matchLoaded:'Partit carregat',
+  loginTitle:'BeachHandball Stats',loginSubtitle:'Registre tàctic d\'alta velocitat',
+  connecting:'Connectant...',loginWithGoogle:'Iniciar sessió amb Google',
+  loginNote:"Necessites un compte de Google per accedir.",
+  copyright:'© 2026 IAtpro74',of:'de',
+};
+
+const en: Translations = {
+  tabMatch:'Match',tabShootout:'Shootout',tabAnalysis:'Stats',tabTeam:'Team',tabArchive:'Archive',
+  nightMode:'Night',sunMode:'Sun',reset:'Reset',install:'Install',
+  set1:'SET 1',set2:'SET 2',inProgress:'Live',finished:'Finished',pending:'Pending',
+  resetMatch:'Reset Match?',
+  resetConfirmText:'Clear all goals, exclusions, turnovers and scores from the current match?',
+  preserved:'Preserved: Opponent name and squad configuration.',
+  yesReset:'Yes, reset',cancel:'Cancel',
+  last15sec:'LAST 15 SECONDS: ANY SERIOUS FOUL = DISQUALIFICATION + 6M PENALTY',
+  goldenGoal:'Golden Goal',vs:'VS',
+  excluded:'Excluded Players / Sanctions',noneFullStrength:'None (Full strength)',
+  sanctioned:'Suspended',redCard:'Red Card',exclusionLabel:'Exclusion',
+  rivalExclusion:'+ Rival Exclusion',convocados:'SQUAD',
+  selectPlayerDesc:'Select a player to register actions.',
+  undo:'Undo',noActions:'No actions',disqualified:'DQ (Red)',
+  scoreGoal:'⚽ Score Goal',goalkeeping:'🧤 Goalkeeper Actions',
+  saveAction:'Save',rivalMiss:'Rival Miss',
+  goalsConceded:'🥅 Goals Conceded (Rival)',goalConceded1:'Goal Conceded +1',goalConceded2:'Goal Conceded +2',
+  defense:'🟢 Defense',recover:'Recover',
+  missesSection:'❌ Misses',errorShot:'Miss',errFly:'Fly Miss',
+  turnoverSection:'⚠️ Turnover',badPass:'Bad Pass',steps:'Steps',fumble:'Fumble',
+  disciplineSection:'🟥 Discipline & Sanctions',exclusionBtn:'Exclusion',directRedCard:'Red Card',
+  opponentGoalType:'Rival Goal Type (+2)',
+  spin:'Spin (+2)',fly2:'Fly (+2)',specialist:'Specialist (+2)',penalty:'Penalty (+2)',
+  editTime:'⏱️ Edit Time',min:'Min',sec:'Sec',save:'Save',
+  resetClock:'Reset Clock?',resetClockDesc:'Time will reset to 10:00.',yesResetClock:'Yes, reset',
+  rivalExclusionTitle:'Rival Exclusion',rivalExclusionDesc:'Jersey number of excluded player:',
+  exclude:'Exclude',dorsalPlaceholder:'E.g. 14',
+  configOurTeam:'Configure Our Team',configRivalTeam:'Configure Rival Team',
+  teamName:'Team Name',shirtColor:'Shirt Color',
+  shootoutTitle:'Shootout Tiebreak (1v1 vs Goalkeeper)',
+  tiedMessage:'Tied! Add Extra Round for Sudden Death',provisionalWinner:'Provisional winner:',
+  rounds:'Alternating Shots',suddenDeath:'+ Sudden Death',
+  clearRound:'Clear Round',confirmClear:'⚠️ Confirm?',
+  round:'Round',suddenDeathBadge:'Sudden Death',activeShot:'Active Shot',toShoot:'To shoot',
+  shotBy:'Shot by:',failSave:'MISS / SAVE',saveOut:'SAVE / OUT',againstGoal:'Against goal',
+  selectShooter:'Select Shooter',chooseShooter:'Choose which player will shoot:',alreadyShot:'(Shot)',
+  coachStats:'Coach Statistics',realTimeMetrics:'Real-time metrics',
+  points:'Points',effectiveness:'Eff.',turnovers:'Turnovers',
+  shotEffectiveness:'Shot Effectiveness',flyEffectiveness:'Fly Effectiveness',
+  gkEffectiveness:'Goalkeeper Effectiveness',accurate:'Accurate',consensus:'Consensus',stopped:'Stopped',
+  shotsWereGoal:'shots attempted were goals.',goalsVsMisses:'2pt Goals (Flys) vs Missed Flys.',
+  savesOfShots:'saves from',rivalShots:'rival shots.',
+  turnoversBreakdown:'Turnovers Breakdown',badPasses:'Bad Passes',
+  walking:'Steps (Walking)',fumblingBall:'Fumbling / Lost dribble',
+  tacticalRisk:'Tactical Risk Effectiveness',flyAccuracy:'Fly Accuracy',inFlight:'In-Flight Success',
+  pointsRatio:'Points Ratio',pointsViaDoubles:'Points via Doubles',
+  individualPerformance:'Individual Performance',
+  goals1pt:'1pt Goal',goals2pt:'2pt Goal',saves:'Saves',conceded:'Conceded',
+  savePercent:'Save %',missesLabel:'Misses',recoveries:'Recov.',losses:'Losses',
+  pointsLabel:'Points',savesLabel:'Saves',
+  playerRoster:'Player Roster',maxPlayers:'Max. 16 players on roster.',
+  addPlayer:'Add Player',dorsal:'Jersey',player:'Player',
+  position:'Tactical Position',actions:'Actions',
+  disqualifiedBadge:'Disqualified',positionFor:'Position for',current:'CURRENT',close:'Close',
+  newPlayer:'New Player',
+  posGoalkeeper:'Goalkeeper',posSpecialist:'Specialist',posVersatile:'Versatile',
+  posLeftWing:'Left Wing',posRightWing:'Right Wing',posWing:'Wing',posPivot:'Pivot',posDefender:'Defender',
+  posGkDesc:'🧤 Goalkeeper & double goals',posSpecDesc:'⭐ Double goals (attack)',
+  posVersDesc:'🔄 Attack & Defense',posLWDesc:'🏹 Left winger',
+  posRWDesc:'🏹 Right winger',posWingDesc:'🏃 Alternative position',
+  posPivotDesc:'🔄 Central player (attack)',posDefDesc:'🛡️ Defensive specialist',
+  saveCurrentMatch:'Save Current Match',saveToCloud:'Save match to the cloud',
+  matchNameOptional:'Match name (optional)',saving:'Saving...',
+  savedMatches:'Saved Matches',matchesInCloud:'matches in cloud',
+  loadingMatches:'Loading matches...',load:'Load',
+  noSavedMatches:'No saved matches',saveFirstMatch:'Save your first match using the button above',
+  confirm:'Confirm',errorLoadingMatches:'Error loading matches.',
+  matchSaved:'Match saved',errorSaving:'Error saving.',
+  matchDeleted:'Match deleted.',errorDeleting:'Error deleting.',matchLoaded:'Match loaded',
+  loginTitle:'BeachHandball Stats',loginSubtitle:'High-speed tactical recording',
+  connecting:'Connecting...',loginWithGoogle:'Sign in with Google',
+  loginNote:'You need a Google account to access the app.',
+  copyright:'© 2026 IAtpro74',of:'of',
+};
+
+export const translations: Record<Language, Translations> = { es, ca, en };
+
+export function getTranslations(lang: Language): Translations {
+  return translations[lang];
+}

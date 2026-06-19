@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { MatchState, Player, SetState, GoogleUser } from './types';
 import { INITIAL_MATCH_STATE, DEFAULT_PLAYERS, SHIRT_COLORS, INITIAL_SET_STATE } from './utils/initialState';
 import { Language, getTranslations, LANGUAGE_OPTIONS } from './utils/i18n';
+import { useI18n } from './i18n';
 import GameBoard from './components/GameBoard';
 import ShootoutBoard from './components/ShootoutBoard';
 import AnalyticsHub from './components/AnalyticsHub';
@@ -95,16 +96,8 @@ export default function App() {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showMatchHistory, setShowMatchHistory] = useState(false);
 
-  // Language
-  const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem('bh_stats_language');
-    return (saved as Language) || 'es';
-  });
-  const t = getTranslations(language);
-
-  useEffect(() => {
-    localStorage.setItem('bh_stats_language', language);
-  }, [language]);
+  // Language (from context)
+  const { language, setLanguage, t } = useI18n();
 
   // PWA Install Prompt
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);

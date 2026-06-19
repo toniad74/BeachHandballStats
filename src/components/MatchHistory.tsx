@@ -11,6 +11,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { Save, FolderOpen, Trash2, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface MatchHistoryProps {
   user: GoogleUser;
@@ -20,6 +21,7 @@ interface MatchHistoryProps {
 }
 
 export default function MatchHistory({ user, currentMatchState, onLoadMatch, sunMode }: MatchHistoryProps) {
+  const { t } = useI18n();
   const [savedMatches, setSavedMatches] = useState<SavedMatch[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -49,7 +51,7 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
       setSavedMatches(matches);
     } catch (error: any) {
       console.error('Error loading matches:', error);
-      setMessage({ type: 'error', text: 'Error al cargar partidos. Verifica tu conexión.' });
+      setMessage({ type: 'error', text: t.errorLoadingMatches });
     } finally {
       setLoading(false);
     }
@@ -82,12 +84,12 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
 
     try {
       await addDoc(collection(db, 'matches'), matchToSave);
-      setMessage({ type: 'success', text: `Partido guardado: "${label}"` });
+      setMessage({ type: 'success', text: `${t.matchSaved}: "${label}"` });
       setCustomLabel('');
       await loadMatches();
     } catch (error: any) {
       console.error('Error saving match:', error);
-      setMessage({ type: 'error', text: 'Error al guardar. Verifica tu conexión a internet.' });
+      setMessage({ type: 'error', text: t.errorSaving });
     } finally {
       setSaving(false);
       setTimeout(() => setMessage(null), 5000);
@@ -98,17 +100,17 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
     try {
       await deleteDoc(doc(db, 'matches', matchId));
       setSavedMatches(prev => prev.filter(m => m.id !== matchId));
-      setMessage({ type: 'success', text: 'Partido eliminado.' });
+      setMessage({ type: 'success', text: t.matchDeleted });
       setDeleteConfirmId(null);
     } catch (error: any) {
-      setMessage({ type: 'error', text: 'Error al eliminar el partido.' });
+      setMessage({ type: 'error', text: t.errorDeleting });
     }
     setTimeout(() => setMessage(null), 4000);
   };
 
   const handleLoadMatch = (match: SavedMatch) => {
     onLoadMatch(match.matchState);
-    setMessage({ type: 'success', text: `Partido cargado: "${match.label}"` });
+    setMessage({ type: 'success', text: `${t.matchLoaded}: "${match.label}"` });
     setTimeout(() => setMessage(null), 4000);
   };
 
@@ -124,10 +126,10 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
           <Save className={`w-7 h-7 md:w-8 md:h-8 ${sunMode ? 'text-emerald-600' : 'text-emerald-400'}`} />
           <div>
             <h2 className={`text-lg md:text-xl font-black uppercase ${sunMode ? 'text-gray-900' : 'text-white'}`}>
-              Guardar Partido Actual
+              {t.saveCurrentMatch}
             </h2>
             <p className={`text-xs md:text-sm ${sunMode ? 'text-gray-500' : 'text-zinc-400'}`}>
-              Guarda el estado actual del partido en la nube
+              {t.saveToCloud}
             </p>
           </div>
         </div>
@@ -137,7 +139,7 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
             type="text"
             value={customLabel}
             onChange={(e) => setCustomLabel(e.target.value)}
-            placeholder="Nombre del partido (opcional)"
+            placeholder={t.matchNameOptional}
             className={`flex-1 px-4 py-3 rounded-xl border-2 text-sm md:text-base font-medium ${sunMode
               ? 'bg-white border-gray-200 text-gray-900 placeholder-gray-400'
               : 'bg-zinc-800 border-zinc-700 text-white placeholder-zinc-500'
@@ -149,7 +151,7 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
             className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 px-6 rounded-xl text-sm md:text-base uppercase tracking-wider transition active:scale-95 disabled:opacity-50 disabled:cursor-wait flex items-center justify-center gap-2 whitespace-nowrap"
           >
             {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-            {saving ? 'Guardando...' : 'Guardar'}
+            {saving ? t.saving : t.save}
           </button>
         </div>
       </div>
@@ -179,7 +181,7 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
                 Partidos Guardados
               </h2>
               <p className={`text-xs md:text-sm ${sunMode ? 'text-gray-500' : 'text-zinc-400'}`}>
-                {savedMatches.length} partido{savedMatches.length !== 1 ? 's' : ''} en la nube
+                {savedMatches.length} {t.matchesInCloud}
               </p>
             </div>
           </div>
@@ -199,7 +201,7 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className={`w-8 h-8 animate-spin ${sunMode ? 'text-blue-500' : 'text-blue-400'}`} />
-            <span className={`ml-3 text-sm font-bold ${sunMode ? 'text-gray-500' : 'text-zinc-400'}`}>Cargando partidos...</span>
+            <span className={`ml-3 text-sm font-bold ${sunMode ? 'text-gray-500' : 'text-zinc-400'}`}>{t.loadingMatches}</span>
           </div>
         ) : savedMatches.length === 0 ? (
           <div className={`text-center py-12 rounded-xl border-2 border-dashed ${sunMode
@@ -207,8 +209,8 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
             : 'border-zinc-700 text-zinc-500'
           }`}>
             <FolderOpen className="w-12 h-12 mx-auto mb-3 opacity-40" />
-            <p className="text-sm md:text-base font-bold">No hay partidos guardados</p>
-            <p className="text-xs md:text-sm mt-1">Guarda tu primer partido usando el botón de arriba</p>
+            <p className="text-sm md:text-base font-bold">{t.noSavedMatches}</p>
+            <p className="text-xs md:text-sm mt-1">{t.saveFirstMatch}</p>
           </div>
         ) : (
           <div className="space-y-3 md:space-y-4">
@@ -255,7 +257,7 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
                         className="bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 md:py-3 px-4 md:px-5 rounded-xl text-xs md:text-sm uppercase tracking-wider transition active:scale-95 flex items-center gap-1.5"
                       >
                         <FolderOpen className="w-4 h-4" />
-                        Cargar
+                        {t.load}
                       </button>
                       {deleteConfirmId === match.id ? (
                         <div className="flex items-center gap-1.5">
@@ -263,7 +265,7 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
                             onClick={() => deleteMatch(match.id!)}
                             className="bg-red-600 hover:bg-red-700 text-white font-black py-2.5 md:py-3 px-3 md:px-4 rounded-xl text-xs uppercase transition active:scale-95"
                           >
-                            Confirmar
+                            {t.confirm}
                           </button>
                           <button
                             onClick={() => setDeleteConfirmId(null)}
@@ -272,7 +274,7 @@ export default function MatchHistory({ user, currentMatchState, onLoadMatch, sun
                               : 'border-zinc-600 text-zinc-300 hover:bg-zinc-700'
                             }`}
                           >
-                            Cancelar
+                            {t.cancel}
                           </button>
                         </div>
                       ) : (
