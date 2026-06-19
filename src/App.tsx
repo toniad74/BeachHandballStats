@@ -623,6 +623,15 @@ export default function App() {
       {/* FOOTER ACCREDITATION AND LEGALITY */}
       <footer className={`py-4 px-4 text-center select-none transition-colors ${sunMode ? 'text-charcoal-500' : 'text-charcoal-500'
         }`}>
+        <a
+          href="mailto:iatpro74@gmail.com?subject=BH%20Stats%20-%20Sugerencia&body=Hola%2C%20tengo%20una%20sugerencia%3A%0A%0A"
+          className={`inline-block text-xs font-bold mb-2 px-3 py-1.5 rounded-lg border transition active:scale-95 ${sunMode
+            ? 'text-blue-600 border-blue-200 hover:bg-blue-50'
+            : 'text-blue-400 border-blue-800 hover:bg-blue-950/30'
+          }`}
+        >
+          💬 {language === 'en' ? 'Suggestions' : language === 'ca' ? 'Suggeriments' : 'Sugerencias'}
+        </a>
         <p className="text-[10px] font-bold uppercase tracking-widest">
           © 2026 IAtpro74
         </p>
