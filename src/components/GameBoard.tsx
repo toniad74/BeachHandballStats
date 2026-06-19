@@ -1620,7 +1620,7 @@ export default function GameBoard({
 
                   <div>
                     <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
-                      ❌ Fallos
+                      {t.missesSection}
                     </h4>
                     <div className="grid grid-cols-2 gap-2">
                       <button
