@@ -413,7 +413,7 @@ export default function App() {
       {/* CORE NAVIGATION TABS */}
       <nav className={`py-1.5 md:py-2 px-2 md:px-6 border-b transition-colors duration-300 shadow-card ${sunMode ? 'bg-white border-sand-155' : 'bg-charcoal-900 border-charcoal-800'
         }`}>
-        <div className="max-w-7xl mx-auto grid grid-cols-4 md:flex md:justify-start md:gap-2 lg:gap-4 overflow-hidden">
+        <div className="max-w-7xl mx-auto grid grid-cols-5 md:flex md:justify-start md:gap-2 lg:gap-4 overflow-hidden">
           <button
             onClick={() => {
               if (currentPeriod === 'shootout') {
@@ -457,8 +457,20 @@ export default function App() {
           </button>
 
           <button
+            onClick={() => setActiveTab('plantilla')}
+            className={`py-3 md:py-4 px-1 md:px-5 rounded-lg font-bold text-[11px] md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] whitespace-nowrap overflow-hidden ${activeTab === 'plantilla'
+              ? 'border-primary text-primary font-extrabold'
+              : sunMode
+                ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
+                : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
+              }`}
+          >
+            <span className="text-lg md:text-xl">👥</span> <span className="truncate">Equipo</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('historial')}
-            className={`py-3 md:py-4 px-1 md:px-5 rounded-lg font-bold text-[11px] md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] whitespace-nowrap overflow-hidden ${activeTab === 'historial' || activeTab === 'plantilla'
+            className={`py-3 md:py-4 px-1 md:px-5 rounded-lg font-bold text-[11px] md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] whitespace-nowrap overflow-hidden ${activeTab === 'historial'
               ? 'border-primary text-primary font-extrabold'
               : sunMode
                 ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
@@ -506,18 +518,12 @@ export default function App() {
         )}
 
         {activeTab === 'historial' && (
-          <div className="space-y-6">
-            <MatchHistory
-              user={user}
-              currentMatchState={matchState}
-              onLoadMatch={(loadedState) => setMatchState(loadedState)}
-              sunMode={sunMode}
-            />
-            <SetupTeam
-              players={players}
-              onUpdatePlayers={updatePlayers}
-            />
-          </div>
+          <MatchHistory
+            user={user}
+            currentMatchState={matchState}
+            onLoadMatch={(loadedState) => setMatchState(loadedState)}
+            sunMode={sunMode}
+          />
         )}
       </main>
 
