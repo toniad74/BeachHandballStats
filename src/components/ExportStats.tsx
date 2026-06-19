@@ -109,43 +109,43 @@ export default function ExportStats({ matchState, sunMode }: ExportStatsProps) {
   const exportExcel = () => {
     setExporting('excel');
     try {
-      // Match summary sheet
-      const summaryData = [
+      const data: any[][] = [
         ['BeachHandball Stats'],
-        [`${ourTeamName} vs ${opponentName}`],
-        [dateStr],
+        [`${ourTeamName} vs ${opponentName}`, '', dateStr],
         [],
         ['', ourTeamName, opponentName],
         ['Set 1', set1.usScore, set1.themScore],
         ['Set 2', set2.usScore, set2.themScore],
       ];
       if (shootoutRounds.some(r => r.usGoal !== null)) {
-        summaryData.push(['Shootout', shootoutRounds.filter(r => r.usGoal).length, shootoutRounds.filter(r => r.themGoal).length]);
+        data.push(['Shootout', shootoutRounds.filter(r => r.usGoal).length, shootoutRounds.filter(r => r.themGoal).length]);
       }
-      summaryData.push([], [`${t.points}: ${totalPoints}`, `${t.effectiveness}: ${effectiveness.toFixed(0)}%`, `${t.turnovers}: ${totalTurnovers}`]);
+      data.push(
+        [],
+        [`${t.points}: ${totalPoints}`, `${t.effectiveness}: ${effectiveness.toFixed(0)}%`, `${t.turnovers}: ${totalTurnovers}`],
+        [],
+        ['#', t.player, t.position, t.goals1pt, t.goals2pt, t.points, t.missesLabel, t.losses, t.saves || 'Saves', t.recoveries, 'Assists'],
+      );
 
-      // Players sheet
-      const playerHeaders = ['#', t.player, t.position, t.goals1pt, t.goals2pt, t.points, t.missesLabel, t.losses, t.saves || 'Saves', t.recoveries, 'Assists'];
-      const playerRows = players.map(p => [
-        p.number,
-        p.name,
-        translatePosition(p.position, t),
-        p.goals1p,
-        p.goals2p,
-        p.goals1p + (p.goals2p * 2),
-        p.missedShots,
-        p.turnoverBadPass + p.turnoverSteps + p.turnoverFumbling,
-        p.saves || 0,
-        p.recoveries || 0,
-        p.assists || 0,
-      ]);
+      players.forEach(p => {
+        data.push([
+          p.number,
+          p.name,
+          translatePosition(p.position, t),
+          p.goals1p,
+          p.goals2p,
+          p.goals1p + (p.goals2p * 2),
+          p.missedShots,
+          p.turnoverBadPass + p.turnoverSteps + p.turnoverFumbling,
+          p.saves || 0,
+          p.recoveries || 0,
+          p.assists || 0,
+        ]);
+      });
 
       const wb = XLSX.utils.book_new();
-      const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
-      const wsPlayers = XLSX.utils.aoa_to_sheet([playerHeaders, ...playerRows]);
-
-      XLSX.utils.book_append_sheet(wb, wsSummary, 'Match');
-      XLSX.utils.book_append_sheet(wb, wsPlayers, 'Players');
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      XLSX.utils.book_append_sheet(wb, ws, 'Match');
       XLSX.writeFile(wb, `${ourTeamName}_vs_${opponentName}.xlsx`);
     } catch (e) {
       console.error('Excel export failed:', e);
