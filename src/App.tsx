@@ -267,28 +267,106 @@ export default function App() {
       }`}>
 
       {/* GLOBAL HEADER */}
-      <header className={`border-b py-3 px-3 md:py-5 md:px-6 transition-all duration-300 shadow-card ${sunMode
+      <header className={`border-b py-3 px-3 md:py-4 md:px-6 transition-all duration-300 shadow-card ${sunMode
         ? 'bg-white border-sand-155'
         : 'bg-charcoal-900 border-charcoal-800'
         }`} id="app_header">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center gap-3 lg:gap-4">
+        <div className="max-w-7xl mx-auto space-y-2">
+          {/* TOP ROW: Logo + Controls (always same line) */}
+          <div className="flex items-center gap-2 md:gap-4">
 
-          {/* Logo & Legal Disclaimer */}
-          <div className="flex items-center gap-2 md:gap-3 shrink-0 min-w-0">
-            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center font-black text-base md:text-lg shadow-card border transition-all duration-300 flex-shrink-0 ${sunMode ? 'bg-charcoal-900 text-white border-sand-200' : 'bg-primary text-slate-950 border-secondary-border'
-              }`}>
-              BH
-            </div>
-            <div className="min-w-0">
-              <h1 className={`text-lg md:text-xl font-black tracking-tight uppercase flex items-center gap-2 truncate ${sunMode ? 'text-slate-900' : 'text-white'
+            {/* Logo */}
+            <div className="flex items-center gap-2 md:gap-3 shrink-0 min-w-0">
+              <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center font-black text-base md:text-lg shadow-card border transition-all duration-300 flex-shrink-0 ${sunMode ? 'bg-charcoal-900 text-white border-sand-200' : 'bg-primary text-slate-950 border-secondary-border'
                 }`}>
-                BeachHandball Stats
-              </h1>
+                BH
+              </div>
+              <div className="min-w-0">
+                <h1 className={`text-base md:text-xl font-black tracking-tight uppercase truncate ${sunMode ? 'text-slate-900' : 'text-white'
+                  }`}>
+                  BeachHandball Stats
+                </h1>
+              </div>
+            </div>
+
+            {/* CONTROLS - always right side */}
+            <div className="flex items-center gap-1.5 md:gap-3 shrink-0 ml-auto">
+
+              {/* SUN MODE */}
+              <button
+                onClick={() => setSunMode(!sunMode)}
+                className={`p-2 md:p-2.5 rounded-lg border flex items-center justify-center gap-1.5 text-xs font-black uppercase transition-all duration-300 active:scale-[0.98] shadow-sm ${sunMode
+                  ? 'border-sand-200 bg-white text-slate-900 hover:bg-sand-50/50'
+                  : 'border-zinc-700 bg-charcoal-900 text-white hover:bg-charcoal-800'
+                  }`}
+                title="Alternar Modo Sol/Playa"
+                id="sun_mode_btn"
+              >
+                {sunMode ? <Moon className="w-5 h-5 text-primary" /> : <Sun className="w-5 h-5 text-warning" />}
+              </button>
+
+              {/* RESET */}
+              <button
+                onClick={() => setShowResetConfirm(true)}
+                className={`p-2 md:p-2.5 rounded-lg border font-black flex items-center transition-all duration-300 active:scale-[0.98] shadow-sm ${sunMode
+                  ? 'border-sand-200 bg-white text-slate-900 hover:bg-sand-50/50'
+                  : 'border-zinc-700 bg-charcoal-900 text-white hover:bg-charcoal-800'
+                  }`}
+                title="Restablecer partido"
+              >
+                <RotateCcw className="w-5 h-5" />
+              </button>
+
+              {/* INSTALL APP */}
+              {showInstallButton && (
+                <button
+                  onClick={handleInstallClick}
+                  className={`p-2 md:p-2.5 rounded-lg border font-black flex items-center transition-all duration-300 active:scale-[0.98] shadow-sm animate-pulse ${sunMode
+                    ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                    : 'border-emerald-700 bg-emerald-950/50 text-emerald-300 hover:bg-emerald-900/50'
+                    }`}
+                  title="Instalar app"
+                >
+                  <DownloadCloud className="w-5 h-5" />
+                </button>
+              )}
+
+              {/* SEPARATOR */}
+              <div className={`h-8 border-r ${sunMode ? 'border-sand-200' : 'border-zinc-800'}`} />
+
+              {/* USER PROFILE & LOGOUT */}
+              <div className="flex items-center gap-1.5 md:gap-2">
+                {user.picture ? (
+                  <img
+                    src={user.picture}
+                    alt={user.name}
+                    className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-orange-400 shadow-xs"
+                    title={user.email}
+                  />
+                ) : (
+                  <div
+                    className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-orange-100 dark:bg-amber-950 flex items-center justify-center border border-orange-300 shadow-xs font-black text-sm text-orange-600 dark:text-orange-400"
+                    title={user.email}
+                  >
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <button
+                  onClick={() => { signOut(auth); setUser(null); }}
+                  className={`p-2 md:p-2.5 rounded-lg border flex items-center justify-center transition-all duration-300 active:scale-[0.98] shadow-xs cursor-pointer ${sunMode
+                    ? 'border-sand-200 bg-white text-slate-700 hover:bg-sand-50/50 hover:text-red-500'
+                    : 'border-zinc-700 bg-charcoal-900 text-slate-300 hover:bg-charcoal-800 hover:text-red-400'
+                    }`}
+                  title="Cerrar sesión"
+                >
+                  <LogOut className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* QUICK SUMMARY MATCH RESULTS */}
-          <div className={`flex gap-4 lg:gap-6 items-center py-2 lg:py-2.5 px-4 lg:px-6 rounded-xl border transition-all duration-300 shadow-sm order-3 lg:order-none w-full lg:w-auto justify-center ${sunMode
+          {/* BOTTOM ROW: Match Results Summary */}
+          <div className={`flex gap-4 items-center py-1.5 px-4 rounded-xl border transition-all duration-300 shadow-sm justify-center ${sunMode
             ? 'border-sand-200 bg-[#FCFAF6] text-slate-900'
             : 'border-zinc-700 bg-charcoal-950 text-white'
             }`}>
@@ -305,8 +383,7 @@ export default function App() {
               </span>
             </div>
 
-            <div className={`h-10 border-r ${sunMode ? 'border-sand-200' : 'border-zinc-800'
-              }`} />
+            <div className={`h-10 border-r ${sunMode ? 'border-sand-200' : 'border-zinc-800'}`} />
 
             <div className="text-center">
               <span className={`block text-[10px] md:text-xs uppercase font-black tracking-wider ${sunMode ? 'text-slate-500' : 'text-zinc-400'
@@ -323,108 +400,13 @@ export default function App() {
 
             {(set1Winner && set2Winner && set1Winner !== set2Winner) && (
               <>
-                <div className={`h-10 border-r ${sunMode ? 'border-sand-200' : 'border-zinc-800'
-                  }`} />
+                <div className={`h-10 border-r ${sunMode ? 'border-sand-200' : 'border-zinc-800'}`} />
                 <div className="text-center">
                   <span className="block text-[9px] md:text-xs uppercase text-danger font-black tracking-wider bg-red-100 dark:bg-red-950/40 px-2 py-1 rounded">SHOOTOUT</span>
                 </div>
               </>
             )}
           </div>
-          {/* CONTRAST & RESET CONTROLS */}
-          <div className="flex items-center gap-2 md:gap-3 shrink-0 ml-auto">
-
-            {/* SUN MODE / OUTDOOR GLOW CONTROLLER */}
-            <button
-              onClick={() => setSunMode(!sunMode)}
-              className={`p-2.5 md:p-3 rounded-lg border flex items-center justify-center gap-1.5 md:gap-2 text-xs md:text-sm font-black uppercase transition-all duration-300 active:scale-[0.98] shadow-sm ${sunMode
-                ? 'border-sand-200 bg-white text-slate-900 hover:bg-sand-50/50'
-                : 'border-zinc-700 bg-charcoal-900 text-white hover:bg-charcoal-800'
-                }`}
-              title="Alternar Modo Sol/Playa"
-              id="sun_mode_btn"
-            >
-              {sunMode ? (
-                <>
-                  <Moon className="w-5 h-5 text-primary" />
-                  <span className="hidden sm:inline">Noche</span>
-                </>
-              ) : (
-                <>
-                  <Sun className="w-5 h-5 text-warning animate-spin-slow" />
-                  <span className="hidden sm:inline">Sol</span>
-                </>
-              )}
-            </button>
-
-            {/* RESET BUTTON */}
-            <button
-              onClick={() => setShowResetConfirm(true)}
-              className={`p-2.5 md:p-3 rounded-lg border font-black flex items-center gap-1.5 md:gap-2 text-xs md:text-sm transition-all duration-300 active:scale-[0.98] shadow-sm ${sunMode
-                ? 'border-sand-200 bg-white text-slate-900 hover:bg-sand-50/50'
-                : 'border-zinc-700 bg-charcoal-900 text-white hover:bg-charcoal-800'
-                }`}
-              title="Restablecer partido"
-            >
-              <RotateCcw className="w-5 h-5" />
-              <span className="hidden sm:inline">Reset</span>
-            </button>
-
-            {/* INSTALL APP BUTTON */}
-            {showInstallButton && (
-              <button
-                onClick={handleInstallClick}
-                className={`p-2.5 md:p-3 rounded-lg border font-black flex items-center gap-1.5 md:gap-2 text-xs md:text-sm transition-all duration-300 active:scale-[0.98] shadow-sm animate-pulse ${sunMode
-                  ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                  : 'border-emerald-700 bg-emerald-950/50 text-emerald-300 hover:bg-emerald-900/50'
-                  }`}
-                title="Instalar app (eliminar barra de direcciones)"
-              >
-                <DownloadCloud className="w-5 h-5" />
-                <span className="hidden sm:inline">Instalar</span>
-              </button>
-            )}
-
-            {/* USER PROFILE & LOGOUT */}
-            <div className={`h-8 md:h-10 border-r ${sunMode ? 'border-sand-200' : 'border-zinc-800'}`} />
-
-            <div className="flex items-center gap-2 md:gap-2.5 pl-1 md:pl-2">
-              {user.picture ? (
-                <img
-                  src={user.picture}
-                  alt={user.name}
-                  className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-orange-400 shadow-xs"
-                  title={user.email}
-                />
-              ) : (
-                <div
-                  className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-orange-100 dark:bg-amber-950 flex items-center justify-center border border-orange-300 shadow-xs font-black text-sm text-orange-600 dark:text-orange-400"
-                  title={user.email}
-                >
-                  {user.name.charAt(0).toUpperCase()}
-                </div>
-              )}
-              <div className="hidden lg:block text-left max-w-[140px]">
-                <span className={`block text-xs font-black leading-none truncate ${sunMode ? 'text-slate-800' : 'text-slate-200'}`}>
-                  {user.name}
-                </span>
-                <span className={`block text-[10px] font-bold leading-none mt-0.5 text-slate-500 dark:text-slate-400 truncate`}>
-                  {user.email}
-                </span>
-              </div>
-              <button
-                onClick={() => { signOut(auth); setUser(null); }}
-                className={`p-2 md:p-2.5 rounded-lg border flex items-center justify-center transition-all duration-300 active:scale-[0.98] shadow-xs cursor-pointer ${sunMode
-                  ? 'border-sand-200 bg-white text-slate-700 hover:bg-sand-50/50 hover:text-red-500'
-                  : 'border-zinc-700 bg-charcoal-900 text-slate-300 hover:bg-charcoal-800 hover:text-red-400'
-                  }`}
-                title="Cerrar sesión"
-              >
-                <LogOut className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-
         </div>
       </header>
 

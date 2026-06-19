@@ -845,7 +845,6 @@ export default function GameBoard({
               onClick={openTimeEditModal}
               title="Clic para editar el tiempo"
             >
-              <span className={`block text-[8px] uppercase font-black tracking-widest ${sunMode ? 'text-charcoal-500' : 'text-charcoal-400'}`}>Reloj de Juego</span>
               <span className={`text-3xl md:text-5xl font-mono font-extrabold tracking-widest transition-opacity group-hover:opacity-70 ${isLast15Seconds ? 'text-danger font-extrabold' : sunMode ? 'text-charcoal-900' : 'text-amber-gold'}`}>
                 {formatTime(timeRemaining)}
               </span>
@@ -891,7 +890,7 @@ export default function GameBoard({
               <button
                 type="button"
                 onClick={() => openTeamConfigModal('us')}
-                className={`block w-full text-center hover:text-amber-500 transition-colors pb-0.5 border-b mb-1 text-[9px] uppercase font-black tracking-widest cursor-pointer truncate ${
+                className={`block w-full text-center hover:text-amber-500 transition-colors pb-1 border-b mb-1.5 text-xs md:text-sm uppercase font-black tracking-wider cursor-pointer truncate ${
                   sunMode ? 'text-charcoal-500 border-sand-200' : 'text-charcoal-400 border-zinc-800'
                 }`}
                 title="Configurar nombre y color de Nuestro Equipo"
@@ -920,7 +919,7 @@ export default function GameBoard({
               <button
                 type="button"
                 onClick={() => openTeamConfigModal('them')}
-                className={`block w-full text-center hover:text-amber-500 transition-colors pb-0.5 border-b mb-1 text-[9px] uppercase font-black tracking-widest cursor-pointer truncate ${
+                className={`block w-full text-center hover:text-amber-500 transition-colors pb-1 border-b mb-1.5 text-xs md:text-sm uppercase font-black tracking-wider cursor-pointer truncate ${
                   sunMode ? 'text-charcoal-500 border-sand-200' : 'text-charcoal-400 border-zinc-800'
                 }`}
                 title="Configurar nombre y color del Equipo Rival"
