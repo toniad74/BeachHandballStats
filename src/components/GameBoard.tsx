@@ -887,11 +887,11 @@ export default function GameBoard({
             sunMode ? 'bg-sand-50 border-sand-200' : 'bg-charcoal-950 border-charcoal-855'
           }`}>
             {/* US TEAM */}
-            <div className="text-center flex-1 max-w-[200px]">
+            <div className="text-center flex-1 max-w-[200px] min-w-0">
               <button
                 type="button"
                 onClick={() => openTeamConfigModal('us')}
-                className={`block w-full text-center hover:text-amber-500 transition-colors pb-0.5 border-b mb-1 text-[9px] uppercase font-black tracking-widest cursor-pointer ${
+                className={`block w-full text-center hover:text-amber-500 transition-colors pb-0.5 border-b mb-1 text-[9px] uppercase font-black tracking-widest cursor-pointer truncate ${
                   sunMode ? 'text-charcoal-500 border-sand-200' : 'text-charcoal-400 border-zinc-800'
                 }`}
                 title="Configurar nombre y color de Nuestro Equipo"
@@ -911,16 +911,16 @@ export default function GameBoard({
             </div>
 
             {/* SEPARATOR VS */}
-            <div className={`font-black text-lg tracking-wider select-none ${sunMode ? 'text-sand-400' : 'text-charcoal-600'}`}>
+            <div className={`font-black text-lg tracking-wider select-none flex-shrink-0 ${sunMode ? 'text-sand-400' : 'text-charcoal-600'}`}>
               VS
             </div>
 
             {/* THEM TEAM */}
-            <div className="text-center flex-1 max-w-[200px]">
+            <div className="text-center flex-1 max-w-[200px] min-w-0">
               <button
                 type="button"
                 onClick={() => openTeamConfigModal('them')}
-                className={`block w-full text-center hover:text-amber-500 transition-colors pb-0.5 border-b mb-1 text-[9px] uppercase font-black tracking-widest cursor-pointer ${
+                className={`block w-full text-center hover:text-amber-500 transition-colors pb-0.5 border-b mb-1 text-[9px] uppercase font-black tracking-widest cursor-pointer truncate ${
                   sunMode ? 'text-charcoal-500 border-sand-200' : 'text-charcoal-400 border-zinc-800'
                 }`}
                 title="Configurar nombre y color del Equipo Rival"

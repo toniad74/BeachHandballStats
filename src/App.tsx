@@ -271,17 +271,17 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-wrap lg:flex-nowrap justify-between items-center gap-3 lg:gap-4">
 
           {/* Logo & Legal Disclaimer */}
-          <div className="flex items-center gap-2 md:gap-3 shrink-0">
-            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center font-black text-base md:text-lg shadow-card border transition-all duration-300 ${sunMode ? 'bg-charcoal-900 text-white border-sand-200' : 'bg-primary text-slate-950 border-secondary-border'
+          <div className="flex items-center gap-2 md:gap-3 shrink-0 min-w-0">
+            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center font-black text-base md:text-lg shadow-card border transition-all duration-300 flex-shrink-0 ${sunMode ? 'bg-charcoal-900 text-white border-sand-200' : 'bg-primary text-slate-950 border-secondary-border'
               }`}>
               BH
             </div>
-            <div>
-              <h1 className={`text-lg md:text-xl font-black tracking-tight uppercase flex items-center gap-2 ${sunMode ? 'text-slate-900' : 'text-white'
+            <div className="min-w-0">
+              <h1 className={`text-lg md:text-xl font-black tracking-tight uppercase flex items-center gap-2 truncate ${sunMode ? 'text-slate-900' : 'text-white'
                 }`}>
                 BeachHandball Stats
               </h1>
-              <p className={`text-[10px] md:text-xs font-semibold uppercase tracking-wider ${sunMode ? 'text-slate-600' : 'text-slate-300'
+              <p className={`text-[10px] md:text-xs font-semibold uppercase tracking-wider truncate ${sunMode ? 'text-slate-600' : 'text-slate-300'
                 }`}>
                 Registro táctico de alta velocidad
               </p>
@@ -405,11 +405,11 @@ export default function App() {
                   {user.name.charAt(0).toUpperCase()}
                 </div>
               )}
-              <div className="hidden lg:block text-left">
-                <span className={`block text-xs font-black leading-none ${sunMode ? 'text-slate-800' : 'text-slate-200'}`}>
+              <div className="hidden lg:block text-left max-w-[140px]">
+                <span className={`block text-xs font-black leading-none truncate ${sunMode ? 'text-slate-800' : 'text-slate-200'}`}>
                   {user.name}
                 </span>
-                <span className={`block text-[10px] font-bold leading-none mt-0.5 text-slate-500 dark:text-slate-400`}>
+                <span className={`block text-[10px] font-bold leading-none mt-0.5 text-slate-500 dark:text-slate-400 truncate`}>
                   {user.email}
                 </span>
               </div>
@@ -432,7 +432,7 @@ export default function App() {
       {/* CORE NAVIGATION TABS */}
       <nav className={`py-1.5 md:py-2 px-2 md:px-6 border-b transition-colors duration-300 shadow-card ${sunMode ? 'bg-white border-sand-155' : 'bg-charcoal-900 border-charcoal-800'
         }`}>
-        <div className="max-w-7xl mx-auto grid grid-cols-4 md:flex md:justify-start md:gap-2 lg:gap-4">
+        <div className="max-w-7xl mx-auto grid grid-cols-4 md:flex md:justify-start md:gap-2 lg:gap-4 overflow-hidden">
           <button
             onClick={() => {
               if (currentPeriod === 'shootout') {
@@ -441,50 +441,50 @@ export default function App() {
                 setActiveTab('pista');
               }
             }}
-            className={`py-3 md:py-4 px-2 md:px-5 rounded-lg font-bold text-xs md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'pista'
+            className={`py-3 md:py-4 px-1 md:px-5 rounded-lg font-bold text-[11px] md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] whitespace-nowrap overflow-hidden ${activeTab === 'pista'
               ? 'border-primary text-primary font-extrabold'
               : sunMode
                 ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">📋</span> <span>Partido</span>
+            <span className="text-lg md:text-xl">📋</span> <span className="truncate">Partido</span>
           </button>
 
           <button
             onClick={() => changePeriod('shootout')}
-            className={`py-3 md:py-4 px-2 md:px-5 rounded-lg font-bold text-xs md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'shootout'
+            className={`py-3 md:py-4 px-1 md:px-5 rounded-lg font-bold text-[11px] md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] whitespace-nowrap overflow-hidden ${activeTab === 'shootout'
               ? 'border-primary text-primary font-extrabold'
               : sunMode
                 ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">🎯</span> <span>Shoot-out</span>
+            <span className="text-lg md:text-xl">🎯</span> <span className="truncate">Shootout</span>
           </button>
 
           <button
             onClick={() => setActiveTab('analisis')}
-            className={`py-3 md:py-4 px-2 md:px-5 rounded-lg font-bold text-xs md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'analisis'
+            className={`py-3 md:py-4 px-1 md:px-5 rounded-lg font-bold text-[11px] md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] whitespace-nowrap overflow-hidden ${activeTab === 'analisis'
               ? 'border-primary text-primary font-extrabold'
               : sunMode
                 ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">📊</span> <span>Análisis</span>
+            <span className="text-lg md:text-xl">📊</span> <span className="truncate">Análisis</span>
           </button>
 
           <button
             onClick={() => setActiveTab('plantilla')}
-            className={`py-3 md:py-4 px-2 md:px-5 rounded-lg font-bold text-xs md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'plantilla'
+            className={`py-3 md:py-4 px-1 md:px-5 rounded-lg font-bold text-[11px] md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] whitespace-nowrap overflow-hidden ${activeTab === 'plantilla'
               ? 'border-primary text-primary font-extrabold'
               : sunMode
                 ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">⚙️</span> <span>Jugadores</span>
+            <span className="text-lg md:text-xl">⚙️</span> <span className="truncate">Jugadores</span>
           </button>
         </div>
       </nav>

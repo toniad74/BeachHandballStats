@@ -318,34 +318,15 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
 
       </div>
 
-      {/* FULL DETAILED ROSTER STATS TABLE */}
-      <div className="bg-background border border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-5">
-        <h4 className="text-base font-black text-gray-900 dark:text-zinc-100 uppercase mb-4 flex items-center gap-2">
-          <Users className="w-5 h-5 text-amber-500" />
+      {/* FULL DETAILED ROSTER STATS - CARD LAYOUT FOR OUTDOOR READABILITY */}
+      <div className="bg-background border-2 border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-4 md:p-6">
+        <h4 className="text-lg md:text-xl font-black text-gray-900 dark:text-zinc-100 uppercase mb-5 md:mb-6 flex items-center gap-2">
+          <Users className="w-6 h-6 md:w-7 md:h-7 text-amber-500" />
           Rendimiento Individual por Jugador
         </h4>
 
-        <div className="overflow-x-auto -mx-2 px-2 md:mx-0 md:px-0">
-          <table className="w-full text-left border-collapse min-w-[800px]">
-            <thead>
-              <tr className="bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-200 text-xs font-bold uppercase tracking-wider">
-                <th className="py-2.5 px-3">Dorsal</th>
-                <th className="py-2.5 px-3">Nombre</th>
-                <th className="py-2.5 px-3">Posición</th>
-                <th className="py-2.5 px-3 text-center">Goles 1pt</th>
-                <th className="py-2.5 px-3 text-center">Goles 2pt</th>
-                <th className="py-2.5 px-3 text-center">Paradas</th>
-                <th className="py-2.5 px-3 text-center">Goles Enc.</th>
-                <th className="py-2.5 px-3 text-center">% Paradas</th>
-                <th className="py-2.5 px-3 text-center">Fallo Común</th>
-                <th className="py-2.5 px-3 text-center">Fallo Fly</th>
-                <th className="py-2.5 px-3 text-center">Pérdidas</th>
-                <th className="py-2.5 px-3 text-center">% Efect.</th>
-                <th className="py-2.5 px-3 text-center">Exclusiones</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-zinc-800 text-sm">
-              {sortedPlayers.map((p) => {
+        <div className="space-y-4 md:space-y-5">
+          {sortedPlayers.map((p) => {
                 const pTurnovers = p.turnoverBadPass + p.turnoverSteps + p.turnoverFumbling;
                 const pSaves = Math.max(p.saves || 0, historyEvents.filter((ev) => 
                   ev.type === 'save' && 
@@ -359,74 +340,122 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
                 const pGoalsConceded = p.goalsConceded || 0;
                 const pGKTotal = pSaves + pGoalsConceded;
                 const pSavePercentage = pGKTotal > 0 ? (pSaves / pGKTotal) * 100 : 0;
+                
                 return (
-                  <tr key={p.id} className="hover:bg-gray-50 dark:hover:bg-zinc-800/50">
-                    <td className="py-3 px-3 font-mono font-bold">#{p.number}</td>
-                    <td className="py-3 px-3 font-semibold text-gray-900 dark:text-white">{p.name}</td>
-                    <td className="py-3 px-3">
-                      <span className={`text-xs py-0.5 px-2.5 rounded-full uppercase font-bold border ${
-                        p.position === 'Portero'
-                          ? 'bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-300/30'
-                          : p.position === 'Especialista'
-                          ? 'bg-purple-100 dark:bg-purple-950/40 text-purple-800 dark:text-purple-300 border-purple-300/30'
-                          : p.position === 'Polivalente'
-                          ? 'bg-teal-100 dark:bg-teal-950/40 text-teal-800 dark:text-teal-300 border-teal-300/30'
-                          : 'bg-zinc-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 border-zinc-200/50 dark:border-zinc-700/50'
+                  <div key={p.id} className={`border-2 rounded-2xl p-4 md:p-5 ${
+                    p.position === 'Portero'
+                      ? 'border-amber-300 dark:border-amber-700 bg-amber-50/50 dark:bg-amber-950/20'
+                      : p.position === 'Especialista'
+                      ? 'border-purple-300 dark:border-purple-700 bg-purple-50/50 dark:bg-purple-950/20'
+                      : p.position === 'Polivalente'
+                      ? 'border-teal-300 dark:border-teal-700 bg-teal-50/50 dark:bg-teal-950/20'
+                      : 'border-gray-200 dark:border-zinc-700 bg-white/50 dark:bg-zinc-900/50'
+                  }`}>
+                    {/* Player Header */}
+                    <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-200 dark:border-zinc-700">
+                      <div className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center font-black text-lg md:text-xl text-white shadow-sm ${
+                        p.position === 'Portero' ? 'bg-amber-500' 
+                        : p.position === 'Especialista' ? 'bg-purple-500' 
+                        : p.position === 'Polivalente' ? 'bg-teal-500' 
+                        : 'bg-blue-600'
                       }`}>
-                        {p.position}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 text-center font-mono font-bold text-green-600">{p.goals1p}</td>
-                    <td className="py-3 px-3 text-center font-mono font-bold text-green-600">{p.goals2p}</td>
-                    <td className="py-3 px-3 text-center font-mono font-bold text-blue-600">{pSaves}</td>
-                    <td className="py-3 px-3 text-center font-mono">
-                      {isGKType ? (
-                        <span className="font-bold text-red-500">{pGoalsConceded}</span>
-                      ) : (
-                        <span className="text-gray-400 text-xs">—</span>
-                      )}
-                    </td>
-                    <td className="py-3 px-3 text-center">
-                      {isGKType && pGKTotal > 0 ? (
-                        <span className={`px-2 py-0.5 rounded-full text-[11px] font-black ${
-                          pSavePercentage >= 50 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' 
-                          : pSavePercentage >= 30 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' 
-                          : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                        {p.number}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h5 className="text-lg md:text-xl font-black text-gray-900 dark:text-white uppercase truncate">
+                          {p.name}
+                        </h5>
+                        <span className={`text-sm md:text-base font-bold uppercase ${
+                          p.position === 'Portero' ? 'text-amber-600 dark:text-amber-400' 
+                          : p.position === 'Especialista' ? 'text-purple-600 dark:text-purple-400'
+                          : p.position === 'Polivalente' ? 'text-teal-600 dark:text-teal-400'
+                          : 'text-blue-600 dark:text-blue-400'
                         }`}>
-                          {pSavePercentage.toFixed(0)}%
+                          {p.position}
                         </span>
-                      ) : (
-                        <span className="text-gray-400 text-xs">—</span>
-                      )}
-                    </td>
-                    <td className="py-3 px-3 text-center font-mono text-gray-500">{p.missedShots - p.missedFlies}</td>
-                    <td className="py-3 px-3 text-center font-mono text-orange-600">{p.missedFlies}</td>
-                    <td className="py-3 px-3 text-center font-mono text-red-500">{pTurnovers}</td>
-                    <td className="py-3 px-3 text-center">
-                      {pTotalShots > 0 ? (
-                        <span className={`px-2 py-0.5 rounded-full text-[11px] font-black ${
-                          pEffectiveness >= 60 ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' 
-                          : pEffectiveness >= 40 ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' 
-                          : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+                      </div>
+                      {/* Effectiveness Badge */}
+                      {pTotalShots > 0 && (
+                        <div className={`px-3 py-1.5 rounded-xl text-base md:text-lg font-black ${
+                          pEffectiveness >= 60 ? 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300' 
+                          : pEffectiveness >= 40 ? 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' 
+                          : 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300'
                         }`}>
                           {pEffectiveness.toFixed(0)}%
-                        </span>
-                      ) : (
-                        <span className="text-gray-400 text-xs">—</span>
+                        </div>
                       )}
-                    </td>
-                    <td className="py-3 px-3 text-center">
-                      <span className={`px-1.5 py-0.5 rounded text-[10px] font-black ${
-                        p.exclusions === 1 ? 'bg-orange-500 text-white' : p.exclusions >= 2 ? 'bg-red-600 text-white animate-pulse' : 'text-gray-400'
-                      }`}>
-                        {p.exclusions === 0 ? 'Limpio' : `${p.exclusions} S`}
-                      </span>
-                    </td>
-                  </tr>
+                      {/* Exclusion Badge */}
+                      {p.exclusions > 0 && (
+                        <span className={`px-2.5 py-1 rounded-lg text-sm font-black ${
+                          p.exclusions >= 2 ? 'bg-red-600 text-white animate-pulse' : 'bg-orange-500 text-white'
+                        }`}>
+                          {p.exclusions >= 2 ? '🟥 ROJA' : `${p.exclusions} Excl.`}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Stats Grid - Large numbers for outdoor */}
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
+                      {/* Goals 1pt */}
+                      <div className="text-center bg-green-50 dark:bg-green-950/30 rounded-xl p-2.5 md:p-3 border border-green-200 dark:border-green-800/50">
+                        <span className="block text-[10px] md:text-xs font-black uppercase text-green-700 dark:text-green-400 mb-1">Goles 1pt</span>
+                        <span className="block text-2xl md:text-3xl font-mono font-black text-green-700 dark:text-green-300">{p.goals1p}</span>
+                      </div>
+                      {/* Goals 2pt */}
+                      <div className="text-center bg-emerald-50 dark:bg-emerald-950/30 rounded-xl p-2.5 md:p-3 border border-emerald-200 dark:border-emerald-800/50">
+                        <span className="block text-[10px] md:text-xs font-black uppercase text-emerald-700 dark:text-emerald-400 mb-1">Goles 2pt</span>
+                        <span className="block text-2xl md:text-3xl font-mono font-black text-emerald-700 dark:text-emerald-300">{p.goals2p}</span>
+                      </div>
+                      {/* Saves (GK types) */}
+                      {isGKType && (
+                        <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-2.5 md:p-3 border border-blue-200 dark:border-blue-800/50">
+                          <span className="block text-[10px] md:text-xs font-black uppercase text-blue-700 dark:text-blue-400 mb-1">Paradas</span>
+                          <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300">{pSaves}</span>
+                        </div>
+                      )}
+                      {/* Goals Conceded (GK types) */}
+                      {isGKType && (
+                        <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-2.5 md:p-3 border border-red-200 dark:border-red-800/50">
+                          <span className="block text-[10px] md:text-xs font-black uppercase text-red-700 dark:text-red-400 mb-1">Encajados</span>
+                          <span className="block text-2xl md:text-3xl font-mono font-black text-red-600 dark:text-red-300">{pGoalsConceded}</span>
+                        </div>
+                      )}
+                      {/* Save % (GK types) */}
+                      {isGKType && pGKTotal > 0 && (
+                        <div className={`text-center rounded-xl p-2.5 md:p-3 border ${
+                          pSavePercentage >= 50 ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800/50' 
+                          : pSavePercentage >= 30 ? 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800/50' 
+                          : 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800/50'
+                        }`}>
+                          <span className="block text-[10px] md:text-xs font-black uppercase text-gray-700 dark:text-zinc-400 mb-1">% Paradas</span>
+                          <span className={`block text-2xl md:text-3xl font-mono font-black ${
+                            pSavePercentage >= 50 ? 'text-green-700 dark:text-green-300' 
+                            : pSavePercentage >= 30 ? 'text-amber-700 dark:text-amber-300' 
+                            : 'text-red-600 dark:text-red-300'
+                          }`}>{pSavePercentage.toFixed(0)}%</span>
+                        </div>
+                      )}
+                      {/* Missed Shots */}
+                      <div className="text-center bg-orange-50 dark:bg-orange-950/30 rounded-xl p-2.5 md:p-3 border border-orange-200 dark:border-orange-800/50">
+                        <span className="block text-[10px] md:text-xs font-black uppercase text-orange-700 dark:text-orange-400 mb-1">Fallos</span>
+                        <span className="block text-2xl md:text-3xl font-mono font-black text-orange-600 dark:text-orange-300">{p.missedShots}</span>
+                      </div>
+                      {/* Missed Flies */}
+                      {!isGKType && (
+                        <div className="text-center bg-amber-50 dark:bg-amber-950/30 rounded-xl p-2.5 md:p-3 border border-amber-200 dark:border-amber-800/50">
+                          <span className="block text-[10px] md:text-xs font-black uppercase text-amber-700 dark:text-amber-400 mb-1">Err. Fly</span>
+                          <span className="block text-2xl md:text-3xl font-mono font-black text-amber-600 dark:text-amber-300">{p.missedFlies}</span>
+                        </div>
+                      )}
+                      {/* Turnovers */}
+                      <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-2.5 md:p-3 border border-red-200 dark:border-red-800/50">
+                        <span className="block text-[10px] md:text-xs font-black uppercase text-red-700 dark:text-red-400 mb-1">Pérdidas</span>
+                        <span className="block text-2xl md:text-3xl font-mono font-black text-red-600 dark:text-red-300">{pTurnovers}</span>
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
-            </tbody>
-          </table>
         </div>
       </div>
 

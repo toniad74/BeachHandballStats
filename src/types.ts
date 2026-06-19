@@ -94,3 +94,14 @@ export interface EventLog {
   description: string;
   type: 'goal_us' | 'goal_them' | 'miss_us' | 'miss_them' | 'exclusion' | 'turnover' | 'save' | 'tto' | 'system';
 }
+
+export interface SavedMatch {
+  id?: string;
+  userId: string;
+  matchState: MatchState;
+  savedAt: string; // ISO date
+  label: string; // e.g. "Mi Equipo vs Rival - 12/06/2026"
+  ourTeamName: string;
+  opponentName: string;
+  finalScore: string; // e.g. "Set1: 12-10 | Set2: 8-14 | Shootout"
+}
