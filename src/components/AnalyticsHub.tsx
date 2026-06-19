@@ -441,33 +441,38 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                         ) : null;
                       })()}
                       {/* Fly */}
-                      {(() => { const flyAttempts = p.goals2p + p.missedFlies;
-                        const flyEff = flyAttempts > 0 ? (p.goals2p / flyAttempts * 100) : 0;
+                      {(() => { const flyGoals = p.goalsFlies || 0; const flyMissed = p.missedFlies || 0;
+                        const flyAttempts = flyGoals + flyMissed;
+                        const flyEff = flyAttempts > 0 ? (flyGoals / flyAttempts * 100) : 0;
                         return flyAttempts > 0 ? (
                           <div className="text-center bg-orange-50 dark:bg-orange-950/30 rounded-xl p-3 border border-orange-200 dark:border-orange-800/50">
                             <span className="block text-xs font-black uppercase text-orange-700 dark:text-orange-400">Fly</span>
                             <span className="block text-2xl md:text-3xl font-mono font-black text-orange-700 dark:text-orange-300 mt-1">{flyEff.toFixed(0)}%</span>
-                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{p.goals2p}/{flyAttempts}</span>
+                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{flyGoals}/{flyAttempts}</span>
                           </div>
                         ) : null;
                       })()}
                       {/* Giro */}
-                      {(() => { const giroMissed = p.missedSpins || 0;
-                        return giroMissed > 0 ? (
+                      {(() => { const giroGoals = p.goalsSpins || 0; const giroMissed = p.missedSpins || 0;
+                        const giroAttempts = giroGoals + giroMissed;
+                        const giroEff = giroAttempts > 0 ? (giroGoals / giroAttempts * 100) : 0;
+                        return giroAttempts > 0 ? (
                           <div className="text-center bg-purple-50 dark:bg-purple-950/30 rounded-xl p-3 border border-purple-200 dark:border-purple-800/50">
                             <span className="block text-xs font-black uppercase text-purple-700 dark:text-purple-400">{language === 'en' ? 'Spin' : 'Giro'}</span>
-                            <span className="block text-2xl md:text-3xl font-mono font-black text-purple-700 dark:text-purple-300 mt-1">{giroMissed}</span>
-                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{language === 'en' ? 'missed' : 'err'}</span>
+                            <span className="block text-2xl md:text-3xl font-mono font-black text-purple-700 dark:text-purple-300 mt-1">{giroEff.toFixed(0)}%</span>
+                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{giroGoals}/{giroAttempts}</span>
                           </div>
                         ) : null;
                       })()}
                       {/* Penalti */}
-                      {(() => { const penMissed = p.missedPenalties || 0;
-                        return penMissed > 0 ? (
+                      {(() => { const penGoals = p.goalsPenalties || 0; const penMissed = p.missedPenalties || 0;
+                        const penAttempts = penGoals + penMissed;
+                        const penEff = penAttempts > 0 ? (penGoals / penAttempts * 100) : 0;
+                        return penAttempts > 0 ? (
                           <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-3 border border-red-200 dark:border-red-800/50">
                             <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">{language === 'en' ? 'Penalty' : 'Penalti'}</span>
-                            <span className="block text-2xl md:text-3xl font-mono font-black text-red-700 dark:text-red-300 mt-1">{penMissed}</span>
-                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{language === 'en' ? 'missed' : 'err'}</span>
+                            <span className="block text-2xl md:text-3xl font-mono font-black text-red-700 dark:text-red-300 mt-1">{penEff.toFixed(0)}%</span>
+                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{penGoals}/{penAttempts}</span>
                           </div>
                         ) : null;
                       })()}

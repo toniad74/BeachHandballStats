@@ -20,11 +20,14 @@ export interface Player {
   // Scoring statistics
   goals1p: number;
   goals2p: number;
+  goalsFlies: number; // goals scored via fly
+  goalsSpins: number; // goals scored via giro/spin
+  goalsPenalties: number; // goals scored via penalty
   assists: number;
   missedShots: number;
-  missedFlies: number; // specifically tracking failed alley-oops / flies
-  missedSpins: number; // failed giros
-  missedPenalties: number; // failed penalties
+  missedFlies: number;
+  missedSpins: number;
+  missedPenalties: number;
 
   // Turnovers breakdown
   turnoverBadPass: number;

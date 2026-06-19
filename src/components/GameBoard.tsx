@@ -341,7 +341,13 @@ export default function GameBoard({
   const addPoint2 = (player: Player, type: 'Portero_Especialista' | 'Fly' | 'Giro' | 'Penalti') => {
     const updatedPlayers = players.map((p) => {
       if (p.id === player.id) {
-        return { ...p, goals2p: p.goals2p + 1 };
+        return {
+          ...p,
+          goals2p: p.goals2p + 1,
+          goalsFlies: (p.goalsFlies || 0) + (type === 'Fly' ? 1 : 0),
+          goalsSpins: (p.goalsSpins || 0) + (type === 'Giro' ? 1 : 0),
+          goalsPenalties: (p.goalsPenalties || 0) + (type === 'Penalti' ? 1 : 0),
+        };
       }
       return p;
     });
