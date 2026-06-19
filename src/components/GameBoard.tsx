@@ -794,7 +794,7 @@ export default function GameBoard({
   };
 
   return (
-    <div className={`p-3 space-y-4 ${isLast15Seconds ? 'ring-8 ring-red-600 animate-pulse duration-700 bg-red-10/20 rounded-xl' : ''}`} id="game_board_canvas">
+    <div className={`p-3 md:p-5 space-y-4 md:space-y-6 ${isLast15Seconds ? 'ring-8 ring-red-600 animate-pulse duration-700 bg-red-10/20 rounded-xl' : ''}`} id="game_board_canvas">
       
       {/* 15 SECONDS ULTRA ALERT PANEL */}
       {isLast15Seconds && (
@@ -846,7 +846,7 @@ export default function GameBoard({
               title="Clic para editar el tiempo"
             >
               <span className={`block text-[8px] uppercase font-black tracking-widest ${sunMode ? 'text-charcoal-500' : 'text-charcoal-400'}`}>Reloj de Juego</span>
-              <span className={`text-3xl md:text-4xl font-mono font-extrabold tracking-widest transition-opacity group-hover:opacity-70 ${isLast15Seconds ? 'text-danger font-extrabold' : sunMode ? 'text-charcoal-900' : 'text-amber-gold'}`}>
+              <span className={`text-3xl md:text-5xl font-mono font-extrabold tracking-widest transition-opacity group-hover:opacity-70 ${isLast15Seconds ? 'text-danger font-extrabold' : sunMode ? 'text-charcoal-900' : 'text-amber-gold'}`}>
                 {formatTime(timeRemaining)}
               </span>
             </div>
@@ -903,8 +903,8 @@ export default function GameBoard({
                 className="flex justify-center items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity"
                 title="Configurar nombre y color de Nuestro Equipo"
               >
-                <div className="w-3.5 h-3.5 rounded-full border border-black/20" style={{ backgroundColor: ourShirtColor }} />
-                <span className={`text-4xl sm:text-5xl font-mono font-black ${sunMode ? 'text-charcoal-900' : 'text-white'}`}>
+                <div className="w-4 h-4 md:w-5 md:h-5 rounded-full border border-black/20" style={{ backgroundColor: ourShirtColor }} />
+                <span className={`text-5xl md:text-6xl font-mono font-black ${sunMode ? 'text-charcoal-900' : 'text-white'}`}>
                   {currentSetState.usScore}
                 </span>
               </div>
@@ -932,10 +932,10 @@ export default function GameBoard({
                 className="flex justify-center items-center gap-1.5 cursor-pointer hover:opacity-85 transition-opacity"
                 title="Configurar nombre y color del Equipo Rival"
               >
-                <span className={`text-4xl sm:text-5xl font-mono font-black ${sunMode ? 'text-[#E11D48]' : 'text-[#F59E0B]'}`}>
+                <span className={`text-5xl md:text-6xl font-mono font-black ${sunMode ? 'text-[#E11D48]' : 'text-[#F59E0B]'}`}>
                   {currentSetState.themScore}
                 </span>
-                <div className="w-3.5 h-3.5 rounded-full border border-black/20" style={{ backgroundColor: opponentShirtColor }} />
+                <div className="w-4 h-4 md:w-5 md:h-5 rounded-full border border-black/20" style={{ backgroundColor: opponentShirtColor }} />
               </div>
             </div>
           </div>
@@ -1042,21 +1042,21 @@ export default function GameBoard({
       </div>
 
       {/* TACTICAL ACTION PANEL: UNIFIED ROSTER GRID */}
-      <div className={`border-3 rounded-2xl shadow-xs p-4 transition-colors ${
+      <div className={`border-3 rounded-2xl shadow-xs p-4 md:p-6 transition-colors ${
         sunMode ? 'bg-white border-sand-300' : 'bg-charcoal-900 border-charcoal-750'
       }`}>
-        <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-4 gap-3 ${
+        <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 mb-4 md:mb-5 gap-3 ${
           sunMode ? 'border-sand-200' : 'border-charcoal-800'
         }`}>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-6 h-6 text-[#10B981]" />
+            <ShieldCheck className="w-7 h-7 md:w-8 md:h-8 text-[#10B981]" />
             <div>
               <h3 
-                className={`text-lg font-black uppercase tracking-tight flex items-center gap-2 ${sunMode ? 'text-charcoal-900' : 'text-sand-50'}`}
+                className={`text-lg md:text-xl font-black uppercase tracking-tight flex items-center gap-2 ${sunMode ? 'text-charcoal-900' : 'text-sand-50'}`}
               >
                 CONVOCADOS
               </h3>
-              <p className={`text-xs ${sunMode ? 'text-charcoal-500' : 'text-charcoal-405'}`}>
+              <p className={`text-xs md:text-sm ${sunMode ? 'text-charcoal-500' : 'text-charcoal-405'}`}>
                 Selecciona cualquier jugador para abrir el menú de goles, paradas, fallos y pérdidas.
               </p>
             </div>
@@ -1081,7 +1081,7 @@ export default function GameBoard({
         </div>
 
         {/* UNIFIED ROSTER GRID */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3" id="unified_roster_grid">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4" id="unified_roster_grid">
           {players.slice().sort(sortGkSpecFirst).map((player) => {
             const isGKOrEspecialista = player.position === 'Portero' || player.position === 'Especialista' || player.position === 'Polivalente';
             const teamColor = isGKOrEspecialista ? ourGkShirtColor : ourShirtColor;
@@ -1133,21 +1133,21 @@ export default function GameBoard({
                     setSelectedPlayerForActions(player);
                   }
                 }}
-                className={`border-2 rounded-xl relative p-3 flex flex-col justify-between cursor-pointer transition-all hover:scale-[1.02] active:scale-95 shadow-3xs ${cardBgClass}`}
+                className={`border-2 rounded-xl relative p-4 md:p-5 flex flex-col justify-between cursor-pointer transition-all hover:scale-[1.02] active:scale-95 shadow-3xs ${cardBgClass}`}
               >
-                <div className="flex items-center justify-between gap-1.5 mb-2">
-                  <div className="flex items-center gap-2 min-w-0">
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2.5 min-w-0">
                     <div
-                      className={`w-7 h-7 rounded-full font-black text-xs flex items-center justify-center border border-white/40 flex-shrink-0 ${textStyle}`}
+                      className={`w-9 h-9 md:w-10 md:h-10 rounded-full font-black text-sm md:text-base flex items-center justify-center border border-white/40 flex-shrink-0 ${textStyle}`}
                       style={{ backgroundColor: teamColor }}
                     >
                       {player.number}
                     </div>
                     <div className="leading-none min-w-0">
-                      <p className={`font-extrabold text-xs truncate ${sunMode ? 'text-charcoal-900' : 'text-sand-50'}`}>
+                      <p className={`font-extrabold text-sm md:text-base truncate ${sunMode ? 'text-charcoal-900' : 'text-sand-50'}`}>
                         {player.name}
                       </p>
-                      <span className={`text-[9px] uppercase font-black truncate block mt-0.5 ${
+                      <span className={`text-[10px] md:text-xs uppercase font-black truncate block mt-0.5 ${
                         player.position === 'Portero'
                           ? 'text-amber-600 dark:text-[#F59E0B]'
                           : player.position === 'Especialista'
@@ -1163,34 +1163,34 @@ export default function GameBoard({
                 </div>
 
                 {/* Stats summary row */}
-                <div className="flex flex-wrap gap-1 mt-1 text-[9px] font-bold">
+                <div className="flex flex-wrap gap-1.5 mt-1.5 text-[10px] md:text-xs font-bold">
                   {totalGoals > 0 && (
-                    <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-1 rounded">
+                    <span className="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded">
                       ⚽ {totalGoals} pts
                     </span>
                   )}
                   {totalTurnovers > 0 && (
-                    <span className="bg-red-500/10 text-red-600 dark:text-red-400 px-1 rounded">
+                    <span className="bg-red-500/10 text-red-600 dark:text-red-400 px-1.5 py-0.5 rounded">
                       ⚠️ {totalTurnovers} Pérd
                     </span>
                   )}
                   {totalSaves > 0 && (
-                    <span className="bg-blue-500/10 text-blue-600 dark:text-blue-400 px-1 rounded">
+                    <span className="bg-blue-500/10 text-blue-600 dark:text-blue-400 px-1.5 py-0.5 rounded">
                       🧤 {totalSaves} Par
                     </span>
                   )}
                   {(player.goalsConceded || 0) > 0 && (
-                    <span className="bg-red-500/10 text-red-600 dark:text-red-400 px-1 rounded">
+                    <span className="bg-red-500/10 text-red-600 dark:text-red-400 px-1.5 py-0.5 rounded">
                       🥅 {player.goalsConceded} Enc
                     </span>
                   )}
                   {totalRecoveries > 0 && (
-                    <span className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-1 rounded">
+                    <span className="bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-1.5 py-0.5 rounded">
                       🟢 {totalRecoveries} Rec
                     </span>
                   )}
                   {totalMisses > 0 && (
-                    <span className="bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 px-1 rounded">
+                    <span className="bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 px-1.5 py-0.5 rounded">
                       ❌ {totalMisses} Err
                     </span>
                   )}

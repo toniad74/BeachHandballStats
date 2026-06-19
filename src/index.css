@@ -344,6 +344,11 @@ button:active {
 /* Responsive & Tablet Optimizations */
 /* Tablets 9-10" portrait: ~768-834px */
 @media (min-width: 768px) and (max-width: 1024px) {
+  /* Scale up base font for better readability on tablets */
+  html {
+    font-size: 17px;
+  }
+
   /* Optimize padding for tablet screens */
   .max-w-7xl {
     padding-left: 1.25rem;
@@ -353,6 +358,10 @@ button:active {
 
 /* Tablets 9-10" landscape and larger tablets: ~1024-1180px */
 @media (min-width: 1024px) and (max-width: 1180px) {
+  html {
+    font-size: 17px;
+  }
+
   .max-w-7xl {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
@@ -362,20 +371,47 @@ button:active {
 /* Touch-friendly sizing for all interactive elements */
 @media (pointer: coarse) {
   button {
-    min-height: 40px;
-    min-width: 40px;
+    min-height: 44px;
+    min-width: 44px;
   }
 
   select, input[type="text"], input[type="number"] {
-    min-height: 44px;
+    min-height: 48px;
     font-size: 16px !important; /* Prevents zoom on iOS */
   }
 
-  /* Smaller stat badges and inline buttons don't need large touch targets */
-  .grid button, 
-  [id="unified_roster_grid"] button {
+  /* Player roster cards ARE the touch targets — they need full size */
+  [id="unified_roster_grid"] > div {
+    min-height: 80px;
+  }
+
+  /* Smaller inline stat badges don't need large touch targets */
+  [id="unified_roster_grid"] span,
+  .text-\[9px\] {
     min-height: unset;
     min-width: unset;
+  }
+}
+
+/* Tablet-specific: larger buttons and better spacing */
+@media (min-width: 768px) and (pointer: coarse) {
+  button {
+    min-height: 48px;
+    min-width: 48px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Navigation tab buttons */
+  nav button {
+    min-height: 52px;
+    font-size: 0.9375rem;
+  }
+
+  /* Modal action buttons */
+  .fixed button {
+    min-height: 52px;
+    font-size: 0.9375rem;
   }
 }
 

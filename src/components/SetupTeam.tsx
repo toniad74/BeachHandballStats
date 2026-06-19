@@ -101,7 +101,7 @@ export default function SetupTeam({
   });
 
   return (
-    <div className="max-w-5xl mx-auto space-y-4 md:space-y-6 p-2 md:p-4">
+    <div className="max-w-5xl mx-auto space-y-5 md:space-y-8 p-3 md:p-6">
       
 
         {/* Player Roster Management (Up to 16) */}

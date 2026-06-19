@@ -75,29 +75,29 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
   });
 
   return (
-    <div className="p-2 md:p-4 space-y-4 md:space-y-6">
+    <div className="p-3 md:p-6 space-y-5 md:space-y-8">
       
       {/* SUMMARY BAR */}
-      <div className="bg-background border-2 border-amber-500 rounded-2xl p-5 text-gray-900 dark:text-gray-100 flex flex-col sm:flex-row justify-between items-center shadow-md gap-4" id="analytics_summary_banner">
+      <div className="bg-background border-2 border-amber-500 rounded-2xl p-5 md:p-6 text-gray-900 dark:text-gray-100 flex flex-col sm:flex-row justify-between items-center shadow-md gap-4" id="analytics_summary_banner">
         <div className="flex items-center gap-3">
-          <Award className="w-10 h-10 text-amber-500" />
+          <Award className="w-10 h-10 md:w-12 md:h-12 text-amber-500" />
           <div>
-            <h2 className="text-xl font-black uppercase tracking-tight text-gray-900 dark:text-gray-100">Estadísticas del Entrenador</h2>
-            <p className="text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase">Métricas actualizadas en tiempo real de los sets de juego</p>
+            <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight text-gray-900 dark:text-gray-100">Estadísticas del Entrenador</h2>
+            <p className="text-xs md:text-sm font-bold text-gray-500 dark:text-zinc-400 uppercase">Métricas actualizadas en tiempo real de los sets de juego</p>
           </div>
         </div>
-        <div className="flex gap-4 sm:gap-8 bg-gray-100 dark:bg-zinc-800/50 py-2.5 px-5 rounded-xl border border-gray-200 dark:border-zinc-700">
+        <div className="flex gap-5 sm:gap-8 bg-gray-100 dark:bg-zinc-800/50 py-3 px-6 rounded-xl border border-gray-200 dark:border-zinc-700">
           <div className="text-center">
-            <span className="block text-[10px] uppercase font-black text-gray-500 dark:text-zinc-400">Puntos Totales</span>
-            <span className="text-3xl font-mono font-black text-gray-900 dark:text-gray-100">{totalPointsScored}</span>
+            <span className="block text-[10px] md:text-xs uppercase font-black text-gray-500 dark:text-zinc-400">Puntos Totales</span>
+            <span className="text-3xl md:text-4xl font-mono font-black text-gray-900 dark:text-gray-100">{totalPointsScored}</span>
           </div>
-          <div className="text-center border-l border-gray-200 dark:border-zinc-700 pl-4 sm:pl-8">
-            <span className="block text-[10px] uppercase font-black text-gray-500 dark:text-zinc-400">Efectividad</span>
-            <span className="text-3xl font-mono font-black text-gray-900 dark:text-gray-100">{shootingSuccessAcc.toFixed(1)}%</span>
+          <div className="text-center border-l border-gray-200 dark:border-zinc-700 pl-5 sm:pl-8">
+            <span className="block text-[10px] md:text-xs uppercase font-black text-gray-500 dark:text-zinc-400">Efectividad</span>
+            <span className="text-3xl md:text-4xl font-mono font-black text-gray-900 dark:text-gray-100">{shootingSuccessAcc.toFixed(1)}%</span>
           </div>
-          <div className="text-center border-l border-gray-200 dark:border-zinc-700 pl-4 sm:pl-8">
-            <span className="block text-[10px] uppercase font-black text-gray-500 dark:text-zinc-400">Pérdidas</span>
-            <span className="text-3xl font-mono font-black text-gray-900 dark:text-gray-100">{totalTurnovers}</span>
+          <div className="text-center border-l border-gray-200 dark:border-zinc-700 pl-5 sm:pl-8">
+            <span className="block text-[10px] md:text-xs uppercase font-black text-gray-500 dark:text-zinc-400">Pérdidas</span>
+            <span className="text-3xl md:text-4xl font-mono font-black text-gray-900 dark:text-gray-100">{totalTurnovers}</span>
           </div>
         </div>
       </div>

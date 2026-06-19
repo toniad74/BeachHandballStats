@@ -123,27 +123,27 @@ export default function ShootoutBoard({
   };
 
   return (
-    <div className="p-2 md:p-4 space-y-4 md:space-y-6">
+    <div className="p-3 md:p-6 space-y-5 md:space-y-8">
       
       {/* SCORE HEADER */}
-      <div className="bg-background border-2 border-amber-500 rounded-3xl p-6 text-gray-900 dark:text-gray-100 text-center shadow-md">
-        <span className="bg-amber-500 text-zinc-950 font-black text-xs px-3 py-1 rounded-full uppercase tracking-widest">
+      <div className="bg-background border-2 border-amber-500 rounded-3xl p-6 md:p-8 text-gray-900 dark:text-gray-100 text-center shadow-md">
+        <span className="bg-amber-500 text-zinc-950 font-black text-xs md:text-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full uppercase tracking-widest">
           Desempate Shootout (Uno contra el Portero)
         </span>
         
-        <div className="flex justify-center items-center gap-12 mt-4">
+        <div className="flex justify-center items-center gap-8 md:gap-16 mt-5 md:mt-6">
           <div className="text-right">
-            <span className="block text-xs uppercase text-gray-500 dark:text-zinc-400 font-bold">{ourTeamName}</span>
-            <span className="text-5xl sm:text-7xl font-mono font-black text-gray-900 dark:text-gray-100">{usPointsTotal}</span>
+            <span className="block text-xs md:text-sm uppercase text-gray-500 dark:text-zinc-400 font-bold">{ourTeamName}</span>
+            <span className="text-6xl md:text-8xl font-mono font-black text-gray-900 dark:text-gray-100">{usPointsTotal}</span>
           </div>
 
-          <div className="w-12 h-12 rounded-full border border-gray-300 dark:border-zinc-700 font-bold flex items-center justify-center text-gray-500 dark:text-zinc-400 text-lg">
+          <div className="w-14 h-14 md:w-16 md:h-16 rounded-full border border-gray-300 dark:border-zinc-700 font-bold flex items-center justify-center text-gray-500 dark:text-zinc-400 text-lg md:text-xl">
             SL
           </div>
 
           <div className="text-left">
-            <span className="block text-xs uppercase text-gray-500 dark:text-zinc-400 font-bold">{opponentName}</span>
-            <span className="text-5xl sm:text-7xl font-mono font-black text-red-600">{themPointsTotal}</span>
+            <span className="block text-xs md:text-sm uppercase text-gray-500 dark:text-zinc-400 font-bold">{opponentName}</span>
+            <span className="text-6xl md:text-8xl font-mono font-black text-red-600">{themPointsTotal}</span>
           </div>
         </div>
 
