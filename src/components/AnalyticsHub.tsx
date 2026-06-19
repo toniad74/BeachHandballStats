@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Player, MatchState, EventLog } from '../types';
 import { Target, Shield, AlertTriangle, Play, Flame, BarChart3, Users, Award, ChevronDown } from 'lucide-react';
 import { useI18n } from '../i18n';
+import { translatePosition } from '../utils/i18n';
 import ExportStats from './ExportStats';
 
 interface AnalyticsHubProps {
@@ -366,7 +367,7 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                     <h5 className="text-xl md:text-2xl font-black text-gray-900 dark:text-white uppercase truncate leading-tight">{p.name}</h5>
                     <span className={`text-sm md:text-base font-bold uppercase block mt-0.5 ${
                       p.position === 'Portero' ? 'text-amber-600 dark:text-amber-400' : p.position === 'Especialista' ? 'text-purple-600 dark:text-purple-400' : p.position === 'Polivalente' ? 'text-teal-600 dark:text-teal-400' : 'text-blue-600 dark:text-blue-400'
-                    }`}>{p.position}</span>
+                    }`}>{translatePosition(p.position, t)}</span>
                   </div>
                   {/* Quick stat */}
                   <div className="text-center flex-shrink-0 ml-3">

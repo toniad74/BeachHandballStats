@@ -3,6 +3,7 @@ import { Player, MatchState, SetState, EventLog, Possession } from '../types';
 import { Play, Pause, RotateCcw, AlertTriangle, ShieldCheck, Heart, RefreshCw, VolumeX, Undo2, Users, X } from 'lucide-react';
 import { SHIRT_COLORS } from '../utils/initialState';
 import { useI18n } from '../i18n';
+import { translatePosition } from '../utils/i18n';
 
 interface GameBoardProps {
   matchState: MatchState;
@@ -1247,7 +1248,7 @@ export default function GameBoard({
                           ? 'text-teal-600 dark:text-teal-400'
                           : 'text-primary dark:text-primary-focus'
                       }`}>
-                        {player.position === 'Ala Izq.' ? 'Ala Izq.' : player.position === 'Ala Der.' ? 'Ala Der.' : player.position}
+                        {translatePosition(player.position, t)}
                       </span>
                     </div>
                   </div>
@@ -2005,3 +2006,4 @@ export default function GameBoard({
     </div>
   );
 }
+

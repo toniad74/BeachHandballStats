@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Player, PlayerPosition } from '../types';
 import { Users, UserPlus, Trash2, X, Check } from 'lucide-react';
 import { useI18n } from '../i18n';
+import { translatePosition } from '../utils/i18n';
 
 interface SetupTeamProps {
   players: Player[];
@@ -130,7 +131,7 @@ export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) 
                   : player.position === 'Polivalente' ? 'text-teal-600 dark:text-teal-400'
                   : 'text-blue-600 dark:text-blue-400'
                 }`}>
-                  {player.position}
+                  {translatePosition(player.position, t)}
                 </span>
                 {player.isDisqualified && (
                   <span className="ml-2 text-[10px] bg-red-600 text-white px-1.5 py-0.5 rounded font-bold uppercase">DQ</span>
@@ -206,7 +207,7 @@ export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) 
                         : 'border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-750'
                     }`}
                   >
-                    {pos.value}
+                    {translatePosition(pos.value, t)}
                   </button>
                 ))}
               </div>

@@ -280,3 +280,17 @@ export const translations: Record<Language, Translations> = { es, ca, en };
 export function getTranslations(lang: Language): Translations {
   return translations[lang];
 }
+
+export function translatePosition(pos: string, t: Translations): string {
+  const map: Record<string, string> = {
+    'Portero': t.posGoalkeeper || 'Portero',
+    'Especialista': t.posSpecialist || 'Especialista',
+    'Polivalente': t.posVersatile || 'Polivalente',
+    'Ala Izq.': t.posLeftWing || 'Ala Izq.',
+    'Ala Der.': t.posRightWing || 'Ala Der.',
+    'Ala': t.posWing || 'Ala',
+    'Pivote': t.posPivot || 'Pivote',
+    'Defensor': t.posDefender || 'Defensor',
+  };
+  return map[pos] || pos;
+}
