@@ -419,61 +419,96 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                 {isExpanded && (
                   <div className="px-4 pb-5 md:px-5 md:pb-6 border-t border-gray-200 dark:border-zinc-700 pt-4">
                     <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 md:gap-3">
-                      <div className="text-center bg-green-50 dark:bg-green-950/30 rounded-xl p-3 border border-green-200 dark:border-green-800/50">
-                        <span className="block text-xs font-black uppercase text-green-700 dark:text-green-400">Gol 1pt</span>
-                        <span className="block text-2xl md:text-3xl font-mono font-black text-green-700 dark:text-green-300 mt-1">{p.goals1p}</span>
-                      </div>
-                      <div className="text-center bg-emerald-50 dark:bg-emerald-950/30 rounded-xl p-3 border border-emerald-200 dark:border-emerald-800/50">
-                        <span className="block text-xs font-black uppercase text-emerald-700 dark:text-emerald-400">Gol 2pt</span>
-                        <span className="block text-2xl md:text-3xl font-mono font-black text-emerald-700 dark:text-emerald-300 mt-1">{p.goals2p}</span>
-                      </div>
+                      {/* Overall effectiveness */}
                       {pTotalShots > 0 && (
                         <div className={`text-center rounded-xl p-3 border ${pEffectiveness >= 60 ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800/50' : pEffectiveness >= 40 ? 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800/50' : 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-800/50'}`}>
-                          <span className="block text-xs font-black uppercase text-gray-700 dark:text-zinc-400">Efect.</span>
+                          <span className="block text-xs font-black uppercase text-gray-700 dark:text-zinc-400">% Total</span>
                           <span className={`block text-2xl md:text-3xl font-mono font-black mt-1 ${pEffectiveness >= 60 ? 'text-green-700 dark:text-green-300' : pEffectiveness >= 40 ? 'text-amber-700 dark:text-amber-300' : 'text-red-600 dark:text-red-300'}`}>{pEffectiveness.toFixed(0)}%</span>
+                          <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{pTotalGoals}/{pTotalShots}</span>
                         </div>
                       )}
+                      {/* +1 shots */}
+                      {(() => {
+                        const missed1p = p.missedShots - p.missedFlies - (p.missedSpins || 0) - (p.missedPenalties || 0);
+                        const attempts1p = p.goals1p + Math.max(0, missed1p);
+                        const eff1p = attempts1p > 0 ? (p.goals1p / attempts1p * 100) : 0;
+                        return attempts1p > 0 ? (
+                          <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
+                            <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">+1</span>
+                            <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{eff1p.toFixed(0)}%</span>
+                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{p.goals1p}/{attempts1p}</span>
+                          </div>
+                        ) : null;
+                      })()}
+                      {/* Fly */}
+                      {(() => { const flyAttempts = p.goals2p + p.missedFlies;
+                        const flyEff = flyAttempts > 0 ? (p.goals2p / flyAttempts * 100) : 0;
+                        return flyAttempts > 0 ? (
+                          <div className="text-center bg-orange-50 dark:bg-orange-950/30 rounded-xl p-3 border border-orange-200 dark:border-orange-800/50">
+                            <span className="block text-xs font-black uppercase text-orange-700 dark:text-orange-400">Fly</span>
+                            <span className="block text-2xl md:text-3xl font-mono font-black text-orange-700 dark:text-orange-300 mt-1">{flyEff.toFixed(0)}%</span>
+                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{p.goals2p}/{flyAttempts}</span>
+                          </div>
+                        ) : null;
+                      })()}
+                      {/* Giro */}
+                      {(() => { const giroMissed = p.missedSpins || 0;
+                        return giroMissed > 0 ? (
+                          <div className="text-center bg-purple-50 dark:bg-purple-950/30 rounded-xl p-3 border border-purple-200 dark:border-purple-800/50">
+                            <span className="block text-xs font-black uppercase text-purple-700 dark:text-purple-400">{language === 'en' ? 'Spin' : 'Giro'}</span>
+                            <span className="block text-2xl md:text-3xl font-mono font-black text-purple-700 dark:text-purple-300 mt-1">{giroMissed}</span>
+                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{language === 'en' ? 'missed' : 'err'}</span>
+                          </div>
+                        ) : null;
+                      })()}
+                      {/* Penalti */}
+                      {(() => { const penMissed = p.missedPenalties || 0;
+                        return penMissed > 0 ? (
+                          <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-3 border border-red-200 dark:border-red-800/50">
+                            <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">{language === 'en' ? 'Penalty' : 'Penalti'}</span>
+                            <span className="block text-2xl md:text-3xl font-mono font-black text-red-700 dark:text-red-300 mt-1">{penMissed}</span>
+                            <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{language === 'en' ? 'missed' : 'err'}</span>
+                          </div>
+                        ) : null;
+                      })()}
+                      {/* GK: Saves */}
                       {isGKType && (
                         <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
-                          <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">Paradas</span>
+                          <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">{t.saves}</span>
                           <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSaves}</span>
                         </div>
                       )}
+                      {/* GK: Conceded */}
                       {isGKType && (
                         <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-3 border border-red-200 dark:border-red-800/50">
-                          <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">Encajados</span>
+                          <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">{t.conceded}</span>
                           <span className="block text-2xl md:text-3xl font-mono font-black text-red-600 dark:text-red-300 mt-1">{pGoalsConceded}</span>
                         </div>
                       )}
+                      {/* GK: Save % */}
                       {isGKType && pGKTotal > 0 && (
                         <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
-                          <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">% Par.</span>
+                          <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">{t.savePercent}</span>
                           <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSavePercentage.toFixed(0)}%</span>
+                          <span className="block text-[10px] text-gray-500 dark:text-zinc-500 mt-0.5">{pSaves}/{pGKTotal}</span>
                         </div>
                       )}
-                      <div className="text-center bg-orange-50 dark:bg-orange-950/30 rounded-xl p-3 border border-orange-200 dark:border-orange-800/50">
-                        <span className="block text-xs font-black uppercase text-orange-700 dark:text-orange-400">Fallos</span>
-                        <span className="block text-2xl md:text-3xl font-mono font-black text-orange-600 dark:text-orange-300 mt-1">{p.missedShots}</span>
-                      </div>
-                      {!isGKType && (
-                        <div className="text-center bg-amber-50 dark:bg-amber-950/30 rounded-xl p-3 border border-amber-200 dark:border-amber-800/50">
-                          <span className="block text-xs font-black uppercase text-amber-700 dark:text-amber-400">Err Fly</span>
-                          <span className="block text-2xl md:text-3xl font-mono font-black text-amber-600 dark:text-amber-300 mt-1">{p.missedFlies}</span>
-                        </div>
-                      )}
+                      {/* Turnovers */}
                       <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-3 border border-red-200 dark:border-red-800/50">
-                        <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">Pérdidas</span>
+                        <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">{t.losses}</span>
                         <span className="block text-2xl md:text-3xl font-mono font-black text-red-600 dark:text-red-300 mt-1">{pTurnovers}</span>
                       </div>
+                      {/* Recoveries */}
                       {(p.recoveries || 0) > 0 && (
                         <div className="text-center bg-indigo-50 dark:bg-indigo-950/30 rounded-xl p-3 border border-indigo-200 dark:border-indigo-800/50">
                           <span className="block text-xs font-black uppercase text-indigo-700 dark:text-indigo-400">{t.recoveries}</span>
                           <span className="block text-2xl md:text-3xl font-mono font-black text-indigo-600 dark:text-indigo-300 mt-1">{p.recoveries}</span>
                         </div>
                       )}
+                      {/* Assists */}
                       {(p.assists || 0) > 0 && (
                         <div className="text-center bg-cyan-50 dark:bg-cyan-950/30 rounded-xl p-3 border border-cyan-200 dark:border-cyan-800/50">
-                          <span className="block text-xs font-black uppercase text-cyan-700 dark:text-cyan-400">🤝 Asist.</span>
+                          <span className="block text-xs font-black uppercase text-cyan-700 dark:text-cyan-400">Asist.</span>
                           <span className="block text-2xl md:text-3xl font-mono font-black text-cyan-600 dark:text-cyan-300 mt-1">{p.assists}</span>
                         </div>
                       )}
@@ -492,3 +527,4 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
     </div>
   );
 }
+
