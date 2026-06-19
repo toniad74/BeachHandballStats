@@ -185,13 +185,18 @@ export default function App() {
       ...p,
       goals1p: 0,
       goals2p: 0,
+      assists: 0,
       missedShots: 0,
       missedFlies: 0,
       turnoverBadPass: 0,
       turnoverSteps: 0,
       turnoverFumbling: 0,
+      recoveries: 0,
+      saves: 0,
+      goalsConceded: 0,
       exclusions: 0,
       isDisqualified: false,
+      isSuspended: false,
     }));
 
     setMatchState({
