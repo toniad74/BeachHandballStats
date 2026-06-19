@@ -255,14 +255,14 @@ export default function ShootoutBoard({
                             className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
                             title="Gol de valor doble: Giro 360, Fly, Gol de Portero o Especialista"
                           >
-                            GOL +2
+                            +2
                           </button>
                           <button
                             onClick={() => handleShootResult(idx, 'us', true, 1)}
                             className="bg-teal-600 hover:bg-teal-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
                             title="Gol simple o de valor sencillo"
                           >
-                            GOL +1
+                            +1
                           </button>
                           <button
                             onClick={() => handleShootResult(idx, 'us', false)}
@@ -299,14 +299,14 @@ export default function ShootoutBoard({
                             className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
                             title="Gol rival de valor doble"
                           >
-                            GOL +2
+                            +2
                           </button>
                           <button
                             onClick={() => handleShootResult(idx, 'them', true, 1)}
                             className="bg-teal-600 hover:bg-teal-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
                             title="Gol rival de valor sencillo"
                           >
-                            GOL +1
+                            +1
                           </button>
                           <button
                             onClick={() => handleShootResult(idx, 'them', false)}
