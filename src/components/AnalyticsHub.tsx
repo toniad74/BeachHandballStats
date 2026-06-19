@@ -72,13 +72,13 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
   const [expandedPlayerId, setExpandedPlayerId] = useState<string | null>(null);
 
   const sortedPlayers = [...players].sort((a, b) => {
-    const priority = (p: Player) => {
-      if (p.position === 'Portero') return 0;
-      if (p.position === 'Especialista') return 1;
-      if (p.position === 'Polivalente') return 2;
-      return 3;
-    };
-    return priority(a) - priority(b);
+    // Porteros always first
+    if (a.position === 'Portero' && b.position !== 'Portero') return -1;
+    if (b.position === 'Portero' && a.position !== 'Portero') return 1;
+    // Then sort by points (goals1p + goals2p*2) descending
+    const ptsA = a.goals1p + (a.goals2p * 2);
+    const ptsB = b.goals1p + (b.goals2p * 2);
+    return ptsB - ptsA;
   });
 
   return (
@@ -404,8 +404,8 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                   </div>
                   {/* Quick stat */}
                   <div className="text-center flex-shrink-0 ml-3">
-                    <span className="block text-3xl md:text-4xl font-mono font-black text-gray-900 dark:text-white leading-none">{isGKType ? pSaves : pTotalPoints}</span>
-                    <span className="block text-[10px] md:text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase mt-0.5">{isGKType ? 'Paradas' : 'Puntos'}</span>
+                    <span className="block text-3xl md:text-4xl font-mono font-black text-gray-900 dark:text-white leading-none">{p.position === 'Portero' ? pSaves : pTotalPoints}</span>
+                    <span className="block text-[10px] md:text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase mt-0.5">{p.position === 'Portero' ? t.savesLabel : t.pointsLabel}</span>
                   </div>
                   {p.exclusions > 0 && (
                     <span className={`ml-2 px-2 py-1 rounded-lg text-xs font-black flex-shrink-0 ${p.exclusions >= 2 ? 'bg-red-600 text-white' : 'bg-orange-500 text-white'}`}>
@@ -477,21 +477,21 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
                         ) : null;
                       })()}
                       {/* GK: Saves */}
-                      {isGKType && (
+                      {p.position === 'Portero' && (
                         <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
                           <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">{t.saves}</span>
                           <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSaves}</span>
                         </div>
                       )}
                       {/* GK: Conceded */}
-                      {isGKType && (
+                      {p.position === 'Portero' && (
                         <div className="text-center bg-red-50 dark:bg-red-950/30 rounded-xl p-3 border border-red-200 dark:border-red-800/50">
                           <span className="block text-xs font-black uppercase text-red-700 dark:text-red-400">{t.conceded}</span>
                           <span className="block text-2xl md:text-3xl font-mono font-black text-red-600 dark:text-red-300 mt-1">{pGoalsConceded}</span>
                         </div>
                       )}
                       {/* GK: Save % */}
-                      {isGKType && pGKTotal > 0 && (
+                      {p.position === 'Portero' && pGKTotal > 0 && (
                         <div className="text-center bg-blue-50 dark:bg-blue-950/30 rounded-xl p-3 border border-blue-200 dark:border-blue-800/50">
                           <span className="block text-xs font-black uppercase text-blue-700 dark:text-blue-400">{t.savePercent}</span>
                           <span className="block text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300 mt-1">{pSavePercentage.toFixed(0)}%</span>
