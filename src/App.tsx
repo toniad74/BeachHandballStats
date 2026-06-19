@@ -87,7 +87,7 @@ export default function App() {
     return INITIAL_MATCH_STATE;
   });
 
-  const [activeTab, setActiveTab] = useState<'pista' | 'shootout' | 'analisis' | 'plantilla'>('pista');
+  const [activeTab, setActiveTab] = useState<'pista' | 'shootout' | 'analisis' | 'plantilla' | 'historial'>('pista');
   const [sunMode, setSunMode] = useState(true); // default to high-contrast Sun/Beach mode for outdoors!
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [hasAutoTransitionedToShootout, setHasAutoTransitionedToShootout] = useState(false);
@@ -271,7 +271,7 @@ export default function App() {
         ? 'bg-white border-sand-155'
         : 'bg-charcoal-900 border-charcoal-800'
         }`} id="app_header">
-        <div className="max-w-7xl mx-auto flex flex-wrap lg:flex-nowrap justify-between items-center gap-3 lg:gap-4">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center gap-3 lg:gap-4">
 
           {/* Logo & Legal Disclaimer */}
           <div className="flex items-center gap-2 md:gap-3 shrink-0 min-w-0">
@@ -336,7 +336,7 @@ export default function App() {
             )}
           </div>
           {/* CONTRAST & RESET CONTROLS */}
-          <div className="flex items-center gap-2 md:gap-3 shrink-0">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0 ml-auto">
 
             {/* SUN MODE / OUTDOOR GLOW CONTROLLER */}
             <button
@@ -499,7 +499,7 @@ export default function App() {
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">☁️</span> <span className="truncate">Historial</span>
+            <span className="text-lg md:text-xl">☁️</span> <span className="truncate">Archivo</span>
           </button>
         </div>
       </nav>
