@@ -32,6 +32,7 @@ export default function ShootoutBoard({
   });
   
   const [selectedPlayerId, setSelectedPlayerId] = useState<string>(sortedPlayers[0]?.id || '');
+  const [selectedGkId, setSelectedGkId] = useState<string>(sortedPlayers.find(p => p.position === 'Portero')?.id || '');
   const [extraRoundCount, setExtraRoundCount] = useState(0);
   const [resetConfirmActive, setResetConfirmActive] = useState(false);
 
@@ -92,8 +93,20 @@ export default function ShootoutBoard({
         themGoal: success,
         themPoints: success ? points : 0,
       };
+      // Attribute save or goal conceded to selected goalkeeper
+      const updatedPlayers = selectedGkId ? players.map(p => {
+        if (p.id === selectedGkId) {
+          if (success) {
+            return { ...p, goalsConceded: (p.goalsConceded || 0) + 1 };
+          } else {
+            return { ...p, saves: (p.saves || 0) + 1 };
+          }
+        }
+        return p;
+      }) : players;
       onUpdateMatchState({
         ...matchState,
+        players: updatedPlayers,
         shootoutRounds: updatedRounds,
       });
     }
@@ -363,6 +376,31 @@ export default function ShootoutBoard({
                   </button>
                 );
               })}
+            </div>
+          </div>
+
+          {/* GOALKEEPER SELECTOR */}
+          <div className="bg-background border border-blue-200 dark:border-blue-800 rounded-2xl shadow p-5">
+            <h3 className="text-base font-black uppercase text-gray-950 dark:text-zinc-100 flex items-center gap-2 mb-3">
+              🧤 {t.selectGoalkeeper}
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-zinc-400 mb-4 select-none leading-relaxed">
+              {t.chooseGoalkeeper}
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              {sortedPlayers.filter(p => !p.isDisqualified).map((p) => (
+                <button
+                  key={`so-gk-${p.id}`}
+                  onClick={() => setSelectedGkId(p.id)}
+                  className={`border-2 p-3 md:p-4 rounded-xl text-sm md:text-base font-black text-left transition ${
+                    selectedGkId === p.id
+                      ? 'border-blue-500 bg-blue-50/30 dark:bg-zinc-800 text-blue-950 dark:text-blue-400 font-extrabold shadow-sm'
+                      : 'border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-950 dark:text-zinc-100 hover:bg-gray-100 dark:hover:bg-zinc-700'
+                  }`}
+                >
+                  <span className="truncate">#{p.number} {p.name}</span>
+                </button>
+              ))}
             </div>
           </div>
         </div>
