@@ -234,24 +234,24 @@ export default function App() {
       }`}>
 
       {/* GLOBAL HEADER */}
-      <header className={`border-b py-4 px-4 transition-all duration-300 shadow-card ${sunMode
+      <header className={`border-b py-3 px-3 md:py-4 md:px-4 transition-all duration-300 shadow-card ${sunMode
         ? 'bg-white border-sand-155'
         : 'bg-charcoal-900 border-charcoal-800'
         }`} id="app_header">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="max-w-7xl mx-auto flex flex-wrap md:flex-nowrap justify-between items-center gap-3 md:gap-4">
 
           {/* Logo & Legal Disclaimer */}
-          <div className="flex items-center gap-3">
-            <div className={`w-11 h-11 rounded-xl flex items-center justify-center font-black shadow-card border transition-all duration-300 ${sunMode ? 'bg-charcoal-900 text-white border-sand-200' : 'bg-primary text-slate-950 border-secondary-border'
+          <div className="flex items-center gap-2 md:gap-3 shrink-0">
+            <div className={`w-9 h-9 md:w-11 md:h-11 rounded-xl flex items-center justify-center font-black text-sm md:text-base shadow-card border transition-all duration-300 ${sunMode ? 'bg-charcoal-900 text-white border-sand-200' : 'bg-primary text-slate-950 border-secondary-border'
               }`}>
               BH
             </div>
             <div>
-              <h1 className={`text-xl font-black tracking-tight uppercase flex items-center gap-2 ${sunMode ? 'text-slate-900' : 'text-white'
+              <h1 className={`text-base md:text-xl font-black tracking-tight uppercase flex items-center gap-2 ${sunMode ? 'text-slate-900' : 'text-white'
                 }`}>
                 BeachHandball Stats
               </h1>
-              <p className={`text-[10px] font-semibold uppercase tracking-wider ${sunMode ? 'text-slate-600' : 'text-slate-300'
+              <p className={`text-[9px] md:text-[10px] font-semibold uppercase tracking-wider ${sunMode ? 'text-slate-600' : 'text-slate-300'
                 }`}>
                 Registro táctico de alta velocidad
               </p>
@@ -259,7 +259,7 @@ export default function App() {
           </div>
 
           {/* QUICK SUMMARY MATCH RESULTS */}
-          <div className={`flex gap-5 items-center py-2 px-5 rounded-xl border transition-all duration-300 shadow-sm ${sunMode
+          <div className={`flex gap-3 md:gap-5 items-center py-1.5 md:py-2 px-3 md:px-5 rounded-xl border transition-all duration-300 shadow-sm order-3 md:order-none w-full md:w-auto justify-center ${sunMode
             ? 'border-sand-200 bg-[#FCFAF6] text-slate-900'
             : 'border-zinc-700 bg-charcoal-950 text-white'
             }`}>
@@ -303,12 +303,12 @@ export default function App() {
             )}
           </div>
           {/* CONTRAST & RESET CONTROLS */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 md:gap-2 shrink-0">
 
             {/* SUN MODE / OUTDOOR GLOW CONTROLLER */}
             <button
               onClick={() => setSunMode(!sunMode)}
-              className={`p-2.5 rounded-lg border flex items-center justify-center gap-1.5 text-xs font-black uppercase transition-all duration-300 active:scale-[0.98] shadow-sm ${sunMode
+              className={`p-2 md:p-2.5 rounded-lg border flex items-center justify-center gap-1 md:gap-1.5 text-[10px] md:text-xs font-black uppercase transition-all duration-300 active:scale-[0.98] shadow-sm ${sunMode
                 ? 'border-sand-200 bg-white text-slate-900 hover:bg-sand-50/50'
                 : 'border-zinc-700 bg-charcoal-900 text-white hover:bg-charcoal-800'
                 }`}
@@ -318,12 +318,12 @@ export default function App() {
               {sunMode ? (
                 <>
                   <Moon className="w-4 h-4 text-primary" />
-                  Sombra / Noche
+                  <span className="hidden sm:inline">Sombra / Noche</span>
                 </>
               ) : (
                 <>
                   <Sun className="w-4 h-4 text-warning animate-spin-slow" />
-                  Sol / Pista
+                  <span className="hidden sm:inline">Sol / Pista</span>
                 </>
               )}
             </button>
@@ -331,36 +331,36 @@ export default function App() {
             {/* RESET BUTTON */}
             <button
               onClick={() => setShowResetConfirm(true)}
-              className={`p-2.5 rounded-lg border font-black flex items-center gap-1.5 text-xs transition-all duration-300 active:scale-[0.98] shadow-sm ${sunMode
+              className={`p-2 md:p-2.5 rounded-lg border font-black flex items-center gap-1 md:gap-1.5 text-[10px] md:text-xs transition-all duration-300 active:scale-[0.98] shadow-sm ${sunMode
                 ? 'border-sand-200 bg-white text-slate-900 hover:bg-sand-50/50'
                 : 'border-zinc-700 bg-charcoal-900 text-white hover:bg-charcoal-800'
                 }`}
               title="Restablecer partido"
             >
               <RotateCcw className="w-4 h-4" />
-              Reset Partido
+              <span className="hidden sm:inline">Reset Partido</span>
             </button>
 
             {/* USER PROFILE & LOGOUT */}
-            <div className={`h-8 border-r ${sunMode ? 'border-sand-200' : 'border-zinc-800'}`} />
+            <div className={`h-6 md:h-8 border-r ${sunMode ? 'border-sand-200' : 'border-zinc-800'}`} />
 
-            <div className="flex items-center gap-2 pl-1">
+            <div className="flex items-center gap-1.5 md:gap-2 pl-0.5 md:pl-1">
               {user.picture ? (
                 <img
                   src={user.picture}
                   alt={user.name}
-                  className="w-8 h-8 rounded-full border border-orange-400 shadow-xs"
+                  className="w-7 h-7 md:w-8 md:h-8 rounded-full border border-orange-400 shadow-xs"
                   title={user.email}
                 />
               ) : (
                 <div
-                  className="w-8 h-8 rounded-full bg-orange-100 dark:bg-amber-950 flex items-center justify-center border border-orange-300 shadow-xs font-black text-xs text-orange-600 dark:text-orange-400"
+                  className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-orange-100 dark:bg-amber-950 flex items-center justify-center border border-orange-300 shadow-xs font-black text-xs text-orange-600 dark:text-orange-400"
                   title={user.email}
                 >
                   {user.name.charAt(0).toUpperCase()}
                 </div>
               )}
-              <div className="hidden md:block text-left">
+              <div className="hidden lg:block text-left">
                 <span className={`block text-[10px] font-black leading-none ${sunMode ? 'text-slate-800' : 'text-slate-200'}`}>
                   {user.name}
                 </span>
@@ -370,7 +370,7 @@ export default function App() {
               </div>
               <button
                 onClick={() => { signOut(auth); setUser(null); }}
-                className={`p-2 rounded-lg border flex items-center justify-center transition-all duration-300 active:scale-[0.98] shadow-xs cursor-pointer ${sunMode
+                className={`p-1.5 md:p-2 rounded-lg border flex items-center justify-center transition-all duration-300 active:scale-[0.98] shadow-xs cursor-pointer ${sunMode
                   ? 'border-sand-200 bg-white text-slate-700 hover:bg-sand-50/50 hover:text-red-500'
                   : 'border-zinc-700 bg-charcoal-900 text-slate-300 hover:bg-charcoal-800 hover:text-red-400'
                   }`}
@@ -385,9 +385,9 @@ export default function App() {
       </header>
 
       {/* CORE NAVIGATION TABS */}
-      <nav className={`py-1 px-4 border-b transition-colors duration-300 shadow-card ${sunMode ? 'bg-white border-sand-155' : 'bg-charcoal-900 border-charcoal-800'
+      <nav className={`py-1 px-2 md:px-4 border-b transition-colors duration-300 shadow-card ${sunMode ? 'bg-white border-sand-155' : 'bg-charcoal-900 border-charcoal-800'
         }`}>
-        <div className="max-w-7xl mx-auto flex justify-around sm:justify-start gap-1 sm:gap-4 overflow-x-auto">
+        <div className="max-w-7xl mx-auto grid grid-cols-4 md:flex md:justify-start md:gap-4">
           <button
             onClick={() => {
               if (currentPeriod === 'shootout') {
@@ -396,56 +396,56 @@ export default function App() {
                 setActiveTab('pista');
               }
             }}
-            className={`py-3 px-4 rounded-lg font-bold text-sm uppercase flex items-center gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'pista'
+            className={`py-2.5 md:py-3 px-1.5 md:px-4 rounded-lg font-bold text-[11px] md:text-sm uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'pista'
               ? 'border-primary text-primary font-extrabold'
               : sunMode
                 ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            📋 Partido
+            <span>📋</span> <span>Partido</span>
           </button>
 
           <button
             onClick={() => changePeriod('shootout')}
-            className={`py-3 px-4 rounded-lg font-bold text-sm uppercase flex items-center gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'shootout'
+            className={`py-2.5 md:py-3 px-1.5 md:px-4 rounded-lg font-bold text-[11px] md:text-sm uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'shootout'
               ? 'border-primary text-primary font-extrabold'
               : sunMode
                 ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            🎯 Shoot-out
+            <span>🎯</span> <span>Shoot-out</span>
           </button>
 
           <button
             onClick={() => setActiveTab('analisis')}
-            className={`py-3 px-4 rounded-lg font-bold text-sm uppercase flex items-center gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'analisis'
+            className={`py-2.5 md:py-3 px-1.5 md:px-4 rounded-lg font-bold text-[11px] md:text-sm uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'analisis'
               ? 'border-primary text-primary font-extrabold'
               : sunMode
                 ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            📊 Análisis Técnico
+            <span>📊</span> <span>Análisis</span>
           </button>
 
           <button
             onClick={() => setActiveTab('plantilla')}
-            className={`py-3 px-4 rounded-lg font-bold text-sm uppercase flex items-center gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'plantilla'
+            className={`py-2.5 md:py-3 px-1.5 md:px-4 rounded-lg font-bold text-[11px] md:text-sm uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] ${activeTab === 'plantilla'
               ? 'border-primary text-primary font-extrabold'
               : sunMode
                 ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            ⚙️ Jugadores
+            <span>⚙️</span> <span>Jugadores</span>
           </button>
         </div>
       </nav>
 
       {/* CORE VIEWPORT */}
-      <main className="max-w-7xl mx-auto py-5 mb-16 px-4">
+      <main className="max-w-7xl mx-auto py-3 md:py-5 mb-16 px-2 md:px-4">
         {activeTab === 'pista' && (
           <GameBoard
             matchState={matchState}

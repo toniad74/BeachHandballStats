@@ -75,7 +75,7 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
   });
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="p-2 md:p-4 space-y-4 md:space-y-6">
       
       {/* SUMMARY BAR */}
       <div className="bg-background border-2 border-amber-500 rounded-2xl p-5 text-gray-900 dark:text-gray-100 flex flex-col sm:flex-row justify-between items-center shadow-md gap-4" id="analytics_summary_banner">
@@ -103,7 +103,7 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
       </div>
 
       {/* THREE CIRCULAR GAUGES FOR SUN-VISIBILITY */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         
         {/* SHOT ACCURACY GAUGES */}
         <div className="bg-background border border-gray-200 dark:border-zinc-800 p-6 rounded-2xl shadow flex flex-col items-center justify-center text-center">
@@ -231,7 +231,7 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
       </div>
 
       {/* TURNOVERS BREAKDOWN AND SCORING MIX */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         
         {/* TURNOVERS DETAILS DETAIL */}
         <div className="bg-background border border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-5">

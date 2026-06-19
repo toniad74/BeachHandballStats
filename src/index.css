@@ -340,3 +340,53 @@ button:active {
 .dark button:active {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3) !important;
 }
+
+/* Responsive & Tablet Optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Ensure touch targets are minimum 44px on tablets */
+  button, select, input[type="text"], input[type="number"] {
+    min-height: 44px;
+  }
+
+  /* Optimize padding for tablet screens */
+  .max-w-7xl {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Touch-friendly sizing for all interactive elements */
+@media (pointer: coarse) {
+  button {
+    min-height: 40px;
+    min-width: 40px;
+  }
+
+  select, input[type="text"], input[type="number"] {
+    min-height: 44px;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+}
+
+/* Ensure smooth scrolling on all devices */
+html {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Prevent horizontal overflow on small screens */
+body {
+  overflow-x: hidden;
+}
+
+#root {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Safe area insets for modern devices with notches */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .fixed.bottom-0 {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

@@ -807,7 +807,7 @@ export default function GameBoard({
       )}
 
       {/* SCORE PANEL AND SAND SANCTION PANELS IN A SINGLE ROW */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
         {/* GAME TIME BOARD & LOGS CARDS */}
         <div className={`w-full border-3 rounded-2xl shadow-xs overflow-hidden flex flex-col justify-between transition-colors ${
           sunMode 
@@ -1081,7 +1081,7 @@ export default function GameBoard({
         </div>
 
         {/* UNIFIED ROSTER GRID */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3" id="unified_roster_grid">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 md:gap-3" id="unified_roster_grid">
           {players.slice().sort(sortGkSpecFirst).map((player) => {
             const isGKOrEspecialista = player.position === 'Portero' || player.position === 'Especialista' || player.position === 'Polivalente';
             const teamColor = isGKOrEspecialista ? ourGkShirtColor : ourShirtColor;
