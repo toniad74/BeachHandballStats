@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Player, PlayerPosition } from '../types';
 import { Shield, Users, UserPlus, Trash2, Edit2, Check, X } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface SetupTeamProps {
   players: Player[];
@@ -11,6 +12,7 @@ export default function SetupTeam({
   players,
   onUpdatePlayers,
 }: SetupTeamProps) {
+  const { t } = useI18n();
   // For adding/editing players
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
@@ -111,10 +113,10 @@ export default function SetupTeam({
               <Users className="w-6 h-6 text-amber-500" />
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 uppercase tracking-wide">
-                  Acta de Jugadores ({players.length}/16)
+                  {t.playerRoster} ({players.length}/16)
                 </h2>
                 <p className="text-xs text-gray-500 dark:text-zinc-400">
-                  Plantilla ampliada: Máx. 16 jugadores en acta.
+                  {t.maxPlayers}
                 </p>
               </div>
             </div>
@@ -126,7 +128,7 @@ export default function SetupTeam({
               id="add_player_btn"
             >
               <UserPlus className="w-4 h-4" />
-              Sumar Jugador
+              {t.addPlayer}
             </button>
           </div>
 
@@ -134,10 +136,10 @@ export default function SetupTeam({
             <table className="w-full">
               <thead>
                 <tr className="bg-gray-100 dark:bg-zinc-800 text-left text-gray-700 dark:text-zinc-200 text-sm font-bold uppercase tracking-wider">
-                  <th className="py-3 px-3 w-16 text-center">Dorsal</th>
-                  <th className="py-3 px-4">Jugador</th>
-                  <th className="py-3 px-4 w-40">Posición Táctica</th>
-                  <th className="py-3 px-4 w-32 text-right">Acciones</th>
+                  <th className="py-3 px-3 w-16 text-center">{t.dorsal}</th>
+                  <th className="py-3 px-4">{t.player}</th>
+                  <th className="py-3 px-4 w-40">{t.position}</th>
+                  <th className="py-3 px-4 w-32 text-right">{t.actions}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-zinc-800">

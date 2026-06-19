@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Player, MatchState, SetState, EventLog, Possession } from '../types';
 import { Play, Pause, RotateCcw, AlertTriangle, ShieldCheck, Heart, RefreshCw, VolumeX, Undo2, Users, X } from 'lucide-react';
 import { SHIRT_COLORS } from '../utils/initialState';
+import { useI18n } from '../i18n';
 
 interface GameBoardProps {
   matchState: MatchState;
@@ -32,6 +33,7 @@ export default function GameBoard({
 }: GameBoardProps) {
   const { currentPeriod, players, opponentName, activePossession, passivePasses, shootoutRounds } = matchState;
   const ourTeamName = matchState.ourTeamName || 'Nuestro Equipo';
+  const { t } = useI18n();
   
   const currentSetState: SetState = currentPeriod === 'set1' ? matchState.set1 : matchState.set2;
   
@@ -250,7 +252,7 @@ export default function GameBoard({
           isGoldenGoal: true,
         },
       });
-      addLog('¡Empate al final del set! Activado modo GOL DE ORO.', 'system');
+      addLog('¡Empate al final del set! Activado modo {t.goldenGoal}.', 'system');
     } else {
       // Set Finished
       const winner = currentSet.usScore > currentSet.themScore ? 'us' : 'them';
@@ -310,7 +312,7 @@ export default function GameBoard({
       setFinished = true;
       setWinner = 'us';
       setIsTimerRunning(false);
-      addLog(`¡Gol de Oro! Gol anotado por ${player.name} de 1 pt. victoria del set!`, 'goal_us');
+      addLog(`¡{t.goldenGoal}! Gol anotado por ${player.name} de 1 pt. victoria del set!`, 'goal_us');
     } else {
       addLog(`Gol de ${player.name} (1 punto)`, 'goal_us');
     }
@@ -356,7 +358,7 @@ export default function GameBoard({
       setFinished = true;
       setWinner = 'us';
       setIsTimerRunning(false);
-      addLog(`¡Gol de Oro! ${player.name} anota un ${typeLabel} (2 ptos) ¡Set ganado!`, 'goal_us');
+      addLog(`¡{t.goldenGoal}! ${player.name} anota un ${typeLabel} (2 ptos) ¡Set ganado!`, 'goal_us');
     } else {
       addLog(`Gol Doble de ${player.name} vía ${typeLabel} (2 puntos)`, 'goal_us');
     }
@@ -570,7 +572,7 @@ export default function GameBoard({
       setFinished = true;
       setWinner = 'them';
       setIsTimerRunning(false);
-      addLog(`¡Gol de Oro Rival! El oponente anota y se lleva el set.`, 'goal_them');
+      addLog(`¡{t.goldenGoal} Rival! El oponente anota y se lleva el set.`, 'goal_them');
     } else {
       const typeLabel = goalType ? ` (${goalType})` : '';
       const gkLabel = targetPlayer ? ` encajado por ${targetPlayer.name}` : '';
@@ -862,7 +864,7 @@ export default function GameBoard({
         <div className="bg-red-600 text-white font-black text-center py-2 px-4 rounded-lg shadow-lg flex items-center justify-center gap-3 relative overflow-hidden animate-bounce border-2 border-white">
           <AlertTriangle className="w-6 h-6 animate-spin" />
           <span className="uppercase text-sm sm:text-base tracking-wide">
-            ÚLTIMOS 15 SEGUNDOS: CUALQUIER FALTA GRAVE CONLLEVA DESCALIFICACIÓN DIRECTA + PENALTI 6M
+            {t.last15sec}
           </span>
         </div>
       )}
@@ -895,7 +897,7 @@ export default function GameBoard({
               </select>
               {currentSetState.isGoldenGoal && (
                 <span className="bg-warning text-white font-extrabold text-xs px-2.5 py-1 rounded uppercase tracking-widest animate-pulse">
-                  Gol de Oro
+                  {t.goldenGoal}
                 </span>
               )}
             </div>
@@ -1008,12 +1010,12 @@ export default function GameBoard({
           <div className="flex flex-col justify-between h-full">
             <div>
               <p className="text-xs font-bold uppercase tracking-widest mb-3 flex items-center justify-between">
-                <span className={sunMode ? 'text-charcoal-600' : 'text-charcoal-400'}>Jugadores Excluidos / Sanciones</span>
+                <span className={sunMode ? 'text-charcoal-600' : 'text-charcoal-400'}>{t.excluded}</span>
               </p>
               
               {players.filter(p => p.isSuspended && !p.isDisqualified).length === 0 && rivalExclusions.length === 0 ? (
                 <p className="text-xs text-charcoal-500 py-4 text-center font-bold bg-sand-50/50 dark:bg-charcoal-950/20 rounded-xl border border-dashed border-sand-200 dark:border-charcoal-800 animate-fade-in">
-                  Ninguno (Fuerza completa en pista)
+                  {t.noneFullStrength}
                 </p>
               ) : (
                 <div className="space-y-1">
@@ -1028,7 +1030,7 @@ export default function GameBoard({
                         <span className={`text-sm font-bold ${sunMode ? 'text-charcoal-900' : 'text-zinc-200'}`}>{p.name}</span>
                       </div>
                       <span className="bg-warning text-white font-bold text-[10px] px-2 py-0.5 rounded uppercase animate-pulse">
-                        Sancionando
+                        {t.sanctioned}
                       </span>
                     </div>
                   ))}
@@ -1114,10 +1116,10 @@ export default function GameBoard({
               <h3 
                 className={`text-lg md:text-xl font-black uppercase tracking-tight flex items-center gap-2 ${sunMode ? 'text-charcoal-900' : 'text-sand-50'}`}
               >
-                CONVOCADOS
+                {t.convocados}
               </h3>
               <p className={`text-xs md:text-sm ${sunMode ? 'text-charcoal-500' : 'text-charcoal-405'}`}>
-                Selecciona cualquier jugador para abrir el menú de goles, paradas, fallos y pérdidas.
+                {t.selectPlayerDesc}
               </p>
             </div>
           </div>
@@ -1134,7 +1136,7 @@ export default function GameBoard({
                 className="flex items-center gap-1 text-danger hover:text-danger-hover text-[11px] md:text-xs font-extrabold border border-danger/35 rounded px-2 md:px-2.5 py-1.5 transition-colors active:scale-95 bg-danger/5 dark:bg-danger/10 flex-shrink-0 whitespace-nowrap"
               >
                 <Undo2 className="w-3.5 h-3.5" />
-                Deshacer
+                {t.undo}
               </button>
             )}
           </div>
@@ -1259,14 +1261,14 @@ export default function GameBoard({
                     </span>
                   )}
                   {totalGoals === 0 && totalTurnovers === 0 && totalSaves === 0 && (player.goalsConceded || 0) === 0 && totalRecoveries === 0 && totalMisses === 0 && (
-                    <span className="text-gray-405 italic">Sin acciones</span>
+                    <span className="text-gray-405 italic">{t.noActions}</span>
                   )}
                 </div>
 
                 {/* Status badges */}
                 {isCurrentlyDisqualified && (
                   <div className="absolute top-1 right-1 bg-red-600 text-white font-black text-[8px] px-1 rounded uppercase tracking-wider">
-                    DQ (Roja)
+                    {t.disqualified}
                   </div>
                 )}
                 {isCurrentlySuspended && (
@@ -1400,7 +1402,7 @@ export default function GameBoard({
               {/* GOALS SECTION */}
               <div>
                 <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
-                  ⚽ Anotar Gol
+                  {t.scoreGoal}
                 </h4>
                 <div className="grid grid-cols-2 gap-3">
                   {/* GK: Gol Portería (+2p) */}
@@ -1489,7 +1491,7 @@ export default function GameBoard({
               {(selectedPlayerForActions.position === 'Portero' || selectedPlayerForActions.position === 'Polivalente') && (
                 <div>
                   <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
-                    🧤 Acciones de Portería
+                    {t.goalkeeping}
                   </h4>
                   <div className="grid grid-cols-2 gap-3">
                     <button
@@ -1542,7 +1544,7 @@ export default function GameBoard({
                       }}
                       className="bg-red-600 hover:bg-red-700 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-center text-base"
                     >
-                      Gol Recibido +1
+                      {t.goalConceded1}
                     </button>
                     <button
                       onClick={() => {
@@ -1552,7 +1554,7 @@ export default function GameBoard({
                       }}
                       className="bg-red-600 hover:bg-red-700 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-center text-base"
                     >
-                      Gol Recibido +2
+                      {t.goalConceded2}
                     </button>
                   </div>
                 </div>
@@ -1698,12 +1700,12 @@ export default function GameBoard({
               : 'bg-zinc-900 border-zinc-700 text-zinc-50 shadow-2xl'
           }`}>
             <h3 className="text-lg font-black uppercase tracking-wider mb-4">
-              ⏱️ Editar Tiempo
+              ⏱️ {t.editTime}
             </h3>
 
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="text-center">
-                <label className="block text-[10px] font-bold uppercase tracking-wider mb-1">Min</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider mb-1">{t.min}</label>
                 <input
                   type="number"
                   min={0}
@@ -1719,7 +1721,7 @@ export default function GameBoard({
               </div>
               <span className="text-3xl font-mono font-extrabold mt-4">:</span>
               <div className="text-center">
-                <label className="block text-[10px] font-bold uppercase tracking-wider mb-1">Seg</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider mb-1">{t.sec}</label>
                 <input
                   type="number"
                   min={0}
@@ -1941,3 +1943,7 @@ export default function GameBoard({
     </div>
   );
 }
+
+
+
+

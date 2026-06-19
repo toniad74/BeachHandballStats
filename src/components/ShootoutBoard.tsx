@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Player, MatchState, ShootoutRound } from '../types';
 import { Target, AlertCircle, RefreshCw, Trophy } from 'lucide-react';
+import { useI18n } from '../i18n';
 
 interface ShootoutBoardProps {
   matchState: MatchState;
@@ -16,6 +17,7 @@ export default function ShootoutBoard({
   onUpdateMatchState,
 }: ShootoutBoardProps) {
   const { players, opponentName, shootoutRounds } = matchState;
+  const { t } = useI18n();
   const ourTeamName = matchState.ourTeamName || 'Mi Equipo';
 
   // Sort helper: Portero, Especialista & Polivalente always first
@@ -128,7 +130,7 @@ export default function ShootoutBoard({
       {/* SCORE HEADER */}
       <div className="bg-background border-2 border-amber-500 rounded-3xl p-6 md:p-8 text-gray-900 dark:text-gray-100 text-center shadow-md">
         <span className="bg-amber-500 text-zinc-950 font-black text-xs md:text-sm px-3 md:px-4 py-1 md:py-1.5 rounded-full uppercase tracking-widest">
-          Desempate Shootout (Uno contra el Portero)
+          {t.shootoutTitle}
         </span>
         
         <div className="flex justify-center items-center gap-8 md:gap-16 mt-5 md:mt-6">
@@ -153,8 +155,8 @@ export default function ShootoutBoard({
             <Trophy className="w-5 h-5 text-amber-500 animate-bounce" />
             <span className="text-sm font-bold">
               {usGoals === themGoals 
-                ? '¡Empate tras la ronda reglamentaria! Añade "Ronda Extra" para Muerte Súbita'
-                : `Ganador provisional: ${usGoals > themGoals ? ourTeamName : opponentName}`
+                ? t.tiedMessage
+                : `${t.provisionalWinner} ${usGoals > themGoals ? ourTeamName : opponentName}`
               }
             </span>
           </div>
@@ -169,7 +171,7 @@ export default function ShootoutBoard({
           <div className="flex justify-between items-center mb-4 border-b border-gray-100 dark:border-zinc-800 pb-2.5">
             <h3 className="text-lg font-black uppercase text-gray-900 dark:text-zinc-100 flex items-center gap-2">
               <Target className="w-5 h-5 text-amber-500" />
-              Lanzamientos Alternados ({shootoutRounds.length} rondas)
+              {t.rounds} ({shootoutRounds.length})
             </h3>
 
             <div className="flex gap-3">
@@ -177,7 +179,7 @@ export default function ShootoutBoard({
                 onClick={addExtraRound}
                 className="bg-orange-500 hover:bg-orange-600 shrink-0 text-white font-extrabold text-sm md:text-base py-2.5 md:py-3 px-4 md:px-5 rounded-lg shadow-sm transition active:scale-95"
               >
-                + Muerte Súbita
+                {t.suddenDeath}
               </button>
               <button
                 onClick={resetShootout}
@@ -188,7 +190,7 @@ export default function ShootoutBoard({
                 }`}
                 title={resetConfirmActive ? "Pulsa de nuevo para confirmar el reset de shootouts" : "Limpiar shootouts"}
               >
-                {resetConfirmActive ? '⚠️ ¿Confirmar?' : 'Limpiar Tanda'}
+                {resetConfirmActive ? t.confirmClear : t.clearRound}
               </button>
             </div>
           </div>
@@ -211,7 +213,7 @@ export default function ShootoutBoard({
                 >
                   <div className="flex justify-between items-center mb-3">
                     <span className="font-extrabold text-sm uppercase text-gray-600 dark:text-zinc-400">
-                      Ronda {idx + 1} {idx >= 5 && <span className="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded ml-1">Muerte Súbita</span>}
+                      {t.round} {idx + 1} {idx >= 5 && <span className="bg-red-500 text-white text-[9px] px-1.5 py-0.5 rounded ml-1">{t.suddenDeathBadge}</span>}
                     </span>
                     {isCurrent && (
                       <span className="text-xs font-extrabold text-amber-600 dark:text-amber-400 bg-amber-100 px-2 py-0.5 rounded-full animate-pulse">
@@ -233,10 +235,10 @@ export default function ShootoutBoard({
                         {/* Selected Player Badge */}
                         {usIsDone ? (
                           <span className="text-xs md:text-sm bg-amber-100 dark:bg-amber-950/50 p-1.5 rounded font-extrabold text-amber-900 dark:text-amber-200">
-                            Lanzó: {players.find(p => p.id === round.usPlayerId)?.name || 'Jugador'}
+                            {t.shotBy} {players.find(p => p.id === round.usPlayerId)?.name || 'Player'}
                           </span>
                         ) : (
-                          <span className="text-xs text-slate-500 dark:text-zinc-400 font-extrabold uppercase">Por lanzar</span>
+                          <span className="text-xs text-slate-500 dark:text-zinc-400 font-extrabold uppercase">{t.toShoot}</span>
                         )}
                       </div>
 
@@ -246,7 +248,7 @@ export default function ShootoutBoard({
                         }`}>
                           {round.usGoal 
                             ? `+${round.usPoints ?? 2}` 
-                            : 'FALLO / PARADA'}
+                            : t.failSave}
                         </div>
                       ) : (
                         <div className="flex gap-2 md:gap-3 flex-wrap">
@@ -281,7 +283,7 @@ export default function ShootoutBoard({
                           <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: opponentShirtColor }} />
                           <span className="truncate">{opponentName}</span>
                         </span>
-                        <span className="text-xs text-slate-500 dark:text-zinc-400 font-extrabold uppercase">Contra portería</span>
+                        <span className="text-xs text-slate-500 dark:text-zinc-400 font-extrabold uppercase">{t.againstGoal}</span>
                       </div>
 
                       {themIsDone ? (
@@ -290,7 +292,7 @@ export default function ShootoutBoard({
                         }`}>
                           {round.themGoal 
                             ? `+${round.themPoints ?? 2}` 
-                            : 'PARADA / FUERA'}
+                            : t.saveOut}
                         </div>
                       ) : (
                         <div className="flex gap-2 md:gap-3 flex-wrap">
@@ -329,11 +331,11 @@ export default function ShootoutBoard({
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-background border border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-5">
             <h3 className="text-base font-black uppercase text-gray-950 dark:text-zinc-100 flex items-center gap-2 mb-3">
-              Selección de Tirador
+              {t.selectShooter}
             </h3>
             
             <p className="text-xs text-gray-500 dark:text-zinc-400 mb-4 select-none leading-relaxed">
-              Elige qué jugador va a lanzar a continuación para guardar su tiro doble en las estadísticas:
+              {t.chooseShooter}
             </p>
 
             <div className="grid grid-cols-2 gap-3">
@@ -356,7 +358,7 @@ export default function ShootoutBoard({
                   >
                     <span className="truncate pr-1">
                       #{p.number} {p.name}
-                      {hasShot && <span className="text-[10px] md:text-xs font-bold text-gray-400 dark:text-zinc-500 ml-1.5">(Lanzó)</span>}
+                      {hasShot && <span className="text-[10px] md:text-xs font-bold text-gray-400 dark:text-zinc-500 ml-1.5">{t.alreadyShot}</span>}
                     </span>
                   </button>
                 );
