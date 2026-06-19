@@ -1294,17 +1294,17 @@ export default function GameBoard({
 
       {/* MODAL DE ACCIONES CONTEXTUALES DEL JUGADOR */}
       {selectedPlayerForActions && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className={`p-6 rounded-2xl max-w-md w-full shadow-2xl border-2 transition-all ${
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 md:p-4 animate-in fade-in duration-200">
+          <div className={`p-5 md:p-8 rounded-2xl max-w-lg md:max-w-xl w-full shadow-2xl border-2 transition-all max-h-[90vh] overflow-y-auto ${
             sunMode 
               ? 'bg-[#FCFAF6] border-sand-300 text-zinc-900 shadow-xl' 
               : 'bg-zinc-900 border-zinc-700 text-zinc-50 shadow-2xl'
           }`}>
             {/* HEADER */}
-            <div className="flex items-center justify-between border-b pb-3 mb-4 border-sand-200 dark:border-zinc-800">
+            <div className="flex items-center justify-between border-b pb-4 mb-5 border-sand-200 dark:border-zinc-800">
               <div className="flex items-center gap-3">
                 <div
-                  className="w-10 h-10 rounded-full font-black text-sm flex items-center justify-center border border-white/45"
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-full font-black text-base md:text-lg flex items-center justify-center border border-white/45"
                   style={{ backgroundColor: (selectedPlayerForActions.position === 'Portero' || selectedPlayerForActions.position === 'Especialista' || selectedPlayerForActions.position === 'Polivalente') ? ourGkShirtColor : ourShirtColor }}
                 >
                   <span className={(selectedPlayerForActions.position === 'Portero' || selectedPlayerForActions.position === 'Especialista' || selectedPlayerForActions.position === 'Polivalente') ? getShirtStyle(ourGkShirtColor).text : getShirtStyle(ourShirtColor).text}>
@@ -1312,38 +1312,38 @@ export default function GameBoard({
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-black uppercase tracking-tight">
+                  <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight">
                     {selectedPlayerForActions.name}
                   </h3>
-                  <span className="text-xs uppercase font-extrabold text-primary dark:text-[#F59E0B]">
+                  <span className="text-sm md:text-base uppercase font-extrabold text-primary dark:text-[#F59E0B]">
                     {selectedPlayerForActions.position}
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setSelectedPlayerForActions(null)}
-                className={`p-1.5 rounded-lg border transition ${
+                className={`p-2 md:p-2.5 rounded-lg border transition ${
                   sunMode 
                     ? 'bg-sand-100 hover:bg-sand-200 border-sand-250 text-charcoal-700' 
                     : 'bg-zinc-800 hover:bg-zinc-700 border-zinc-700 text-zinc-300'
                 }`}
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-5 md:space-y-6">
               {/* GOALS SECTION */}
               <div>
-                <h4 className="text-[10px] font-black uppercase tracking-wider mb-2 opacity-75">
+                <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
                   ⚽ Anotar Gol
                 </h4>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   {/* GK: Gol Portería (+2p) */}
                   {selectedPlayerForActions.position === 'Portero' && (
                     <button
                       onClick={() => addPoint2(selectedPlayerForActions, 'Portero_Especialista')}
-                      className="col-span-2 bg-emerald-500 hover:bg-emerald-600 text-white font-black py-3 rounded-xl transition active:scale-95 text-center text-sm"
+                      className="col-span-2 bg-emerald-500 hover:bg-emerald-600 text-white font-black py-4 rounded-xl transition active:scale-95 text-center text-base"
                     >
                       Portería (+2)
                     </button>
@@ -1353,7 +1353,7 @@ export default function GameBoard({
                   {selectedPlayerForActions.position === 'Especialista' && (
                     <button
                       onClick={() => addPoint2(selectedPlayerForActions, 'Portero_Especialista')}
-                      className="col-span-2 bg-emerald-500 hover:bg-emerald-600 text-white font-black py-3 rounded-xl transition active:scale-95 text-center text-sm"
+                      className="col-span-2 bg-emerald-500 hover:bg-emerald-600 text-white font-black py-4 rounded-xl transition active:scale-95 text-center text-base"
                     >
                       Especialista (+2)
                     </button>
@@ -1364,25 +1364,25 @@ export default function GameBoard({
                     <>
                       <button
                         onClick={() => addPoint1(selectedPlayerForActions)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-sm"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-base"
                       >
                         +1
                       </button>
                       <button
                         onClick={() => addPoint2(selectedPlayerForActions, 'Fly')}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-sm"
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-base"
                       >
                         Fly (+2)
                       </button>
                       <button
                         onClick={() => addPoint2(selectedPlayerForActions, 'Giro')}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-sm"
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-base"
                       >
                         Giro (+2)
                       </button>
                       <button
                         onClick={() => addPoint2(selectedPlayerForActions, 'Penalti')}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-sm"
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-base"
                       >
                         Penalti (+2)
                       </button>
@@ -1394,25 +1394,25 @@ export default function GameBoard({
                     <>
                       <button
                         onClick={() => addPoint1(selectedPlayerForActions)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-sm"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-base"
                       >
                         +1
                       </button>
                       <button
                         onClick={() => addPoint2(selectedPlayerForActions, 'Fly')}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-sm"
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-base"
                       >
                         Fly (+2)
                       </button>
                       <button
                         onClick={() => addPoint2(selectedPlayerForActions, 'Giro')}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-sm"
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-base"
                       >
                         Giro (+2)
                       </button>
                       <button
                         onClick={() => addPoint2(selectedPlayerForActions, 'Penalti')}
-                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-sm"
+                        className="bg-emerald-500 hover:bg-emerald-600 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-base"
                       >
                         Penalti (+2)
                       </button>
@@ -1424,10 +1424,10 @@ export default function GameBoard({
               {/* ACCIONES DE PORTERÍA (For Portero and Polivalente) */}
               {(selectedPlayerForActions.position === 'Portero' || selectedPlayerForActions.position === 'Polivalente') && (
                 <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-wider mb-2 opacity-75">
+                  <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
                     🧤 Acciones de Portería
                   </h4>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-3">
                     <button
                       onClick={() => {
                         const updatedPlayers = players.map(p => {
@@ -1443,7 +1443,7 @@ export default function GameBoard({
                         });
                         setSelectedPlayerForActions(null);
                       }}
-                      className="bg-[#10B981] hover:bg-emerald-600 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-center text-sm"
+                      className="bg-[#10B981] hover:bg-emerald-600 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-center text-base"
                     >
                       Parada
                     </button>
@@ -1452,7 +1452,7 @@ export default function GameBoard({
                         logOpponentMiss(selectedPlayerForActions);
                         setSelectedPlayerForActions(null);
                       }}
-                      className={`font-black py-2.5 rounded-xl transition active:scale-95 text-center text-sm border ${
+                      className={`font-black py-3.5 rounded-xl transition active:scale-95 text-center text-base border ${
                         sunMode 
                           ? 'bg-amber-50 hover:bg-amber-100 text-amber-700 border-amber-200' 
                           : 'bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/25 text-[#F59E0B]'
@@ -1467,16 +1467,16 @@ export default function GameBoard({
               {/* GOALS CONCEDED SECTION (For Portero and Polivalente) */}
               {(selectedPlayerForActions.position === 'Portero' || selectedPlayerForActions.position === 'Polivalente') && (
                 <div>
-                  <h4 className="text-[10px] font-black uppercase tracking-wider mb-2 opacity-75">
+                  <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
                     🥅 Goles Recibidos (Rival)
                   </h4>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-3">
                     <button
                       onClick={() => {
                         logOpponentGoal(1, undefined, selectedPlayerForActions);
                         setSelectedPlayerForActions(null);
                       }}
-                      className="bg-red-600 hover:bg-red-700 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-center text-sm"
+                      className="bg-red-600 hover:bg-red-700 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-center text-base"
                     >
                       Gol Recibido +1
                     </button>
@@ -1486,7 +1486,7 @@ export default function GameBoard({
                         setShowOpponent2pModal(true);
                         setSelectedPlayerForActions(null);
                       }}
-                      className="bg-red-600 hover:bg-red-700 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-center text-sm"
+                      className="bg-red-600 hover:bg-red-700 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-center text-base"
                     >
                       Gol Recibido +2
                     </button>
@@ -1496,14 +1496,14 @@ export default function GameBoard({
 
               {/* RECOVER & MISS SECTION */}
               {selectedPlayerForActions.position !== 'Portero' && (
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <h4 className="text-[10px] font-black uppercase tracking-wider mb-2 opacity-75">
+                    <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
                       🟢 Defensa
                     </h4>
                     <button
                       onClick={() => logRecovery(selectedPlayerForActions)}
-                      className={`w-full font-black py-2.5 rounded-xl transition active:scale-95 text-center text-xs border ${
+                      className={`w-full font-black py-3.5 rounded-xl transition active:scale-95 text-center text-sm md:text-base border ${
                         sunMode 
                           ? 'bg-emerald-50 hover:bg-emerald-100 text-[#059669] border-emerald-200' 
                           : 'bg-emerald-950/15 hover:bg-emerald-900/25 border-emerald-900/30 text-emerald-100'
@@ -1514,16 +1514,16 @@ export default function GameBoard({
                   </div>
 
                   <div>
-                    <h4 className="text-[10px] font-black uppercase tracking-wider mb-2 opacity-75">
+                    <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
                       ❌ Fallos
                     </h4>
-                    <div className="grid grid-cols-2 gap-1">
+                    <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => {
                           logMissedShot(selectedPlayerForActions);
                           setSelectedPlayerForActions(null);
                         }}
-                        className={`py-2.5 rounded-xl text-xs font-extrabold font-sans text-center active:scale-95 transition border ${
+                        className={`py-3.5 rounded-xl text-sm font-extrabold font-sans text-center active:scale-95 transition border ${
                           sunMode 
                             ? 'bg-sand-100 hover:bg-sand-200 text-charcoal-800 border-sand-300' 
                             : 'bg-charcoal-800 hover:bg-charcoal-750 text-sand-100 border-charcoal-700'
@@ -1537,7 +1537,7 @@ export default function GameBoard({
                             logMissedFly(selectedPlayerForActions);
                             setSelectedPlayerForActions(null);
                           }}
-                          className={`py-2.5 rounded-xl text-[10px] font-extrabold font-sans text-center active:scale-95 transition border ${
+                          className={`py-3.5 rounded-xl text-xs md:text-sm font-extrabold font-sans text-center active:scale-95 transition border ${
                             sunMode 
                               ? 'bg-amber-gold-bg border-amber-gold/40 text-amber-950 hover:bg-amber-100/50' 
                               : 'bg-charcoal-800 border-amber-gold/25 text-[#F59E0B] hover:bg-amber-gold/15'
@@ -1546,7 +1546,7 @@ export default function GameBoard({
                           Err Fly
                         </button>
                       ) : (
-                        <div className={`flex items-center justify-center text-[10px] text-zinc-505 font-extrabold font-sans border rounded-xl ${
+                        <div className={`flex items-center justify-center text-sm text-zinc-505 font-extrabold font-sans border rounded-xl ${
                           sunMode ? 'bg-sand-50 border-sand-200' : 'bg-charcoal-950 border-charcoal-800'
                         }`}>
                           -
@@ -1559,13 +1559,13 @@ export default function GameBoard({
 
               {/* TURNOVER SECTION */}
               <div>
-                <h4 className="text-[10px] font-black uppercase tracking-wider mb-2 opacity-75">
+                <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
                   ⚠️ Pérdida de Balón
                 </h4>
-                <div className={`grid gap-1.5 ${selectedPlayerForActions.position === 'Portero' ? 'grid-cols-1' : 'grid-cols-3'}`}>
+                <div className={`grid gap-2 md:gap-3 ${selectedPlayerForActions.position === 'Portero' ? 'grid-cols-1' : 'grid-cols-3'}`}>
                   <button
                     onClick={() => logTurnover(selectedPlayerForActions, 'bad_pass')}
-                    className={`py-2 rounded-xl text-xs font-extrabold text-center active:scale-95 transition border ${
+                    className={`py-3 md:py-3.5 rounded-xl text-sm md:text-base font-extrabold text-center active:scale-95 transition border ${
                       sunMode 
                         ? 'bg-red-50 hover:bg-red-100 text-[#DC2626] border-red-200' 
                         : 'bg-red-950/10 hover:bg-red-900/20 border-red-900/30 text-red-100'
@@ -1577,7 +1577,7 @@ export default function GameBoard({
                     <>
                       <button
                         onClick={() => logTurnover(selectedPlayerForActions, 'steps')}
-                        className={`py-2 rounded-xl text-xs font-extrabold text-center active:scale-95 transition border ${
+                        className={`py-3 md:py-3.5 rounded-xl text-sm md:text-base font-extrabold text-center active:scale-95 transition border ${
                           sunMode 
                             ? 'bg-red-50 hover:bg-red-100 text-[#DC2626] border-red-200' 
                             : 'bg-red-950/10 hover:bg-red-900/20 border-red-900/30 text-red-100'
@@ -1587,7 +1587,7 @@ export default function GameBoard({
                       </button>
                       <button
                         onClick={() => logTurnover(selectedPlayerForActions, 'fumbling')}
-                        className={`py-2 rounded-xl text-xs font-extrabold text-center active:scale-95 transition border ${
+                        className={`py-3 md:py-3.5 rounded-xl text-sm md:text-base font-extrabold text-center active:scale-95 transition border ${
                           sunMode 
                             ? 'bg-red-50 hover:bg-red-100 text-[#DC2626] border-red-200' 
                             : 'bg-red-950/10 hover:bg-red-900/20 border-red-900/30 text-red-100'
@@ -1602,19 +1602,19 @@ export default function GameBoard({
 
               {/* SANCTIONS SECTION */}
               <div>
-                <h4 className="text-[10px] font-black uppercase tracking-wider mb-2 opacity-75">
+                <h4 className="text-xs md:text-sm font-black uppercase tracking-wider mb-3 opacity-75">
                   🟥 Disciplina y Sanciones
                 </h4>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-3">
                   <button
                     onClick={() => triggerExclusion(selectedPlayerForActions)}
-                    className="bg-amber-500 hover:bg-amber-600 text-gray-900 font-black py-2.5 rounded-xl transition active:scale-95 text-xs text-center shadow-3xs"
+                    className="bg-amber-500 hover:bg-amber-600 text-gray-900 font-black py-3.5 rounded-xl transition active:scale-95 text-sm md:text-base text-center shadow-3xs"
                   >
                     Exclusión
                   </button>
                   <button
                     onClick={() => triggerDirectRedCard(selectedPlayerForActions)}
-                    className="bg-red-600 hover:bg-red-700 text-white font-black py-2.5 rounded-xl transition active:scale-95 text-xs text-center shadow-3xs"
+                    className="bg-red-600 hover:bg-red-700 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-sm md:text-base text-center shadow-3xs"
                   >
                     Tarjeta Roja
                   </button>

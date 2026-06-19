@@ -172,16 +172,16 @@ export default function ShootoutBoard({
               Lanzamientos Alternados ({shootoutRounds.length} rondas)
             </h3>
 
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button
                 onClick={addExtraRound}
-                className="bg-orange-500 hover:bg-orange-600 shrink-0 text-white font-extrabold text-xs py-1.5 px-3 rounded-lg shadow-sm"
+                className="bg-orange-500 hover:bg-orange-600 shrink-0 text-white font-extrabold text-sm md:text-base py-2.5 md:py-3 px-4 md:px-5 rounded-lg shadow-sm transition active:scale-95"
               >
                 + Muerte Súbita
               </button>
               <button
                 onClick={resetShootout}
-                className={`text-xs font-black py-1.5 px-3 rounded-lg border uppercase transition-all duration-150 active:scale-95 select-none ${
+                className={`text-sm md:text-base font-black py-2.5 md:py-3 px-4 md:px-5 rounded-lg border uppercase transition-all duration-150 active:scale-95 select-none ${
                   resetConfirmActive
                     ? 'bg-red-600 text-white border-red-700 animate-pulse font-black'
                     : 'bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-zinc-300 border-gray-300 dark:border-zinc-750'
@@ -223,25 +223,25 @@ export default function ShootoutBoard({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     
                     {/* OUR TEAM ATTEMPT */}
-                    <div className="bg-slate-100 dark:bg-zinc-800 p-3 rounded-xl border border-slate-200 dark:border-zinc-700">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs font-black text-slate-900 dark:text-zinc-50 flex items-center gap-1.5 uppercase">
-                          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: ourShirtColor }} />
+                    <div className="bg-slate-100 dark:bg-zinc-800 p-4 md:p-5 rounded-xl border border-slate-200 dark:border-zinc-700">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-sm md:text-base font-black text-slate-900 dark:text-zinc-50 flex items-center gap-2 uppercase">
+                          <span className="w-3 h-3 rounded-full" style={{ backgroundColor: ourShirtColor }} />
                           {ourTeamName}
                         </span>
                         
                         {/* Selected Player Badge */}
                         {usIsDone ? (
-                          <span className="text-[10px] bg-amber-100 dark:bg-amber-950/50 p-1 rounded font-extrabold text-amber-900 dark:text-amber-200">
+                          <span className="text-xs md:text-sm bg-amber-100 dark:bg-amber-950/50 p-1.5 rounded font-extrabold text-amber-900 dark:text-amber-200">
                             Lanzó: {players.find(p => p.id === round.usPlayerId)?.name || 'Jugador'}
                           </span>
                         ) : (
-                          <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-extrabold uppercase">Por lanzar</span>
+                          <span className="text-xs text-slate-500 dark:text-zinc-400 font-extrabold uppercase">Por lanzar</span>
                         )}
                       </div>
 
                       {usIsDone ? (
-                        <div className={`p-2.5 text-center font-black rounded-lg uppercase text-xs ${
+                        <div className={`p-3 md:p-4 text-center font-black rounded-lg uppercase text-sm md:text-base ${
                           round.usGoal ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
                         }`}>
                           {round.usGoal 
@@ -249,24 +249,24 @@ export default function ShootoutBoard({
                             : 'FALLO / PARADA'}
                         </div>
                       ) : (
-                        <div className="flex gap-1.5 flex-wrap">
+                        <div className="flex gap-2 md:gap-3 flex-wrap">
                           <button
                             onClick={() => handleShootResult(idx, 'us', true, 2)}
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2 px-2 rounded-lg text-[10px] uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
                             title="Gol de valor doble: Giro 360, Fly, Gol de Portero o Especialista"
                           >
-                            +2
+                            GOL +2
                           </button>
                           <button
                             onClick={() => handleShootResult(idx, 'us', true, 1)}
-                            className="bg-teal-600 hover:bg-teal-700 text-white font-black py-2 px-2 rounded-lg text-[10px] uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
+                            className="bg-teal-600 hover:bg-teal-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
                             title="Gol simple o de valor sencillo"
                           >
-                            +1
+                            GOL +1
                           </button>
                           <button
                             onClick={() => handleShootResult(idx, 'us', false)}
-                            className="bg-red-600 hover:bg-red-700 text-white font-black py-2 px-2.5 rounded-lg text-[10px] uppercase tracking-wider transition active:scale-95 shadow-sm"
+                            className="bg-red-600 hover:bg-red-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider transition active:scale-95 shadow-sm"
                           >
                             ✗ Fallo
                           </button>
@@ -275,17 +275,17 @@ export default function ShootoutBoard({
                     </div>
 
                     {/* OPPONENT TEAM ATTEMPT */}
-                    <div className="bg-slate-100 dark:bg-zinc-800 p-3 rounded-xl border border-slate-200 dark:border-zinc-700">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs font-black text-slate-900 dark:text-zinc-50 flex items-center gap-1.5 uppercase">
-                          <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: opponentShirtColor }} />
+                    <div className="bg-slate-100 dark:bg-zinc-800 p-4 md:p-5 rounded-xl border border-slate-200 dark:border-zinc-700">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-sm md:text-base font-black text-slate-900 dark:text-zinc-50 flex items-center gap-2 uppercase">
+                          <span className="w-3 h-3 rounded-full" style={{ backgroundColor: opponentShirtColor }} />
                           {opponentName}
                         </span>
-                        <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-extrabold uppercase">Contra portería</span>
+                        <span className="text-xs text-slate-500 dark:text-zinc-400 font-extrabold uppercase">Contra portería</span>
                       </div>
 
                       {themIsDone ? (
-                        <div className={`p-2.5 text-center font-black rounded-lg uppercase text-xs ${
+                        <div className={`p-3 md:p-4 text-center font-black rounded-lg uppercase text-sm md:text-base ${
                           round.themGoal ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
                         }`}>
                           {round.themGoal 
@@ -293,26 +293,26 @@ export default function ShootoutBoard({
                             : 'PARADA / FUERA'}
                         </div>
                       ) : (
-                        <div className="flex gap-1.5 flex-wrap">
+                        <div className="flex gap-2 md:gap-3 flex-wrap">
                           <button
                             onClick={() => handleShootResult(idx, 'them', true, 2)}
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2 px-2 rounded-lg text-[10px] uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
                             title="Gol rival de valor doble"
                           >
-                            +2
+                            GOL +2
                           </button>
                           <button
                             onClick={() => handleShootResult(idx, 'them', true, 1)}
-                            className="bg-teal-600 hover:bg-teal-700 text-white font-black py-2 px-2 rounded-lg text-[10px] uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
+                            className="bg-teal-600 hover:bg-teal-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider flex-1 transition active:scale-95 shadow-sm"
                             title="Gol rival de valor sencillo"
                           >
-                            +1
+                            GOL +1
                           </button>
                           <button
                             onClick={() => handleShootResult(idx, 'them', false)}
-                            className="bg-red-600 hover:bg-red-700 text-white font-black py-2 px-2.5 rounded-lg text-[10px] uppercase tracking-wider transition active:scale-95 shadow-sm"
+                            className="bg-red-600 hover:bg-red-700 text-white font-black py-3 md:py-4 px-3 md:px-4 rounded-lg text-sm md:text-base uppercase tracking-wider transition active:scale-95 shadow-sm"
                           >
-                            ✗ Fallo Rival
+                            ✗ Fallo
                           </button>
                         </div>
                       )}

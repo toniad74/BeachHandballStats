@@ -91,6 +91,36 @@ export default function App() {
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [hasAutoTransitionedToShootout, setHasAutoTransitionedToShootout] = useState(false);
 
+  // PWA Install Prompt
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallButton(true);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+
+    // Check if already installed (standalone mode)
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setShowInstallButton(false);
+    }
+
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setShowInstallButton(false);
+    }
+    setDeferredPrompt(null);
+  };
+
   // Save state continuously to avoid lost data on court
   useEffect(() => {
     localStorage.setItem('beach_handball_match_state_2026', JSON.stringify(matchState));
@@ -341,6 +371,21 @@ export default function App() {
               <span className="hidden sm:inline">Reset</span>
             </button>
 
+            {/* INSTALL APP BUTTON */}
+            {showInstallButton && (
+              <button
+                onClick={handleInstallClick}
+                className={`p-2.5 md:p-3 rounded-lg border font-black flex items-center gap-1.5 md:gap-2 text-xs md:text-sm transition-all duration-300 active:scale-[0.98] shadow-sm animate-pulse ${sunMode
+                  ? 'border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                  : 'border-emerald-700 bg-emerald-950/50 text-emerald-300 hover:bg-emerald-900/50'
+                  }`}
+                title="Instalar app (eliminar barra de direcciones)"
+              >
+                <DownloadCloud className="w-5 h-5" />
+                <span className="hidden sm:inline">Instalar</span>
+              </button>
+            )}
+
             {/* USER PROFILE & LOGOUT */}
             <div className={`h-8 md:h-10 border-r ${sunMode ? 'border-sand-200' : 'border-zinc-800'}`} />
 
@@ -515,6 +560,39 @@ export default function App() {
               >
                 Sí, restablecer
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PWA INSTALL BANNER - shown when not in standalone mode */}
+      {!window.matchMedia('(display-mode: standalone)').matches && !showInstallButton && (
+        <div className={`fixed bottom-10 left-3 right-3 md:left-auto md:right-4 md:max-w-sm z-50 p-4 md:p-5 rounded-2xl border-2 shadow-2xl transition-all ${sunMode
+          ? 'bg-white border-emerald-200 text-slate-800'
+          : 'bg-charcoal-900 border-emerald-700 text-slate-100'
+          }`}
+          id="ios-install-banner"
+        >
+          <button
+            onClick={() => {
+              const el = document.getElementById('ios-install-banner');
+              if (el) el.style.display = 'none';
+            }}
+            className={`absolute top-2 right-2 p-1.5 rounded-lg text-xs ${sunMode ? 'text-slate-400 hover:text-slate-600' : 'text-slate-500 hover:text-slate-300'}`}
+          >
+            ✕
+          </button>
+          <div className="flex items-start gap-3">
+            <DownloadCloud className={`w-8 h-8 flex-shrink-0 ${sunMode ? 'text-emerald-600' : 'text-emerald-400'}`} />
+            <div>
+              <p className="font-black text-sm md:text-base mb-1">Instalar BH Stats</p>
+              <p className={`text-xs md:text-sm leading-relaxed ${sunMode ? 'text-slate-600' : 'text-slate-400'}`}>
+                Para pantalla completa sin barra de direcciones:
+                <br />
+                <strong>Safari (iOS):</strong> Pulsa <span className="inline-block border px-1.5 py-0.5 rounded text-[10px] font-bold mx-0.5">Compartir ↑</span> → "Añadir a inicio"
+                <br />
+                <strong>Chrome:</strong> Menú ⋮ → "Instalar aplicación"
+              </p>
             </div>
           </div>
         </div>
