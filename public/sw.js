@@ -1,12 +1,13 @@
-const CACHE_NAME = 'bh-stats-v1';
+const CACHE_NAME = 'bh-stats-v2';
+const BASE = '/BeachHandballStats/';
 
-// Install: cache the app shell
+// Install: precache app shell
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll([
-        '/BeachHandballStats/',
-        '/BeachHandballStats/index.html',
+        BASE,
+        BASE + 'index.html',
       ]);
     })
   );
@@ -16,48 +17,51 @@ self.addEventListener('install', (event) => {
 // Activate: clean old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-      );
-    })
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+    )
   );
   self.clients.claim();
 });
 
-// Fetch: network-first strategy for navigation, cache-first for assets
+// Fetch: stale-while-revalidate for assets, network-first for navigation
 self.addEventListener('fetch', (event) => {
   const { request } = event;
-
-  // Skip non-GET requests
   if (request.method !== 'GET') return;
 
-  // For navigation requests, try network first then fallback to cache
+  // Navigation: network first, fallback to cache
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
-        .then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-          return response;
+        .then((res) => {
+          const clone = res.clone();
+          caches.open(CACHE_NAME).then((c) => c.put(request, clone));
+          return res;
         })
-        .catch(() => caches.match('/BeachHandballStats/index.html'))
+        .catch(() => caches.match(BASE + 'index.html'))
     );
     return;
   }
 
-  // For assets: cache-first, then network
+  // Assets: stale-while-revalidate
+  if (request.url.includes('/assets/') || request.url.includes('/icons/')) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        const fetchPromise = fetch(request).then((res) => {
+          if (res.ok) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then((c) => c.put(request, clone));
+          }
+          return res;
+        }).catch(() => cached);
+        return cached || fetchPromise;
+      })
+    );
+    return;
+  }
+
+  // Everything else: network first
   event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) return cached;
-      return fetch(request).then((response) => {
-        // Cache successful responses for static assets
-        if (response.ok && (request.url.includes('/assets/') || request.url.includes('/icons/'))) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
-        }
-        return response;
-      });
-    })
+    fetch(request).catch(() => caches.match(request))
   );
 });

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Player, MatchState, EventLog } from '../types';
 import { Target, Shield, AlertTriangle, Play, Flame, BarChart3, Users, Award, ChevronDown } from 'lucide-react';
 import { useI18n } from '../i18n';
+import ExportStats from './ExportStats';
 
 interface AnalyticsHubProps {
   matchState: MatchState;
+  sunMode: boolean;
 }
 
-export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
+export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps) {
   const { t } = useI18n();
   const { players, opponentName, historyEvents = [], set1, set2 } = matchState;
 
@@ -443,6 +445,9 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
           })}
         </div>
       </div>
+
+      {/* EXPORT STATS */}
+      <ExportStats matchState={matchState} sunMode={sunMode} />
 
     </div>
   );

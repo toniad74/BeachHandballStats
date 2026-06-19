@@ -527,7 +527,7 @@ export default function App() {
         )}
 
         {activeTab === 'analisis' && (
-          <AnalyticsHub matchState={matchState} />
+          <AnalyticsHub matchState={matchState} sunMode={sunMode} />
         )}
 
         {activeTab === 'plantilla' && (
