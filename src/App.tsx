@@ -13,6 +13,7 @@ import ShootoutBoard from './components/ShootoutBoard';
 import AnalyticsHub from './components/AnalyticsHub';
 import SetupTeam from './components/SetupTeam';
 import MatchHistory from './components/MatchHistory';
+import Tutorial from './components/Tutorial';
 import GoogleLoginScreen from './components/GoogleLoginScreen';
 import { Sun, Moon, Calendar, Trophy, Zap, DownloadCloud, RotateCcw, AlertCircle, HelpCircle, LogOut, Save, FolderOpen, ChevronDown, Globe } from 'lucide-react';
 import { auth } from './firebase';
@@ -95,6 +96,7 @@ export default function App() {
   const [hasAutoTransitionedToShootout, setHasAutoTransitionedToShootout] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showMatchHistory, setShowMatchHistory] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   // Language (from context)
   const { language, setLanguage, t } = useI18n();
@@ -340,6 +342,18 @@ export default function App() {
                 title="Restablecer partido"
               >
                 <RotateCcw className="w-5 h-5" />
+              </button>
+
+              {/* HELP / TUTORIAL */}
+              <button
+                onClick={() => setShowTutorial(true)}
+                className={`p-2 md:p-2.5 rounded-lg border font-black flex items-center transition-all duration-300 active:scale-[0.98] shadow-sm ${sunMode
+                  ? 'border-sand-200 bg-white text-slate-900 hover:bg-sand-50/50'
+                  : 'border-zinc-700 bg-charcoal-900 text-white hover:bg-charcoal-800'
+                }`}
+                title="Tutorial"
+              >
+                <HelpCircle className="w-5 h-5" />
               </button>
 
               {/* INSTALL APP */}
@@ -624,6 +638,9 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* TUTORIAL */}
+      {showTutorial && <Tutorial onClose={() => setShowTutorial(false)} sunMode={sunMode} />}
 
       {/* FOOTER ACCREDITATION AND LEGALITY */}
       <footer className={`py-4 px-4 text-center select-none transition-colors ${sunMode ? 'text-charcoal-500' : 'text-charcoal-500'
