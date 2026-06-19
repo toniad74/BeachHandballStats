@@ -5,9 +5,9 @@ export interface Translations {
 }
 
 export const LANGUAGE_OPTIONS: { value: Language; label: string; flag: string }[] = [
-  { value: 'es', label: 'Español', flag: '🇪🇸' },
-  { value: 'ca', label: 'Català', flag: '🏳️' },
-  { value: 'en', label: 'English', flag: '🇬🇧' },
+  { value: 'es', label: 'ES', flag: '🇪🇸' },
+  { value: 'ca', label: 'CA', flag: '🏳️' },
+  { value: 'en', label: 'EN', flag: '🇬🇧' },
 ];
 
 const es: Translations = {
