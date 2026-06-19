@@ -807,7 +807,7 @@ export default function GameBoard({
       )}
 
       {/* SCORE PANEL AND SAND SANCTION PANELS IN A SINGLE ROW */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
         {/* GAME TIME BOARD & LOGS CARDS */}
         <div className={`w-full border-3 rounded-2xl shadow-xs overflow-hidden flex flex-col justify-between transition-colors ${
           sunMode 

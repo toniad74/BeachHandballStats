@@ -325,8 +325,8 @@ export default function AnalyticsHub({ matchState }: AnalyticsHubProps) {
           Rendimiento Individual por Jugador
         </h4>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+        <div className="overflow-x-auto -mx-2 px-2 md:mx-0 md:px-0">
+          <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
               <tr className="bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-200 text-xs font-bold uppercase tracking-wider">
                 <th className="py-2.5 px-3">Dorsal</th>

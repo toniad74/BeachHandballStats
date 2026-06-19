@@ -238,7 +238,7 @@ export default function App() {
         ? 'bg-white border-sand-155'
         : 'bg-charcoal-900 border-charcoal-800'
         }`} id="app_header">
-        <div className="max-w-7xl mx-auto flex flex-wrap md:flex-nowrap justify-between items-center gap-3 md:gap-4">
+        <div className="max-w-7xl mx-auto flex flex-wrap lg:flex-nowrap justify-between items-center gap-3 lg:gap-4">
 
           {/* Logo & Legal Disclaimer */}
           <div className="flex items-center gap-2 md:gap-3 shrink-0">
@@ -259,7 +259,7 @@ export default function App() {
           </div>
 
           {/* QUICK SUMMARY MATCH RESULTS */}
-          <div className={`flex gap-3 md:gap-5 items-center py-1.5 md:py-2 px-3 md:px-5 rounded-xl border transition-all duration-300 shadow-sm order-3 md:order-none w-full md:w-auto justify-center ${sunMode
+          <div className={`flex gap-3 lg:gap-5 items-center py-1.5 lg:py-2 px-3 lg:px-5 rounded-xl border transition-all duration-300 shadow-sm order-3 lg:order-none w-full lg:w-auto justify-center ${sunMode
             ? 'border-sand-200 bg-[#FCFAF6] text-slate-900'
             : 'border-zinc-700 bg-charcoal-950 text-white'
             }`}>

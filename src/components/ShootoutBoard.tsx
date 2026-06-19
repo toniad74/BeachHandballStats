@@ -162,10 +162,10 @@ export default function ShootoutBoard({
       </div>
 
       {/* TACTICAL ASSIGNMENT GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
         
         {/* LEFT COMPONENT: ROUND LOGGING */}
-        <div className="md:col-span-8 bg-background border border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-3 md:p-5">
+        <div className="lg:col-span-8 bg-background border border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-3 md:p-5">
           <div className="flex justify-between items-center mb-4 border-b border-gray-100 dark:border-zinc-800 pb-2.5">
             <h3 className="text-lg font-black uppercase text-gray-900 dark:text-zinc-100 flex items-center gap-2">
               <Target className="w-5 h-5 text-amber-500" />
@@ -326,7 +326,7 @@ export default function ShootoutBoard({
         </div>
 
         {/* RIGHT COMPONENT: SHOOTER ASSIGNMENT */}
-        <div className="md:col-span-4 space-y-6">
+        <div className="lg:col-span-4 space-y-6">
           <div className="bg-background border border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-5">
             <h3 className="text-base font-black uppercase text-gray-950 dark:text-zinc-100 flex items-center gap-2 mb-3">
               Selección de Tirador

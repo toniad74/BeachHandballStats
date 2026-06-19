@@ -342,16 +342,20 @@ button:active {
 }
 
 /* Responsive & Tablet Optimizations */
+/* Tablets 9-10" portrait: ~768-834px */
 @media (min-width: 768px) and (max-width: 1024px) {
-  /* Ensure touch targets are minimum 44px on tablets */
-  button, select, input[type="text"], input[type="number"] {
-    min-height: 44px;
-  }
-
   /* Optimize padding for tablet screens */
   .max-w-7xl {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+/* Tablets 9-10" landscape and larger tablets: ~1024-1180px */
+@media (min-width: 1024px) and (max-width: 1180px) {
+  .max-w-7xl {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 
@@ -365,6 +369,13 @@ button:active {
   select, input[type="text"], input[type="number"] {
     min-height: 44px;
     font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+
+  /* Smaller stat badges and inline buttons don't need large touch targets */
+  .grid button, 
+  [id="unified_roster_grid"] button {
+    min-height: unset;
+    min-width: unset;
   }
 }
 
