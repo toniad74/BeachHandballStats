@@ -794,7 +794,7 @@ export default function GameBoard({
   };
 
   return (
-    <div className={`p-3 md:p-5 space-y-4 md:space-y-6 ${isLast15Seconds ? 'ring-8 ring-red-600 animate-pulse duration-700 bg-red-10/20 rounded-xl' : ''}`} id="game_board_canvas">
+    <div className={`p-2 md:p-5 space-y-4 md:space-y-6 overflow-hidden ${isLast15Seconds ? 'ring-8 ring-red-600 animate-pulse duration-700 bg-red-10/20 rounded-xl' : ''}`} id="game_board_canvas">
       
       {/* 15 SECONDS ULTRA ALERT PANEL */}
       {isLast15Seconds && (
@@ -942,7 +942,7 @@ export default function GameBoard({
         </div>
 
         {/* EXCLUDED PLAYERS & SANCIONES PANEL */}
-        <div className={`w-full border rounded-2xl p-3 transition-colors ${
+        <div className={`w-full border rounded-2xl p-3 transition-colors overflow-hidden ${
           sunMode ? 'bg-white border-sand-300 text-charcoal-900 shadow-xs' : 'bg-charcoal-900 border-charcoal-800 text-sand-50'
         }`}>
           <div className="flex flex-col justify-between h-full">
@@ -1042,7 +1042,7 @@ export default function GameBoard({
       </div>
 
       {/* TACTICAL ACTION PANEL: UNIFIED ROSTER GRID */}
-      <div className={`border-3 rounded-2xl shadow-xs p-4 md:p-6 transition-colors ${
+      <div className={`border-3 rounded-2xl shadow-xs p-3 md:p-6 transition-colors overflow-hidden ${
         sunMode ? 'bg-white border-sand-300' : 'bg-charcoal-900 border-charcoal-750'
       }`}>
         <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 md:pb-4 mb-4 md:mb-5 gap-3 ${
@@ -1062,19 +1062,19 @@ export default function GameBoard({
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 flex-wrap justify-end">
             {lastUndoneMessage && (
-              <span className="text-[11px] font-bold text-amber-600 dark:text-amber-500 bg-amber-500/10 py-1 px-2.5 rounded-lg border border-amber-500/25 animate-fade-in">
+              <span className="text-[10px] md:text-[11px] font-bold text-amber-600 dark:text-amber-500 bg-amber-500/10 py-1 px-2 rounded-lg border border-amber-500/25 animate-fade-in truncate max-w-[200px]">
                 {lastUndoneMessage}
               </span>
             )}
             {logs.length > 0 && (
               <button
                 onClick={undoLastEvent}
-                className="flex items-center gap-1 text-danger hover:text-danger-hover text-xs font-extrabold border border-danger/35 rounded px-2.5 py-1.5 transition-colors active:scale-95 bg-danger/5 dark:bg-danger/10 flex-shrink-0"
+                className="flex items-center gap-1 text-danger hover:text-danger-hover text-[11px] md:text-xs font-extrabold border border-danger/35 rounded px-2 md:px-2.5 py-1.5 transition-colors active:scale-95 bg-danger/5 dark:bg-danger/10 flex-shrink-0 whitespace-nowrap"
               >
                 <Undo2 className="w-3.5 h-3.5" />
-                Deshacer Última Acción
+                Deshacer
               </button>
             )}
           </div>

@@ -10,6 +10,7 @@ import GameBoard from './components/GameBoard';
 import ShootoutBoard from './components/ShootoutBoard';
 import AnalyticsHub from './components/AnalyticsHub';
 import SetupTeam from './components/SetupTeam';
+import MatchHistory from './components/MatchHistory';
 import GoogleLoginScreen from './components/GoogleLoginScreen';
 import { Sun, Moon, Calendar, Trophy, Zap, DownloadCloud, RotateCcw, AlertCircle, HelpCircle, LogOut } from 'lucide-react';
 import { auth } from './firebase';
@@ -86,7 +87,7 @@ export default function App() {
     return INITIAL_MATCH_STATE;
   });
 
-  const [activeTab, setActiveTab] = useState<'pista' | 'shootout' | 'analisis' | 'plantilla'>('pista');
+  const [activeTab, setActiveTab] = useState<'pista' | 'shootout' | 'analisis' | 'plantilla' | 'historial'>('pista');
   const [sunMode, setSunMode] = useState(true); // default to high-contrast Sun/Beach mode for outdoors!
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [hasAutoTransitionedToShootout, setHasAutoTransitionedToShootout] = useState(false);
@@ -432,7 +433,7 @@ export default function App() {
       {/* CORE NAVIGATION TABS */}
       <nav className={`py-1.5 md:py-2 px-2 md:px-6 border-b transition-colors duration-300 shadow-card ${sunMode ? 'bg-white border-sand-155' : 'bg-charcoal-900 border-charcoal-800'
         }`}>
-        <div className="max-w-7xl mx-auto grid grid-cols-4 md:flex md:justify-start md:gap-2 lg:gap-4 overflow-hidden">
+        <div className="max-w-7xl mx-auto grid grid-cols-5 md:flex md:justify-start md:gap-2 lg:gap-4 overflow-hidden">
           <button
             onClick={() => {
               if (currentPeriod === 'shootout') {
@@ -486,11 +487,23 @@ export default function App() {
           >
             <span className="text-lg md:text-xl">⚙️</span> <span className="truncate">Jugadores</span>
           </button>
+
+          <button
+            onClick={() => setActiveTab('historial')}
+            className={`py-3 md:py-4 px-1 md:px-5 rounded-lg font-bold text-[11px] md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] whitespace-nowrap overflow-hidden ${activeTab === 'historial'
+              ? 'border-primary text-primary font-extrabold'
+              : sunMode
+                ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
+                : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
+              }`}
+          >
+            <span className="text-lg md:text-xl">☁️</span> <span className="truncate">Historial</span>
+          </button>
         </div>
       </nav>
 
       {/* CORE VIEWPORT */}
-      <main className="max-w-7xl mx-auto py-4 md:py-6 mb-16 px-3 md:px-6">
+      <main className="max-w-7xl mx-auto py-4 md:py-6 mb-16 px-3 md:px-6 overflow-hidden">
         {activeTab === 'pista' && (
           <GameBoard
             matchState={matchState}
@@ -521,6 +534,15 @@ export default function App() {
           <SetupTeam
             players={players}
             onUpdatePlayers={updatePlayers}
+          />
+        )}
+
+        {activeTab === 'historial' && (
+          <MatchHistory
+            user={user}
+            currentMatchState={matchState}
+            onLoadMatch={(loadedState) => setMatchState(loadedState)}
+            sunMode={sunMode}
           />
         )}
       </main>
