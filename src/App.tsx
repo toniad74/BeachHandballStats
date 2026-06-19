@@ -6,13 +6,14 @@
 import React, { useState, useEffect } from 'react';
 import { MatchState, Player, SetState, GoogleUser } from './types';
 import { INITIAL_MATCH_STATE, DEFAULT_PLAYERS, SHIRT_COLORS, INITIAL_SET_STATE } from './utils/initialState';
+import { Language, getTranslations, LANGUAGE_OPTIONS } from './utils/i18n';
 import GameBoard from './components/GameBoard';
 import ShootoutBoard from './components/ShootoutBoard';
 import AnalyticsHub from './components/AnalyticsHub';
 import SetupTeam from './components/SetupTeam';
 import MatchHistory from './components/MatchHistory';
 import GoogleLoginScreen from './components/GoogleLoginScreen';
-import { Sun, Moon, Calendar, Trophy, Zap, DownloadCloud, RotateCcw, AlertCircle, HelpCircle, LogOut, Save, FolderOpen, ChevronDown } from 'lucide-react';
+import { Sun, Moon, Calendar, Trophy, Zap, DownloadCloud, RotateCcw, AlertCircle, HelpCircle, LogOut, Save, FolderOpen, ChevronDown, Globe } from 'lucide-react';
 import { auth } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 
@@ -93,6 +94,17 @@ export default function App() {
   const [hasAutoTransitionedToShootout, setHasAutoTransitionedToShootout] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showMatchHistory, setShowMatchHistory] = useState(false);
+
+  // Language
+  const [language, setLanguage] = useState<Language>(() => {
+    const saved = localStorage.getItem('bh_stats_language');
+    return (saved as Language) || 'es';
+  });
+  const t = getTranslations(language);
+
+  useEffect(() => {
+    localStorage.setItem('bh_stats_language', language);
+  }, [language]);
 
   // PWA Install Prompt
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
@@ -292,6 +304,21 @@ export default function App() {
             {/* CONTROLS - always right side */}
             <div className="flex items-center gap-1.5 md:gap-3 shrink-0 ml-auto">
 
+              {/* LANGUAGE SELECTOR */}
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as Language)}
+                className={`p-2 md:p-2.5 rounded-lg border font-black text-xs appearance-none cursor-pointer transition-all ${sunMode
+                  ? 'border-sand-200 bg-white text-slate-900'
+                  : 'border-zinc-700 bg-charcoal-900 text-white'
+                }`}
+                title="Idioma / Language"
+              >
+                {LANGUAGE_OPTIONS.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.flag} {opt.label}</option>
+                ))}
+              </select>
+
               {/* SUN MODE */}
               <button
                 onClick={() => setSunMode(!sunMode)}
@@ -379,7 +406,7 @@ export default function App() {
               </span>
               <span className={`block text-[9px] md:text-[10px] font-black uppercase ${sunMode ? 'text-slate-700' : 'text-zinc-300'
                 }`}>
-                {(set1.isFinished || set1.isGoldenGoal) ? 'Finalizado' : (currentPeriod === 'set1' ? 'En Curso' : (currentPeriod === 'set2' || currentPeriod === 'shootout') ? 'Finalizado' : 'Pendiente')}
+                {(set1.isFinished || set1.isGoldenGoal) ? t.finished : (currentPeriod === 'set1' ? t.inProgress : (currentPeriod === 'set2' || currentPeriod === 'shootout') ? t.finished : t.pending)}
               </span>
             </div>
 
@@ -394,7 +421,7 @@ export default function App() {
               </span>
               <span className={`block text-[9px] md:text-[10px] font-black uppercase ${sunMode ? 'text-slate-700' : 'text-zinc-300'
                 }`}>
-                {(set2.isFinished || set2.isGoldenGoal) ? 'Finalizado' : (currentPeriod === 'set2' ? 'En Curso' : (currentPeriod === 'shootout') ? 'Finalizado' : 'Pendiente')}
+                {(set2.isFinished || set2.isGoldenGoal) ? t.finished : (currentPeriod === 'set2' ? t.inProgress : (currentPeriod === 'shootout') ? t.finished : t.pending)}
               </span>
             </div>
 
@@ -429,7 +456,7 @@ export default function App() {
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">📋</span> <span className="truncate">Partido</span>
+            <span className="text-lg md:text-xl">📋</span> <span className="truncate">{t.tabMatch}</span>
           </button>
 
           <button
@@ -441,7 +468,7 @@ export default function App() {
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">🎯</span> <span className="truncate">Shootout</span>
+            <span className="text-lg md:text-xl">🎯</span> <span className="truncate">{t.tabShootout}</span>
           </button>
 
           <button
@@ -453,7 +480,7 @@ export default function App() {
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">📊</span> <span className="truncate">Análisis</span>
+            <span className="text-lg md:text-xl">📊</span> <span className="truncate">{t.tabAnalysis}</span>
           </button>
 
           <button
@@ -465,7 +492,7 @@ export default function App() {
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">👥</span> <span className="truncate">Equipo</span>
+            <span className="text-lg md:text-xl">👥</span> <span className="truncate">{t.tabTeam}</span>
           </button>
 
           <button
@@ -477,7 +504,7 @@ export default function App() {
                 : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
               }`}
           >
-            <span className="text-lg md:text-xl">☁️</span> <span className="truncate">Archivo</span>
+            <span className="text-lg md:text-xl">☁️</span> <span className="truncate">{t.tabArchive}</span>
           </button>
         </div>
       </nav>
@@ -535,7 +562,7 @@ export default function App() {
             }`}>
             <div className="flex items-center gap-3 mb-4 text-red-600 dark:text-amber-500">
               <RotateCcw className="w-8 h-8 animate-spin" />
-              <h3 className="text-lg font-black uppercase tracking-wide">¿Restablecer Partido?</h3>
+              <h3 className="text-lg font-black uppercase tracking-wide">{t.resetMatch}</h3>
             </div>
 
             <p className="text-sm font-medium mb-6 opacity-95 leading-relaxed">
@@ -553,14 +580,14 @@ export default function App() {
                 className={`py-2.5 px-4 rounded-xl font-bold text-xs uppercase cursor-pointer hover:opacity-85 transition active:scale-95 duration-100 ${sunMode ? 'bg-[#e5dfd3] text-zinc-800' : 'bg-zinc-800 text-zinc-100'
                   }`}
               >
-                Cancelar
+                {t.cancel}
               </button>
               <button
                 type="button"
                 onClick={resetAllStats}
                 className="py-2.5 px-5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-black text-xs uppercase cursor-pointer tracking-wider shadow-sm transition active:scale-95 duration-100"
               >
-                Sí, restablecer
+                {t.yesReset}
               </button>
             </div>
           </div>
