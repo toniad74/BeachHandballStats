@@ -1628,35 +1628,53 @@ export default function GameBoard({
                           logMissedShot(selectedPlayerForActions);
                           setSelectedPlayerForActions(null);
                         }}
-                        className={`py-3.5 rounded-xl text-sm font-extrabold font-sans text-center active:scale-95 transition border ${
+                        className={`py-3 rounded-xl text-sm font-extrabold text-center active:scale-95 transition border ${
                           sunMode 
                             ? 'bg-sand-100 hover:bg-sand-200 text-charcoal-800 border-sand-300' 
                             : 'bg-charcoal-800 hover:bg-charcoal-750 text-sand-100 border-charcoal-700'
                         }`}
                       >
-                        Error
+                        Err +1
                       </button>
-                      {selectedPlayerForActions.position !== 'Portero' && selectedPlayerForActions.position !== 'Especialista' ? (
-                        <button
-                          onClick={() => {
-                            logMissedFly(selectedPlayerForActions);
-                            setSelectedPlayerForActions(null);
-                          }}
-                          className={`py-3.5 rounded-xl text-xs md:text-sm font-extrabold font-sans text-center active:scale-95 transition border ${
-                            sunMode 
-                              ? 'bg-amber-gold-bg border-amber-gold/40 text-amber-950 hover:bg-amber-100/50' 
-                              : 'bg-charcoal-800 border-amber-gold/25 text-[#F59E0B] hover:bg-amber-gold/15'
-                          }`}
-                        >
-                          Err Fly
-                        </button>
-                      ) : (
-                        <div className={`flex items-center justify-center text-sm text-zinc-505 font-extrabold font-sans border rounded-xl ${
-                          sunMode ? 'bg-sand-50 border-sand-200' : 'bg-charcoal-950 border-charcoal-800'
-                        }`}>
-                          -
-                        </div>
-                      )}
+                      <button
+                        onClick={() => {
+                          logMissedFly(selectedPlayerForActions);
+                          setSelectedPlayerForActions(null);
+                        }}
+                        className={`py-3 rounded-xl text-sm font-extrabold text-center active:scale-95 transition border ${
+                          sunMode 
+                            ? 'bg-amber-gold-bg border-amber-gold/40 text-amber-950 hover:bg-amber-100/50' 
+                            : 'bg-charcoal-800 border-amber-gold/25 text-[#F59E0B] hover:bg-amber-gold/15'
+                        }`}
+                      >
+                        Err Fly
+                      </button>
+                      <button
+                        onClick={() => {
+                          logMissedShot(selectedPlayerForActions);
+                          setSelectedPlayerForActions(null);
+                        }}
+                        className={`py-3 rounded-xl text-sm font-extrabold text-center active:scale-95 transition border ${
+                          sunMode 
+                            ? 'bg-sand-100 hover:bg-sand-200 text-charcoal-800 border-sand-300' 
+                            : 'bg-charcoal-800 hover:bg-charcoal-750 text-sand-100 border-charcoal-700'
+                        }`}
+                      >
+                        Err Giro
+                      </button>
+                      <button
+                        onClick={() => {
+                          logMissedShot(selectedPlayerForActions);
+                          setSelectedPlayerForActions(null);
+                        }}
+                        className={`py-3 rounded-xl text-sm font-extrabold text-center active:scale-95 transition border ${
+                          sunMode 
+                            ? 'bg-sand-100 hover:bg-sand-200 text-charcoal-800 border-sand-300' 
+                            : 'bg-charcoal-800 hover:bg-charcoal-750 text-sand-100 border-charcoal-700'
+                        }`}
+                      >
+                        Err Penalti
+                      </button>
                     </div>
                   </div>
                 </div>
