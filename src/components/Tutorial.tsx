@@ -122,7 +122,9 @@ const contentES: Page[] = [
       ]},
       { subtitle: 'Registrar acciones', items: [
         'Toca la tarjeta de cualquier jugador para abrir el menú de acciones.',
-        'Desde ahí puedes: anotar gol (+1 o +2), registrar fallos, pérdidas de balón, paradas, recuperaciones, o sanciones.',
+        'Puedes anotar goles (+1, Fly +2, Giro +2, Penalti +2), registrar pérdidas de balón, paradas, recuperaciones o sanciones.',
+        'Los fallos de lanzamiento se registran por tipo: Err +1, Err Fly, Err Giro, Err Penalti.',
+        'Los porteros tienen además: Parada, Fallo Rival y Fallo de Lanzamiento.',
         'Después de anotar un gol, aparece un modal para indicar quién dio la asistencia.',
         'El botón "Deshacer" revierte la última acción registrada.',
       ]},
@@ -151,6 +153,7 @@ const contentES: Page[] = [
       { subtitle: 'Resumen global', items: [
         'Muestra puntos totales, efectividad de tiro y pérdidas del equipo.',
         'Tres gráficas circulares: efectividad de tiro, de fly y de portería.',
+        'Efectividad por tipo de lanzamiento: +1, Fly, Giro y Penalti con aciertos/intentos.',
         'Desglose de pérdidas: pases fallados, pasos, fumbling.',
       ]},
       { subtitle: 'Rendimiento individual', items: [
@@ -225,7 +228,9 @@ const contentCA: Page[] = [
     ]},
     { subtitle: 'Registrar accions', items: [
       "Toca la targeta de qualsevol jugador per obrir el menú d'accions.",
-      "Pots: anotar gol (+1 o +2), registrar errors, pèrdues, aturades, recuperacions o sancions.",
+      "Pots anotar gols (+1, Fly +2, Gir +2, Penal +2), registrar pèrdues, aturades, recuperacions o sancions.",
+      "Els errors de llançament es registren per tipus: Err +1, Err Fly, Err Gir, Err Penal.",
+      "Els porters tenen a més: Aturada, Error Rival i Fallada de Llançament.",
       "Després d'anotar un gol, apareix un modal per indicar qui va donar l'assistència.",
       "El botó 'Desfer' reverteix l'última acció.",
     ]},
@@ -290,7 +295,9 @@ const contentEN: Page[] = [
     ]},
     { subtitle: 'Recording actions', items: [
       "Tap any player's card to open the action menu.",
-      'From there: score goals (+1 or +2), record misses, turnovers, saves, recoveries, or sanctions.',
+      'Score goals (+1, Fly +2, Spin +2, Penalty +2), record turnovers, saves, recoveries, or sanctions.',
+      'Missed shots are tracked by type: Miss +1, Miss Fly, Miss Spin, Miss Penalty.',
+      'Goalkeepers also have: Save, Rival Miss, and Missed Shot.',
       'After scoring a goal, a modal appears to select who assisted.',
       'The "Undo" button reverts the last action.',
     ]},

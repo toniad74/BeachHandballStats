@@ -23,6 +23,8 @@ export interface Player {
   assists: number;
   missedShots: number;
   missedFlies: number; // specifically tracking failed alley-oops / flies
+  missedSpins: number; // failed giros
+  missedPenalties: number; // failed penalties
 
   // Turnovers breakdown
   turnoverBadPass: number;

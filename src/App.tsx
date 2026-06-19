@@ -190,6 +190,8 @@ export default function App() {
       assists: 0,
       missedShots: 0,
       missedFlies: 0,
+      missedSpins: 0,
+      missedPenalties: 0,
       turnoverBadPass: 0,
       turnoverSteps: 0,
       turnoverFumbling: 0,

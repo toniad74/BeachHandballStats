@@ -295,31 +295,64 @@ export default function AnalyticsHub({ matchState, sunMode }: AnalyticsHubProps)
 
         </div>
 
-        {/* RISK STRATEGY ADVISOR */}
+        {/* SHOT EFFECTIVENESS BY TYPE */}
         <div className="bg-background border border-gray-200 dark:border-zinc-800 rounded-2xl shadow p-5">
           <h4 className="text-base font-black text-gray-900 dark:text-zinc-100 uppercase mb-4 flex items-center gap-2">
             <Flame className="w-5 h-5 text-amber-500" />
-            Efectividad Táctica de Riesgo (Halftime Insight)
+            {language === 'en' ? 'Effectiveness by Shot Type' : language === 'ca' ? 'Efectivitat per Tipus de Tir' : 'Efectividad por Tipo de Lanzamiento'}
           </h4>
 
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-orange-50 dark:bg-zinc-800 p-4 rounded-xl text-center">
-                <span className="text-xs uppercase text-zinc-500 font-bold block mb-1">Acierto del Fly</span>
-                <span className="text-3xl font-mono font-black text-orange-600 dark:text-orange-400">
-                  {flySuccessRate.toFixed(1)}%
-                </span>
-                <span className="text-[10px] text-gray-500 block mt-1">Éxito en In-Flight</span>
-              </div>
-
-              <div className="bg-indigo-50 dark:bg-zinc-800 p-4 rounded-xl text-center">
-                <span className="text-xs uppercase text-zinc-500 font-bold block mb-1">Ratio de Puntos</span>
-                <span className="text-3xl font-mono font-black text-indigo-500">
-                  {totalPointsScored > 0 ? ((totalGoals2p * 2 / totalPointsScored) * 100).toFixed(0) : 0}%
-                </span>
-                <span className="text-[10px] text-gray-500 block mt-1">Puntos vía Dobles</span>
-              </div>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {/* Simple +1 */}
+            {(() => {
+              const totalMissedSimple = players.reduce((s, p) => s + p.missedShots - p.missedFlies - (p.missedSpins || 0) - (p.missedPenalties || 0), 0);
+              const simpleAttempts = totalGoals1p + Math.max(0, totalMissedSimple);
+              const simpleEff = simpleAttempts > 0 ? (totalGoals1p / simpleAttempts * 100) : 0;
+              return (
+                <div className="bg-blue-50 dark:bg-blue-950/20 p-4 rounded-xl text-center border border-blue-200 dark:border-blue-800/50">
+                  <span className="text-xs uppercase text-blue-600 dark:text-blue-400 font-bold block mb-1">+1</span>
+                  <span className="text-2xl md:text-3xl font-mono font-black text-blue-700 dark:text-blue-300">{simpleEff.toFixed(0)}%</span>
+                  <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{totalGoals1p}/{simpleAttempts}</span>
+                </div>
+              );
+            })()}
+            {/* Fly */}
+            {(() => {
+              const flyAttempts2 = totalGoals2p + totalMissedFlies;
+              const flyEff2 = flyAttempts2 > 0 ? (totalGoals2p / flyAttempts2 * 100) : 0;
+              return (
+                <div className="bg-orange-50 dark:bg-orange-950/20 p-4 rounded-xl text-center border border-orange-200 dark:border-orange-800/50">
+                  <span className="text-xs uppercase text-orange-600 dark:text-orange-400 font-bold block mb-1">Fly</span>
+                  <span className="text-2xl md:text-3xl font-mono font-black text-orange-700 dark:text-orange-300">{flyEff2.toFixed(0)}%</span>
+                  <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{totalGoals2p}/{flyAttempts2}</span>
+                </div>
+              );
+            })()}
+            {/* Giro */}
+            {(() => {
+              const totalMissedSpins = players.reduce((s, p) => s + (p.missedSpins || 0), 0);
+              const goalsGiro = players.reduce((s, p) => s + p.goals2p, 0); // approximate - giros are part of goals2p
+              const giroAttempts = totalMissedSpins; // we only know missed giros for now
+              const giroTotal = giroAttempts; // display missed count
+              return (
+                <div className="bg-purple-50 dark:bg-purple-950/20 p-4 rounded-xl text-center border border-purple-200 dark:border-purple-800/50">
+                  <span className="text-xs uppercase text-purple-600 dark:text-purple-400 font-bold block mb-1">{language === 'en' ? 'Spin' : 'Giro'}</span>
+                  <span className="text-2xl md:text-3xl font-mono font-black text-purple-700 dark:text-purple-300">{totalMissedSpins}</span>
+                  <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{language === 'en' ? 'missed' : language === 'ca' ? 'fallats' : 'fallados'}</span>
+                </div>
+              );
+            })()}
+            {/* Penalti */}
+            {(() => {
+              const totalMissedPens = players.reduce((s, p) => s + (p.missedPenalties || 0), 0);
+              return (
+                <div className="bg-red-50 dark:bg-red-950/20 p-4 rounded-xl text-center border border-red-200 dark:border-red-800/50">
+                  <span className="text-xs uppercase text-red-600 dark:text-red-400 font-bold block mb-1">{language === 'en' ? 'Penalty' : 'Penalti'}</span>
+                  <span className="text-2xl md:text-3xl font-mono font-black text-red-700 dark:text-red-300">{totalMissedPens}</span>
+                  <span className="text-[10px] text-gray-500 dark:text-zinc-400 block mt-1">{language === 'en' ? 'missed' : language === 'ca' ? 'fallats' : 'fallados'}</span>
+                </div>
+              );
+            })()}
           </div>
         </div>
 

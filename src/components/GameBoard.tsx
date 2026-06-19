@@ -409,9 +409,34 @@ export default function GameBoard({
       }
       return p;
     });
-
     onUpdateMatchState({ ...matchState, players: updatedPlayers });
-    addLog(`Fly (In-flight) fallado por ${player.name}`, 'miss_us');
+    addLog(`Fly fallado por ${player.name}`, 'miss_us');
+    triggerFeedback(player.id, 'error');
+  };
+
+  // Missed Spin (Giro)
+  const logMissedSpin = (player: Player) => {
+    const updatedPlayers = players.map((p) => {
+      if (p.id === player.id) {
+        return { ...p, missedSpins: (p.missedSpins || 0) + 1, missedShots: p.missedShots + 1 };
+      }
+      return p;
+    });
+    onUpdateMatchState({ ...matchState, players: updatedPlayers });
+    addLog(`Giro fallado por ${player.name}`, 'miss_us');
+    triggerFeedback(player.id, 'error');
+  };
+
+  // Missed Penalty
+  const logMissedPenalty = (player: Player) => {
+    const updatedPlayers = players.map((p) => {
+      if (p.id === player.id) {
+        return { ...p, missedPenalties: (p.missedPenalties || 0) + 1, missedShots: p.missedShots + 1 };
+      }
+      return p;
+    });
+    onUpdateMatchState({ ...matchState, players: updatedPlayers });
+    addLog(`Penalti fallado por ${player.name}`, 'miss_us');
     triggerFeedback(player.id, 'error');
   };
 
@@ -1651,7 +1676,7 @@ export default function GameBoard({
                       </button>
                       <button
                         onClick={() => {
-                          logMissedShot(selectedPlayerForActions);
+                          logMissedSpin(selectedPlayerForActions);
                           setSelectedPlayerForActions(null);
                         }}
                         className={`py-3 rounded-xl text-sm font-extrabold text-center active:scale-95 transition border ${
@@ -1664,7 +1689,7 @@ export default function GameBoard({
                       </button>
                       <button
                         onClick={() => {
-                          logMissedShot(selectedPlayerForActions);
+                          logMissedPenalty(selectedPlayerForActions);
                           setSelectedPlayerForActions(null);
                         }}
                         className={`py-3 rounded-xl text-sm font-extrabold text-center active:scale-95 transition border ${
