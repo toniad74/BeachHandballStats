@@ -1537,7 +1537,7 @@ export default function GameBoard({
                       }}
                       className="bg-[#10B981] hover:bg-emerald-600 text-white font-black py-3.5 rounded-xl transition active:scale-95 text-center text-base"
                     >
-                      Parada
+                      {t.saveAction}
                     </button>
                     <button
                       onClick={() => {
@@ -1550,7 +1550,20 @@ export default function GameBoard({
                           : 'bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/25 text-[#F59E0B]'
                       }`}
                     >
-                      Fallo Rival
+                      {t.rivalMiss}
+                    </button>
+                    <button
+                      onClick={() => {
+                        logMissedShot(selectedPlayerForActions);
+                        setSelectedPlayerForActions(null);
+                      }}
+                      className={`col-span-2 font-black py-3.5 rounded-xl transition active:scale-95 text-center text-base border ${
+                        sunMode 
+                          ? 'bg-red-50 hover:bg-red-100 text-red-600 border-red-200' 
+                          : 'bg-red-950/20 hover:bg-red-900/30 border-red-800/40 text-red-300'
+                      }`}
+                    >
+                      {t.missedShot}
                     </button>
                   </div>
                 </div>
