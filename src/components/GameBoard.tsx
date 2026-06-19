@@ -57,6 +57,26 @@ export default function GameBoard({
   const [lastUndoneMessage, setLastUndoneMessage] = useState<string | null>(null);
   const undoTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Visual feedback state
+  const [feedbackPlayerId, setFeedbackPlayerId] = useState<string | null>(null);
+  const [feedbackType, setFeedbackType] = useState<'success' | 'error' | 'warning' | null>(null);
+  const feedbackTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const triggerFeedback = (playerId: string, type: 'success' | 'error' | 'warning') => {
+    // Haptic vibration (if supported)
+    if (navigator.vibrate) {
+      navigator.vibrate(type === 'success' ? 50 : type === 'error' ? [50, 30, 50] : 30);
+    }
+    // Visual flash
+    setFeedbackPlayerId(playerId);
+    setFeedbackType(type);
+    if (feedbackTimeoutRef.current) clearTimeout(feedbackTimeoutRef.current);
+    feedbackTimeoutRef.current = setTimeout(() => {
+      setFeedbackPlayerId(null);
+      setFeedbackType(null);
+    }, 600);
+  };
+
   const [teamConfigModalType, setTeamConfigModalType] = useState<'us' | 'them' | null>(null);
   const [tempTeamName, setTempTeamName] = useState('');
   const [tempShirtColor, setTempShirtColor] = useState('');
@@ -157,6 +177,42 @@ export default function GameBoard({
 
   // Check 15 seconds warning rule
   const isLast15Seconds = timeRemaining > 0 && timeRemaining <= 15;
+
+  // Audio alert when entering last 15 seconds
+  const alertPlayedRef = useRef(false);
+  useEffect(() => {
+    if (isLast15Seconds && isTimerRunning && !alertPlayedRef.current) {
+      alertPlayedRef.current = true;
+      // Play a short beep using Web Audio API
+      try {
+        const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 1000;
+        gain.gain.value = 0.3;
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+        // Second beep
+        setTimeout(() => {
+          const osc2 = ctx.createOscillator();
+          const gain2 = ctx.createGain();
+          osc2.connect(gain2);
+          gain2.connect(ctx.destination);
+          osc2.frequency.value = 1200;
+          gain2.gain.value = 0.3;
+          osc2.start();
+          osc2.stop(ctx.currentTime + 0.3);
+        }, 400);
+      } catch (e) { /* Audio not available */ }
+      // Also vibrate
+      if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 200]);
+    }
+    if (timeRemaining > 15) {
+      alertPlayedRef.current = false;
+    }
+  }, [isLast15Seconds, isTimerRunning, timeRemaining]);
 
   const currentSetKey: 'set1' | 'set2' = currentPeriod === 'set1' ? 'set1' : 'set2';
 
@@ -269,6 +325,7 @@ export default function GameBoard({
         winner: setWinner,
       },
     });
+    triggerFeedback(player.id, 'success');
   };
 
   // Creative 2-Point play
@@ -314,6 +371,7 @@ export default function GameBoard({
         winner: setWinner,
       },
     });
+    triggerFeedback(player.id, 'success');
     setSelectedPlayerForActions(null);
   };
 
@@ -328,6 +386,7 @@ export default function GameBoard({
 
     onUpdateMatchState({ ...matchState, players: updatedPlayers });
     addLog(`Tiro fallado por ${player.name}`, 'miss_us');
+    triggerFeedback(player.id, 'error');
   };
 
   // Missed Fly shot (highly valued tactical metric requested)
@@ -341,6 +400,7 @@ export default function GameBoard({
 
     onUpdateMatchState({ ...matchState, players: updatedPlayers });
     addLog(`Fly (In-flight) fallado por ${player.name}`, 'miss_us');
+    triggerFeedback(player.id, 'error');
   };
 
   // Log Turnovers breakdown
@@ -384,6 +444,7 @@ export default function GameBoard({
       players: updatedPlayers
     });
 
+    triggerFeedback(player.id, 'warning');
     setSelectedPlayerForActions(null);
   };
 
@@ -1132,7 +1193,11 @@ export default function GameBoard({
                     setSelectedPlayerForActions(player);
                   }
                 }}
-                className={`border-2 rounded-xl relative p-4 md:p-5 flex flex-col justify-between cursor-pointer transition-all hover:scale-[1.02] active:scale-95 shadow-3xs ${cardBgClass}`}
+                className={`border-2 rounded-xl relative p-4 md:p-5 flex flex-col justify-between cursor-pointer transition-all hover:scale-[1.02] active:scale-95 shadow-3xs ${cardBgClass} ${
+                  feedbackPlayerId === player.id && feedbackType === 'success' ? 'ring-4 ring-emerald-500 scale-[1.03]' :
+                  feedbackPlayerId === player.id && feedbackType === 'error' ? 'ring-4 ring-red-500 scale-[1.03]' :
+                  feedbackPlayerId === player.id && feedbackType === 'warning' ? 'ring-4 ring-amber-500 scale-[1.03]' : ''
+                }`}
               >
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2.5 min-w-0">
