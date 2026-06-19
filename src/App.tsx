@@ -284,10 +284,6 @@ export default function App() {
                 }`}>
                 BeachHandball Stats
               </h1>
-              <p className={`text-[10px] md:text-xs font-semibold uppercase tracking-wider truncate ${sunMode ? 'text-slate-600' : 'text-slate-300'
-                }`}>
-                Registro táctico de alta velocidad
-              </p>
             </div>
           </div>
 
