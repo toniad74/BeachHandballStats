@@ -8,9 +8,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="theme-color" content="#1e293b" />
-  <link rel="manifest" href="/BeachHandballStats/manifest.json" />
-  <link rel="icon" type="image/png" href="/BeachHandballStats/icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="/BeachHandballStats/icons/icon-192.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <title>BeachHandball Stats 2026</title>
 </head>
 
@@ -20,7 +20,9 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/BeachHandballStats/sw.js')
+        const base = document.querySelector('base')?.href || window.location.origin + '/';
+        const swPath = new URL('sw.js', base).pathname;
+        navigator.serviceWorker.register(swPath)
           .then((reg) => console.log('SW registered:', reg.scope))
           .catch((err) => console.log('SW registration failed:', err));
       });

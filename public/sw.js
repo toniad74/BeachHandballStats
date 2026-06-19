@@ -1,13 +1,12 @@
-const CACHE_NAME = 'bh-stats-v2';
-const BASE = '/BeachHandballStats/';
+const CACHE_NAME = 'bh-stats-v3';
 
 // Install: precache app shell
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll([
-        BASE,
-        BASE + 'index.html',
+        './',
+        './index.html',
       ]);
     })
   );
@@ -38,7 +37,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((c) => c.put(request, clone));
           return res;
         })
-        .catch(() => caches.match(BASE + 'index.html'))
+        .catch(() => caches.match('./index.html'))
     );
     return;
   }
