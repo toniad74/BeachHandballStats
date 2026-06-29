@@ -19,7 +19,7 @@ const POSITIONS: { value: PlayerPosition; color: string }[] = [
 ];
 
 export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   const [editingPlayer, setEditingPlayer] = useState<Player | null>(null);
   const [editName, setEditName] = useState('');
   const [editNumber, setEditNumber] = useState(1);
@@ -94,30 +94,13 @@ export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) 
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {deleteAllConfirm ? (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => { onUpdatePlayers([]); setDeleteAllConfirm(false); }}
-                className="bg-red-600 hover:bg-red-700 text-white font-black text-sm py-2.5 px-4 rounded-xl transition active:scale-95"
-              >
-                {t.confirm}
-              </button>
-              <button
-                onClick={() => setDeleteAllConfirm(false)}
-                className="bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-white font-bold text-sm py-2.5 px-4 rounded-xl transition active:scale-95"
-              >
-                {t.cancel}
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => setDeleteAllConfirm(true)}
-              disabled={players.length === 0}
-              className="flex items-center gap-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-950/30 dark:hover:bg-red-950/50 disabled:opacity-30 font-bold text-sm py-2.5 px-3 text-red-600 dark:text-red-400 rounded-xl transition active:scale-95"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          )}
+          <button
+            onClick={() => setDeleteAllConfirm(true)}
+            disabled={players.length === 0}
+            className="flex items-center gap-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-950/30 dark:hover:bg-red-950/50 disabled:opacity-30 font-bold text-sm py-2.5 px-3 text-red-600 dark:text-red-400 rounded-xl transition active:scale-95"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
           <button
             onClick={createPlayer}
             disabled={players.length >= 16}
@@ -182,6 +165,35 @@ export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) 
           </div>
         ))}
       </div>
+
+      {/* DELETE ALL CONFIRMATION MODAL */}
+      {deleteAllConfirm && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 flex items-center justify-center p-4" onClick={() => setDeleteAllConfirm(false)}>
+          <div className="bg-white dark:bg-zinc-900 border-2 border-red-300 dark:border-red-700 p-6 md:p-8 rounded-2xl max-w-sm w-full shadow-2xl text-center" onClick={e => e.stopPropagation()}>
+            <Trash2 className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <h3 className="text-xl font-black uppercase text-gray-900 dark:text-white mb-2">
+              {language === 'en' ? 'Delete all players?' : language === 'ca' ? 'Eliminar tots els jugadors?' : '¿Eliminar todos los jugadores?'}
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-zinc-400 mb-6">
+              {language === 'en' ? 'This action cannot be undone. All players will be removed from the squad.' : language === 'ca' ? "Aquesta acció no es pot desfer. Tots els jugadors seran eliminats." : 'Esta acción no se puede deshacer. Todos los jugadores serán eliminados de la plantilla.'}
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDeleteAllConfirm(false)}
+                className="flex-1 py-3 rounded-xl font-bold text-sm bg-gray-100 dark:bg-zinc-800 text-gray-700 dark:text-zinc-300 hover:bg-gray-200 dark:hover:bg-zinc-700 transition active:scale-95"
+              >
+                {t.cancel}
+              </button>
+              <button
+                onClick={() => { onUpdatePlayers([]); setDeleteAllConfirm(false); }}
+                className="flex-1 py-3 rounded-xl font-black text-sm bg-red-600 hover:bg-red-700 text-white transition active:scale-95"
+              >
+                {language === 'en' ? 'Delete All' : language === 'ca' ? 'Eliminar Tot' : 'Eliminar Todo'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* EDIT MODAL */}
       {editingPlayer && (
