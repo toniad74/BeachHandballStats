@@ -14,10 +14,13 @@ import AnalyticsHub from './components/AnalyticsHub';
 import SetupTeam from './components/SetupTeam';
 import MatchHistory from './components/MatchHistory';
 import Tutorial from './components/Tutorial';
+import AdminDashboard from './components/AdminDashboard';
 import GoogleLoginScreen from './components/GoogleLoginScreen';
 import { Sun, Moon, Calendar, Trophy, Zap, DownloadCloud, RotateCcw, AlertCircle, HelpCircle, LogOut, Save, FolderOpen, ChevronDown, Globe } from 'lucide-react';
 import { auth } from './firebase';
+import { db } from './firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { doc, setDoc, getDoc, increment } from 'firebase/firestore';
 
 export default function App() {
   const [user, setUser] = useState<GoogleUser | null>(null);
@@ -25,14 +28,33 @@ export default function App() {
 
   // Listen to Firebase Auth state changes for session persistence
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        setUser({
+        const userData = {
           id: firebaseUser.uid,
           email: firebaseUser.email || '',
           name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Usuario',
           picture: firebaseUser.photoURL || undefined,
-        });
+        };
+        setUser(userData);
+
+        // Register user in Firestore for admin dashboard
+        try {
+          const userRef = doc(db, 'users', firebaseUser.uid);
+          const userSnap = await getDoc(userRef);
+          if (userSnap.exists()) {
+            await setDoc(userRef, { lastLogin: new Date().toISOString(), loginCount: increment(1) }, { merge: true });
+          } else {
+            await setDoc(userRef, {
+              email: userData.email,
+              name: userData.name,
+              picture: userData.picture || '',
+              firstLogin: new Date().toISOString(),
+              lastLogin: new Date().toISOString(),
+              loginCount: 1,
+            });
+          }
+        } catch (e) { /* silently fail if rules don't allow */ }
       } else {
         setUser(null);
       }
@@ -90,7 +112,7 @@ export default function App() {
     return INITIAL_MATCH_STATE;
   });
 
-  const [activeTab, setActiveTab] = useState<'pista' | 'shootout' | 'analisis' | 'plantilla' | 'historial'>('pista');
+  const [activeTab, setActiveTab] = useState<'pista' | 'shootout' | 'analisis' | 'plantilla' | 'historial' | 'admin'>('pista');
   const [sunMode, setSunMode] = useState(true); // default to high-contrast Sun/Beach mode for outdoors!
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [hasAutoTransitionedToShootout, setHasAutoTransitionedToShootout] = useState(false);
@@ -523,6 +545,20 @@ export default function App() {
           >
             <span className="text-lg md:text-xl">☁️</span> <span className="truncate">{t.tabArchive}</span>
           </button>
+
+          {user.email === 'toniad74@gmail.com' && (
+            <button
+              onClick={() => setActiveTab('admin')}
+              className={`py-3 md:py-4 px-1 md:px-5 rounded-lg font-bold text-[11px] md:text-base uppercase flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 border-b-2 transition-all duration-300 active:scale-[0.98] whitespace-nowrap overflow-hidden ${activeTab === 'admin'
+                ? 'border-primary text-primary font-extrabold'
+                : sunMode
+                  ? 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-sand-50/50'
+                  : 'border-transparent text-slate-300 hover:text-white hover:bg-charcoal-800/50'
+                }`}
+            >
+              <span className="text-lg md:text-xl">👑</span> <span className="truncate">Admin</span>
+            </button>
+          )}
         </div>
       </nav>
 
@@ -568,6 +604,10 @@ export default function App() {
             onLoadMatch={(loadedState) => setMatchState(loadedState)}
             sunMode={sunMode}
           />
+        )}
+
+        {activeTab === 'admin' && user.email === 'toniad74@gmail.com' && (
+          <AdminDashboard sunMode={sunMode} />
         )}
       </main>
 
