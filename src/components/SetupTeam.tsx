@@ -25,6 +25,7 @@ export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) 
   const [editNumber, setEditNumber] = useState(1);
   const [editPosition, setEditPosition] = useState<PlayerPosition>('Ala Izq.');
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [deleteAllConfirm, setDeleteAllConfirm] = useState(false);
 
   const sortedPlayers = [...players].sort((a, b) => {
     const priority = (p: Player) => {
@@ -92,15 +93,40 @@ export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) 
             <p className="text-xs md:text-sm text-gray-500 dark:text-zinc-400">{t.maxPlayers}</p>
           </div>
         </div>
-        <button
-          onClick={createPlayer}
-          disabled={players.length >= 16}
-          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 font-black text-sm md:text-base py-2.5 md:py-3 px-4 md:px-5 text-gray-900 rounded-xl shadow transition active:scale-95"
-        >
-          <UserPlus className="w-5 h-5" />
-          {t.addPlayer}
-        </button>
-      </div>
+        <div className="flex items-center gap-2">
+          {deleteAllConfirm ? (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => { onUpdatePlayers([]); setDeleteAllConfirm(false); }}
+                className="bg-red-600 hover:bg-red-700 text-white font-black text-sm py-2.5 px-4 rounded-xl transition active:scale-95"
+              >
+                {t.confirm}
+              </button>
+              <button
+                onClick={() => setDeleteAllConfirm(false)}
+                className="bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-white font-bold text-sm py-2.5 px-4 rounded-xl transition active:scale-95"
+              >
+                {t.cancel}
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setDeleteAllConfirm(true)}
+              disabled={players.length === 0}
+              className="flex items-center gap-1.5 bg-red-100 hover:bg-red-200 dark:bg-red-950/30 dark:hover:bg-red-950/50 disabled:opacity-30 font-bold text-sm py-2.5 px-3 text-red-600 dark:text-red-400 rounded-xl transition active:scale-95"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          )}
+          <button
+            onClick={createPlayer}
+            disabled={players.length >= 16}
+            className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 font-black text-sm md:text-base py-2.5 md:py-3 px-4 md:px-5 text-gray-900 rounded-xl shadow transition active:scale-95"
+          >
+            <UserPlus className="w-5 h-5" />
+            {t.addPlayer}
+          </button>
+        </div>
 
       {/* Player Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">

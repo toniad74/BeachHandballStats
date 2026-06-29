@@ -93,7 +93,7 @@ const es: Translations = {
   recoveries: 'Recup.', losses: 'Pérdidas',
   pointsLabel: 'Puntos', savesLabel: 'Paradas',
   // Team setup
-  playerRoster: 'Acta de Jugadores', maxPlayers: 'Máx. 16 jugadores en acta.',
+  playerRoster: 'Plantilla de Jugadores', maxPlayers: 'Máx. 16 jugadores.',
   addPlayer: 'Sumar Jugador', dorsal: 'Dorsal', player: 'Jugador',
   position: 'Posición Táctica', actions: 'Acciones',
   disqualifiedBadge: 'Descalificado', positionFor: 'Posición para',
@@ -179,7 +179,7 @@ const ca: Translations = {
   goals1pt:'Gol 1pt',goals2pt:'Gol 2pt',saves:'Aturades',conceded:'Encaixats',
   savePercent:'% At.',missesLabel:'Errors',recoveries:'Recup.',losses:'Pèrdues',
   pointsLabel:'Punts',savesLabel:'Aturades',
-  playerRoster:'Acta de Jugadors',maxPlayers:'Màx. 16 jugadors en acta.',
+  playerRoster:'Plantilla de Jugadors',maxPlayers:'Màx. 16 jugadors.',
   addPlayer:'Afegir Jugador',dorsal:'Dorsal',player:'Jugador',
   position:'Posició Tàctica',actions:'Accions',
   disqualifiedBadge:'Desqualificat',positionFor:'Posició per',current:'ACTUAL',close:'Tancar',
