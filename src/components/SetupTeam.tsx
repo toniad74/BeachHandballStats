@@ -127,6 +127,7 @@ export default function SetupTeam({ players, onUpdatePlayers }: SetupTeamProps) 
             {t.addPlayer}
           </button>
         </div>
+      </div>
 
       {/* Player Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
