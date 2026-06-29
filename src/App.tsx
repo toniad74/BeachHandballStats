@@ -43,6 +43,13 @@ export default function App() {
           const userRef = doc(db, 'users', firebaseUser.uid);
           const userSnap = await getDoc(userRef);
           if (userSnap.exists()) {
+            // Check if user is blocked
+            if (userSnap.data().blocked) {
+              await signOut(auth);
+              setUser(null);
+              setAuthLoading(false);
+              return;
+            }
             await setDoc(userRef, { lastLogin: new Date().toISOString(), loginCount: increment(1) }, { merge: true });
           } else {
             await setDoc(userRef, {
@@ -52,6 +59,7 @@ export default function App() {
               firstLogin: new Date().toISOString(),
               lastLogin: new Date().toISOString(),
               loginCount: 1,
+              blocked: false,
             });
           }
         } catch (e) { /* silently fail if rules don't allow */ }
